@@ -1,0 +1,92 @@
+node_id,level,parent_id,crt_code,source_name,gases,chapter,needs_validation
+energy,sector,,1,Energy,CO2;CH4;N2O,3,FALSE
+fossil_fuel_combustion,source,energy,1A,Fossil Fuel Combustion,CO2;CH4;N2O,3,FALSE
+non_energy_use_fossil,source,energy,1A,Carbon Emitted from Non-Energy Uses of Fossil Fuels,CO2,3,FALSE
+incineration_of_waste,source,energy,1A,Incineration of Waste,CO2;N2O,3,FALSE
+coal_mining,source,energy,1B1a,Coal Mining,CH4;CO2,3,FALSE
+abandoned_coal_mines,source,energy,1B1a,Abandoned Underground Coal Mines,CH4,3,FALSE
+petroleum_systems,source,energy,1B2a,Petroleum Systems,CH4;CO2;N2O,3,FALSE
+natural_gas_systems,source,energy,1B2b,Natural Gas Systems,CH4;CO2;N2O,3,FALSE
+abandoned_oil_gas_wells,source,energy,1B2a;1B2b,Abandoned Oil and Gas Wells,CH4;CO2,3,FALSE
+co2_transport_storage,source,energy,1C,"CO2 Transport, Injection, and Geological Storage",CO2,3,FALSE
+intl_bunker_fuels,memo,energy,1-memo,International Bunker Fuels,CO2;CH4;N2O,3,FALSE
+biomass_biofuel,memo,energy,1A,Biomass and Biofuel Consumption,CO2,3,FALSE
+ippu,sector,,2,Industrial Processes and Product Use,CO2;CH4;N2O;HFCs;PFCs;SF6;NF3,4,FALSE
+mineral_industry,category,ippu,2A,Mineral Industry,CO2,4,FALSE
+cement_production,source,mineral_industry,2A1,Cement Production,CO2,4,FALSE
+lime_production,source,mineral_industry,2A2,Lime Production,CO2,4,FALSE
+glass_production,source,mineral_industry,2A3,Glass Production,CO2,4,FALSE
+other_carbonate_uses,source,mineral_industry,2A4,Other Process Uses of Carbonates,CO2,4,FALSE
+chemical_industry,category,ippu,2B,Chemical Industry,CO2;CH4;N2O;HFCs;PFCs,4,FALSE
+ammonia_production,source,chemical_industry,2B1,Ammonia Production,CO2,4,FALSE
+nitric_acid,source,chemical_industry,2B2,Nitric Acid Production,N2O,4,FALSE
+adipic_acid,source,chemical_industry,2B3,Adipic Acid Production,N2O,4,FALSE
+caprolactam,source,chemical_industry,2B4,Caprolactam/Glyoxal/Glyoxylic Acid,N2O,4,TRUE
+carbide,source,chemical_industry,2B5,Carbide Production and Consumption,CO2;CH4,4,TRUE
+titanium_dioxide,source,chemical_industry,2B6,Titanium Dioxide Production,CO2,4,FALSE
+soda_ash,source,chemical_industry,2B7,Soda Ash Production,CO2,4,FALSE
+petrochemical_carbon_black,source,chemical_industry,2B8,Petrochemical and Carbon Black Production,CO2;CH4,4,FALSE
+fluorochemical_production,source,chemical_industry,2B9,Fluorochemical Production (incl. HCFC-22),HFCs;PFCs;SF6;NF3,4,FALSE
+chem_other,source,chemical_industry,2B10,Other (Phosphoric Acid; CO2 Consumption),CO2,4,TRUE
+metal_industry,category,ippu,2C,Metal Industry,CO2;CH4;PFCs;SF6;HFCs,4,FALSE
+iron_steel,source,metal_industry,2C1,Iron and Steel Production and Metallurgical Coke,CO2;CH4,4,FALSE
+ferroalloys,source,metal_industry,2C2,Ferroalloy Production,CO2;CH4,4,FALSE
+aluminum,source,metal_industry,2C3,Aluminum Production,CO2;PFCs,4,FALSE
+magnesium,source,metal_industry,2C4,Magnesium Production and Processing,SF6;CO2;HFCs,4,FALSE
+lead,source,metal_industry,2C5,Lead Production,CO2,4,FALSE
+zinc,source,metal_industry,2C6,Zinc Production,CO2,4,FALSE
+electronics_industry,category,ippu,2E,Electronics Industry,HFCs;PFCs;SF6;NF3;N2O,4,FALSE
+ods_substitutes,category,ippu,2F,Substitution of Ozone Depleting Substances,HFCs;PFCs,4,FALSE
+other_product_use,category,ippu,2G,Other Product Manufacturing and Use,SF6;PFCs;N2O,4,FALSE
+electrical_equipment_sf6,source,other_product_use,2G1,Electrical Equipment (SF6),SF6;PFCs,4,FALSE
+n2o_product_uses,source,other_product_use,2G3,N2O from Product Uses,N2O,4,FALSE
+agriculture,sector,,3,Agriculture,CH4;N2O;CO2,5,FALSE
+enteric_fermentation,source,agriculture,3A,Enteric Fermentation,CH4,5,FALSE
+manure_management,source,agriculture,3B,Manure Management,CH4;N2O,5,FALSE
+rice_cultivation,source,agriculture,3C,Rice Cultivation,CH4,5,FALSE
+ag_soil_management,category,agriculture,3D,Agricultural Soil Management,N2O,5,FALSE
+ag_soils_direct,source,ag_soil_management,3D1,Direct N2O Emissions from Managed Soils,N2O,5,FALSE
+ag_soils_indirect,source,ag_soil_management,3D2,Indirect N2O Emissions from Managed Soils,N2O,5,FALSE
+liming,source,agriculture,3G,Liming,CO2,5,FALSE
+urea_fertilization,source,agriculture,3H,Urea Fertilization,CO2,5,FALSE
+field_burning_residues,source,agriculture,3F,Field Burning of Agricultural Residues,CH4;N2O,5,FALSE
+lulucf,sector,,4,"Land Use, Land-Use Change and Forestry",CO2;CH4;N2O,6,FALSE
+land_representation,method,lulucf,4,U.S. Land Representation,,6,FALSE
+forest_land,category,lulucf,4A,Forest Land,CO2;CH4;N2O,6,FALSE
+ffl,source,forest_land,4A1,Forest Land Remaining Forest Land (C stocks),CO2,6,FALSE
+ffl_fire,source,forest_land,4A1,Non-CO2 Emissions from Forest Fires,CH4;N2O,6,FALSE
+ffl_soils_n2o,source,forest_land,4A1,N2O from Forest Soils (fertilizer),N2O,6,FALSE
+ffl_drained,source,forest_land,4A1,Non-CO2 from Drained Organic Soils,CH4;N2O,6,FALSE
+land_to_forest,source,forest_land,4A2,Land Converted to Forest Land (C stocks),CO2,6,FALSE
+cropland,category,lulucf,4B,Cropland,CO2;N2O,6,FALSE
+cc,source,cropland,4B1,Cropland Remaining Cropland (mineral+organic soil C),CO2,6,FALSE
+land_to_cropland,source,cropland,4B2,Land Converted to Cropland (all ecosystem C),CO2,6,FALSE
+grassland,category,lulucf,4C,Grassland,CO2;CH4;N2O,6,FALSE
+gg,source,grassland,4C1,Grassland Remaining Grassland (mineral+organic soil C),CO2,6,FALSE
+gg_fire,source,grassland,4C1,Non-CO2 Emissions from Grassland Fires,CH4;N2O,6,FALSE
+land_to_grassland,source,grassland,4C2,Land Converted to Grassland (all ecosystem C),CO2,6,FALSE
+wetlands,category,lulucf,4D,Wetlands,CO2;CH4;N2O,6,FALSE
+ww_peatland,source,wetlands,4D1,Peatlands Remaining Peatlands (C + non-CO2),CO2;CH4;N2O,6,FALSE
+ww_coastal,source,wetlands,4D1,Coastal Wetlands Remaining Coastal Wetlands,CO2;CH4;N2O,6,FALSE
+ww_flooded,source,wetlands,4D1,Flooded Land Remaining Flooded Land,CH4,6,FALSE
+land_to_coastal,source,wetlands,4D2,Land Converted to Coastal Wetlands,CO2;CH4,6,FALSE
+land_to_flooded,source,wetlands,4D2,Land Converted to Flooded Land,CO2;CH4,6,FALSE
+settlements,category,lulucf,4E,Settlements,CO2;N2O,6,FALSE
+ss_soil,source,settlements,4.00E+01,Settlements Remaining Settlements (organic soil C),CO2,6,FALSE
+ss_trees,source,settlements,4.00E+01,Settlement Tree Carbon Stocks,CO2,6,FALSE
+ss_soils_n2o,source,settlements,4.00E+01,N2O from Settlement Soils (fertilizer),N2O,6,FALSE
+land_to_settlements,source,settlements,4.00E+02,Land Converted to Settlements (all ecosystem C),CO2,6,FALSE
+other_land,category,lulucf,4F,Other Land,CO2,6,FALSE
+land_to_other,source,other_land,4F2,Land Converted to Other Land (C stocks),CO2,6,TRUE
+harvested_wood_products,source,forest_land,4A1,Harvested Wood Products,CO2,6,FALSE
+landfilled_yard_trimmings,source,lulucf,4,Landfilled Yard Trimmings and Food Scraps,CO2,6,TRUE
+waste,sector,,5,Waste,CH4;N2O,7,FALSE
+landfills,category,waste,5A1,Landfills,CH4,7,FALSE
+msw_landfills,subsource,landfills,5A1,MSW Landfills,CH4,7,FALSE
+industrial_landfills,subsource,landfills,5A1,Industrial Waste Landfills,CH4,7,FALSE
+wastewater_treatment,category,waste,5D,Wastewater Treatment and Discharge,CH4;N2O,7,FALSE
+domestic_wastewater,source,wastewater_treatment,5D1,Domestic Wastewater Treatment and Discharge,CH4;N2O,7,FALSE
+industrial_wastewater,source,wastewater_treatment,5D2,Industrial Wastewater Treatment and Discharge,CH4;N2O,7,FALSE
+composting,source,waste,5B1,Composting,CH4;N2O,7,FALSE
+anaerobic_digestion,source,waste,5B2,Anaerobic Digestion at Biogas Facilities,CH4,7,FALSE
+waste_incineration,source,waste,5C1,Waste Incineration (estimate reported under Energy 3.3),CO2;CH4;N2O,7,FALSE

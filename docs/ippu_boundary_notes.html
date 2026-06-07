@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Building a Modern U.S. GHG Inventory Data System – U.S. GHG Inventory System Proposal</title>
+<title>ippu_boundary_notes – U.S. GHG Inventory System Proposal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3850,7 +3850,7 @@ vertical-align: -.125em;
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./ghg_proposal.html" aria-current="page"> 
+    <a class="nav-link" href="./ghg_proposal.html"> 
 <span class="menu-text">Main Proposal</span></a>
   </li>  
   <li class="nav-item">
@@ -3875,14 +3875,10 @@ vertical-align: -.125em;
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
-  <ul class="collapse">
-  <li><a href="#our-challenge-and-opportunity" id="toc-our-challenge-and-opportunity" class="nav-link active" data-scroll-target="#our-challenge-and-opportunity">Our Challenge and Opportunity</a></li>
-  <li><a href="#my-four-guiding-principles" id="toc-my-four-guiding-principles" class="nav-link" data-scroll-target="#my-four-guiding-principles">My Four Guiding Principles</a></li>
-  <li><a href="#development-roadmap" id="toc-development-roadmap" class="nav-link" data-scroll-target="#development-roadmap">Development Roadmap</a></li>
-  <li><a href="#technical-approach-foundations" id="toc-technical-approach-foundations" class="nav-link" data-scroll-target="#technical-approach-foundations">Technical Approach: Foundations</a></li>
-  <li><a href="#current-toolkit-and-future-capabilities" id="toc-current-toolkit-and-future-capabilities" class="nav-link" data-scroll-target="#current-toolkit-and-future-capabilities">Current Toolkit and Future Capabilities</a></li>
-  <li><a href="#what-i-will-need-from-the-team" id="toc-what-i-will-need-from-the-team" class="nav-link" data-scroll-target="#what-i-will-need-from-the-team">What I Will Need From the Team</a></li>
-  <li><a href="#what-you-can-expect-from-me" id="toc-what-you-can-expect-from-me" class="nav-link" data-scroll-target="#what-you-can-expect-from-me">What You Can Expect From Me</a></li>
+  <ul>
+  <li><a href="#ippu-sector-cross-sector-boundary-rules-ghgia-ch.4" id="toc-ippu-sector-cross-sector-boundary-rules-ghgia-ch.4" class="nav-link active" data-scroll-target="#ippu-sector-cross-sector-boundary-rules-ghgia-ch.4">IPPU sector — cross-sector boundary rules (GHGIA Ch.4)</a></li>
+  <li><a href="#data-architecture-notes-for-retrieval" id="toc-data-architecture-notes-for-retrieval" class="nav-link" data-scroll-target="#data-architecture-notes-for-retrieval">Data-architecture notes for retrieval</a></li>
+  <li><a href="#reconciliation-flag-vs-joes-energy-code" id="toc-reconciliation-flag-vs-joes-energy-code" class="nav-link" data-scroll-target="#reconciliation-flag-vs-joes-energy-code">Reconciliation flag (vs Joe’s Energy code)</a></li>
   </ul>
 </nav>
 </nav>
@@ -3891,296 +3887,37 @@ vertical-align: -.125em;
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Building a Modern U.S. GHG Inventory Data System</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<style>
-.principle-card {
-background: white;
-border-radius: 8px;
-padding: 20px;
-margin-bottom: 20px;
-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-border-top: 4px solid;
-}
-.principle-card.blue { border-top-color: #3b82f6; }
-.principle-card.green { border-top-color: #10b981; }
-.principle-card.purple { border-top-color: #8b5cf6; }
-.principle-card.orange { border-top-color: #f59e0b; }
-.principle-title {
-font-size: 1.3em;
-font-weight: bold;
-color: #1f2937;
-margin-bottom: 5px;
-}
-.principle-subtitle {
-font-size: 0.9em;
-font-style: italic;
-color: #6b7280;
-margin-bottom: 10px;
-}
-.phase-box {
-display: flex;
-align-items: center;
-margin-bottom: 15px;
-padding: 10px;
-background: #f9fafb;
-border-radius: 8px;
-}
-.phase-label {
-font-weight: bold;
-padding: 8px 16px;
-border-radius: 20px;
-margin-right: 15px;
-white-space: nowrap;
-font-size: 0.9em;
-}
-.phase-label.blue { background: #dbeafe; color: #1e40af; }
-.phase-label.green { background: #d1fae5; color: #065f46; }
-.phase-label.purple { background: #e9d5ff; color: #6b21a8; }
-.phase-label.orange { background: #fed7aa; color: #92400e; }
-.success-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 15px;
-margin-top: 20px;
-}
-.success-box {
-background: linear-gradient(135deg, #ff7f50, #D8BFD8);
-color: white;
-padding: 20px;
-border-radius: 8px;
-text-align: center;
-}
-.success-title {
-font-weight: bold;
-font-size: 1.1em;
-margin-bottom: 8px;
-}
-.two-column {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 20px;
-margin: 20px 0;
-}
-.tech-box {
-background: white;
-border-radius: 8px;
-padding: 20px;
-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.tech-title {
-font-size: 1.2em;
-font-weight: bold;
-color: #1f2937;
-margin-bottom: 15px;
-}
-.check-item {
-margin-bottom: 10px;
-padding-left: 20px;
-position: relative;
-}
-.check-item::before {
-content: "✓";
-position: absolute;
-left: 0;
-color: #10b981;
-font-weight: bold;
-}
-.arrow-item {
-margin-bottom: 10px;
-padding-left: 20px;
-position: relative;
-}
-.arrow-item::before {
-content: "→";
-position: absolute;
-left: 0;
-color: #3b82f6;
-font-weight: bold;
-}
-@media print {
-.principle-card, .tech-box {
-break-inside: avoid;
-}
-}
-</style>
-<section id="our-challenge-and-opportunity" class="level2">
-<h2 class="anchored" data-anchor-id="our-challenge-and-opportunity">Our Challenge and Opportunity</h2>
-<p>With the presumed suspension of the official EPA inventory compilation, we face the challenge of maintaining continuity in U.S. greenhouse gas emissions tracking. This moment provides an opportunity to rebuild our system using modern practices that can serve the climate science for years to come.</p>
-<p>Previously, my role was to lead the creation of a modern data infrastructure, and I hope to continue this essential work. This data infrastructure will empower each source lead to do their best work while ensuring the overall inventory is coherent, reproducible, and maintainable.</p>
-</section>
-<section id="my-four-guiding-principles" class="level2">
-<h2 class="anchored" data-anchor-id="my-four-guiding-principles">My Four Guiding Principles</h2>
-<div class="two-column">
-<div class="principle-card blue">
-<div class="principle-title">
-<p>🡆 Infrastructure First</p>
-</div>
-<div class="principle-subtitle">
-<p>Minimize Complexity, Maximize Utility</p>
-</div>
-<p>A well-designed data system from day one prevents technical debt, ensures scalability and reproducibility, and saves time in the long run. Good infrastructure accelerates work.</p>
-</div>
-<div class="principle-card green">
-<div class="principle-title">
-<p>👥 User-Centered Design</p>
-</div>
-<div class="principle-subtitle">
-<p>Learn from the Source Leads</p>
-</div>
-<p>Built for you, not imposed on you. Focus on your work, not data housekeeping and chasing errors in spreadsheets. Your domain expertise will guide all technical implementation decisions.</p>
-</div>
-</div>
-<div class="two-column">
-<div class="principle-card purple">
-<div class="principle-title">
-<p>🔄 Iterative Development</p>
-</div>
-<div class="principle-subtitle">
-<p>Build, Learn, Improve</p>
-</div>
-<p>Start simple, deploy quickly, gather feedback continuously, and improve based on real-world use. Add new solutions when needed, discard what doesn’t work, make room for new ideas.</p>
-</div>
-<div class="principle-card orange">
-<div class="principle-title">
-<p>🛡️ Transparency &amp; Reproducibility</p>
-</div>
-<div class="principle-subtitle">
-<p>Building Resilience Through Openness</p>
-</div>
-<p>Every step of data retrieval and transformation will be documented and traceable, building a foundation for future improvements. Our goal is not next year’s Inventory–it’s <em>every</em> Inventory, every year.</p>
-</div>
-</div>
-</section>
-<section id="development-roadmap" class="level2">
-<h2 class="anchored" data-anchor-id="development-roadmap">Development Roadmap</h2>
-<p>Timeline TBD</p>
-<div class="phase-box">
-<p><span class="phase-label blue">Phase 1</span> <strong>Discovery</strong> (Weeks) — Meet with leads, document workflows, set priorities</p>
-</div>
-<div class="phase-box">
-<p><span class="phase-label green">Phase 2</span> <strong>Pilot</strong> (Months) — Build pilot sector, establish patterns, deliver working results</p>
-</div>
-<div class="phase-box">
-<p><span class="phase-label purple">Phase 3</span> <strong>Expansion</strong> (Months) — Extend to additional sectors, refine based on lessons learned</p>
-</div>
-<div class="phase-box">
-<p><span class="phase-label orange">Phase 4</span> <strong>Operations</strong> (Ongoing) — Maintain, improve, adapt, and ensure long-term sustainability</p>
-</div>
-</section>
-<section id="technical-approach-foundations" class="level2">
-<h2 class="anchored" data-anchor-id="technical-approach-foundations">Technical Approach: Foundations</h2>
-<div class="two-column">
-<div class="tech-box">
-<div class="tech-title">
-<p>🗄️ Our Foundation</p>
-</div>
-<div class="check-item">
-<p><strong>R + <a href="https://tidyverse.org">{tidyverse}</a></strong> for calculations and data transformation</p>
-</div>
-<div class="check-item">
-<p><strong>Organized CSVs</strong> for transparent data storage</p>
-</div>
-<div class="check-item">
-<p><a href="https://git-scm.com"><strong>Git</strong></a> for version control and collaboration</p>
-</div>
-</div>
-<div class="tech-box">
-<div class="tech-title">
-<p>🎯 Start Simple</p>
-</div>
-<div class="arrow-item">
-<p>Our data may not require complex SQL databases</p>
-</div>
-<div class="arrow-item">
-<p>Simple joins (2–4 tables) work great with R’s tidyverse tools</p>
-</div>
-<div class="arrow-item">
-<p><a href="https://principles-wiki.net/principles:gall_s_law" title="Gall&#39;s Law: A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works and cannot be patched up to make it work. You have to start over with a working simple system.">Add complexity only as needed</a>.</p>
-</div>
-</div>
-</div>
-<p><strong>Key Insight:</strong> We’re optimizing for maintainability, transparency, and resilience. Modern R handles your data volumes easily, and CSV files ensure that anyone can inspect, verify, and trust our inputs. The team can decide if more complex database solutions are required.</p>
-</section>
-<section id="current-toolkit-and-future-capabilities" class="level2">
-<h2 class="anchored" data-anchor-id="current-toolkit-and-future-capabilities">Current Toolkit and Future Capabilities</h2>
-<p>Contact me for further details about any of the tools listed below.</p>
-<div class="success-grid">
-<div class="success-box">
-<div class="success-title">
-<p>Available Now</p>
-</div>
-<p><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects" title="GitHub Projects">Centralized communication and issue resolution via GitHub</a></p>
-<p><a href="https://books.ropensci.org/targets/">Data pipelines for workflow management</a></p>
-<p>Coded data retrieval via <a href="https://httr2.r-lib.org">API</a> and <a href="https://rvest.tidyverse.org">webscraping</a></p>
-<p><a href="https://docs.ropensci.org/tarchetypes/reference/tar_age.html">Scheduled data pulls</a></p>
-<p><a href="https://haven.tidyverse.org/reference/labelled.html">Automated metadata labeling</a></p>
-<p><a href="https://github.com/joewcorra/syrinx" title="{syrinx} is the custom package that I built">Integrated data dictionary for data cleaning</a></p>
-<p><a href="https://github.com/joewcorra/syrinx" title="{syrinx} is the custom package that I built">LLM-driven data harmonization tool</a></p>
-</div>
-<div class="success-box">
-<div class="success-title">
-<p>Planned and Under Development</p>
-</div>
-<p><a href="https://github.com/r-quantities/units" title="All input data will be converted to canonical units">Automatic unit conversion</a></p>
-<p>“Unitless” internal calculations</p>
-<p><a href="https://roxygen2.r-lib.org">Automated code and workflow documentation</a></p>
-<p>Automated <a href="https://ggplot2.tidyverse.org">figure</a> and <a href="https://gt.rstudio.com">table</a> generation</p>
-<p>Scheduled, automated <a href="https://quarto.org">Quarto</a> reporting</p>
-<p><a href="https://docs.ropensci.org/assertr/articles/assertr.html">Automated QA/QC tools</a></p>
-</div>
-<div class="success-box">
-<div class="success-title">
-<p>Future Options and Decision Points</p>
-</div>
-<p>Column-oriented relational database system (e.g., <a href="https://duckdb.org">DuckDB</a>)</p>
-<p>Centralized Data Hub to manage all data storage and retrieval</p>
-<p><a href="https://shiny.posit.co/r/articles/build/dashboards/">Interactive data exploration dashboards</a></p>
-<p>Cloud deployment</p>
-<p><a href="https://cran.r-project.org/web/packages/propagate/index.html">Advanced modeling</a> including <a href="https://cran.r-universe.dev/mc2d">Monte Carlo simulations</a></p>
-<p><a href="https://guides.library.columbia.edu/geotools/R">GIS analysis tools</a></p>
-</div>
-</div>
-</section>
-<section id="what-i-will-need-from-the-team" class="level2">
-<h2 class="anchored" data-anchor-id="what-i-will-need-from-the-team">What I Will Need From the Team</h2>
+<section id="ippu-sector-cross-sector-boundary-rules-ghgia-ch.4" class="level1">
+<h1>IPPU sector — cross-sector boundary rules (GHGIA Ch.4)</h1>
 <ul>
-<li><strong>Time</strong> for initial discovery conversations</li>
-<li><strong>Honesty</strong> about what works and what doesn’t in your current workflow</li>
-<li><strong>Patience</strong> as we iterate toward better solutions</li>
-<li><strong>Feedback</strong> when something isn’t working as expected</li>
-<li><strong>Ideas</strong> about what would make your work easier</li>
+<li><strong>Combustion energy at industrial facilities</strong> (cement kilns, lime kilns, glass furnaces, etc.) -&gt; Energy Ch.3 (industrial end-use). IPPU captures only PROCESS/byproduct emissions.</li>
+<li><strong>Energy-&gt;IPPU fuel reallocation:</strong> portions of 7 fuel categories (coking coal, distillate, industrial other coal, petroleum coke, natural gas, residual fuel oil, other oil) are reallocated FROM Energy combustion TO IPPU because consumed as feedstock/reducing agent. &gt;&gt;&gt; This is exactly Joe’s ippu_dist_* + ippu_corrections targets in _targets.R. &lt;&lt;&lt; Sources: ammonia, petrochemical, carbon black, iron &amp; steel, aluminum, TiO2, zinc.</li>
+<li><strong>Non-energy use of fossil fuels</strong> (lubricants, waxes, asphalt, solvents) -&gt; reported in Energy Ch.3.2, NOT IPPU 2D, due to US carbon-balance national circumstances.</li>
+<li><strong>Lime for agricultural use (LKD/soil)</strong> -&gt; Agriculture Ch.5.5 (Liming, 3G).</li>
+<li><strong>Limestone/soda ash consumed IN glass</strong> -&gt; reported under Glass (2A3), not Other Carbonates.</li>
+<li><strong>FGD limestone/lime at power plants</strong> -&gt; Other Process Uses of Carbonates (2A4).</li>
+<li><strong>Biogenic CO2 from regenerated lime</strong> (Kraft pulp mills, water treatment) -&gt; LULUCF, not IPPU.</li>
+<li><strong>Soda ash CO2 captured for PCC/sugar refining</strong> -&gt; netted out (no net emissions).</li>
 </ul>
 </section>
-<section id="what-you-can-expect-from-me" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-can-expect-from-me">What You Can Expect From Me</h2>
+<section id="data-architecture-notes-for-retrieval" class="level1">
+<h1>Data-architecture notes for retrieval</h1>
 <ul>
-<li><strong>Responsiveness</strong> to your needs and concerns</li>
-<li><strong>Transparency</strong> about technical decisions and tradeoffs</li>
-<li><strong>Documentation</strong> so the system is never a black box</li>
-<li><strong>Training</strong> to ensure everyone can use the tools effectively</li>
-<li><strong>Flexibility</strong> to adapt as we learn what works</li>
-<li><strong>Accountability</strong> for delivering a system that actually helps</li>
+<li>GHGRP is the dominant IPPU activity-data source (most categories). Many values are AGGREGATED CBI (ammonia, nitric acid, lime, cement, petrochemical, CO2 consumption, urea). &gt;&gt;&gt; All GHGRP-dependent IPPU categories inherit source_status = uncertain. &lt;&lt;&lt;</li>
+<li>USGS National Minerals Information Center: per-commodity files for minerals + metals.</li>
+<li>Industry associations (AISI, ACC, AHRI, TFI, USAA, NLA) are membership/manual sources, not clean APIs — flag for manual retrieval.</li>
+<li>ODS Substitutes (largest IPPU source) is driven by the EPA VINTAGING MODEL, a bottom-up stock model — not a downloadable dataset. Output continuity is uncertain post-EPA.</li>
+<li>CARB SF6 data informs the non-reporter emission factor for electrical equipment.</li>
 </ul>
+</section>
+<section id="reconciliation-flag-vs-joes-energy-code" class="level1">
+<h1>Reconciliation flag (vs Joe’s Energy code)</h1>
+<p>The four ippu_dist_* targets (ammonia, petrochemical, carbon_black, iron_and_steel) in _targets.R are the Energy-side half of this reallocation. The IPPU chapter is the receiving side. Worth a future end-to-end trace to confirm the reallocation reconciles.</p>
 
 
 </section>

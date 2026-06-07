@@ -12,6 +12,18 @@ website:
         href: ghg_inventory_methodology.qmd
       - text: "Technical Standards & Tools"
         href: technical_standards_and_tools_reference.qmd
+      - text: "Boundary Notes"
+        menu:
+          - text: "Energy"
+            href: energy_boundary_notes.md
+          - text: "IPPU"
+            href: ippu_boundary_notes.md
+          - text: "Agriculture"
+            href: agriculture_boundary_notes.md
+          - text: "LULUCF"
+            href: lulucf_boundary_notes.md
+          - text: "Waste"
+            href: waste_boundary_notes.md
 
 format:
   html:

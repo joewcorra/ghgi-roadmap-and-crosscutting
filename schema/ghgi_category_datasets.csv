@@ -1,0 +1,283 @@
+node_id,dataset_id,role,required,provenance,notes
+lime_production,DS-USGS-LIME,activity_data,TRUE,GHGIA Ch4.1,Lime production by type drives process CO2
+lime_production,DS-NLA-LIME-EF,emission_factor,TRUE,GHGIA Ch4.1,Stoichiometric EFs for high-calcium/dolomitic lime
+lime_production,DS-GHGRP,activity_data,FALSE,GHGIA Ch4.1,Facility cross-check; availability uncertain
+lime_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+msw_landfills,DS-GHGRP,activity_data,TRUE,GHGIA Ch7.1; Annex 5,Reported net CH4 2010-2024; 2024 held at 2023
+msw_landfills,DS-BIOCYCLE-SOG,activity_data,TRUE,GHGIA Ch7.1,Waste accepted 1990-2009 (FOD years)
+msw_landfills,DS-CENSUS-POP,activity_data,TRUE,GHGIA Ch7.1,Interpolates waste disposed where survey gaps exist
+msw_landfills,DS-FOD-PARAMS,parameter,TRUE,GHGIA Ch7.1; Annex 5,First-order decay for 1990-2004 + oxidation
+msw_landfills,DS-LF-SCALEUP,parameter,TRUE,GHGIA Ch7.1; Annex 5,Scale-up for sub-threshold non-reporting landfills
+msw_landfills,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+industrial_landfills,DS-EPA-IND-WASTE-SURVEY,parameter,TRUE,GHGIA Ch7.1; Annex 5,Historical disposal rates applied to production
+industrial_landfills,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch7.1,Food-processing production (meat/poultry/fruit/veg)
+industrial_landfills,DS-FAO-FORESTRY,activity_data,TRUE,GHGIA Ch7.1,Paper/paperboard/wood pulp production
+industrial_landfills,DS-FOD-PARAMS,parameter,TRUE,GHGIA Ch7.1,IPCC Tier 2 waste model parameters
+industrial_landfills,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+domestic_wastewater,DS-CENSUS-POP,activity_data,TRUE,GHGIA Ch7.2,Population driver
+domestic_wastewater,DS-CENSUS-AHS,parameter,TRUE,GHGIA Ch7.2,Septic vs centralized shares; held constant
+domestic_wastewater,DS-FAO-FBS,activity_data,TRUE,GHGIA Ch7.2,Per-capita protein for N2O
+domestic_wastewater,DS-WW-EF,emission_factor,TRUE,GHGIA Ch7.2,BOD/MCF + CH4 and N2O EFs
+domestic_wastewater,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+industrial_wastewater,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch7.2,Meat/poultry/fruit/veg production
+industrial_wastewater,DS-FAO-FORESTRY,activity_data,TRUE,GHGIA Ch7.2,Pulp & paper production
+industrial_wastewater,DS-RFA-ETHANOL,activity_data,TRUE,GHGIA Ch7.2,Grain use for ethanol
+industrial_wastewater,DS-USDA-ETHANOL,activity_data,TRUE,GHGIA Ch7.2,Ethanol production
+industrial_wastewater,DS-EIA-PETRO,activity_data,TRUE,GHGIA Ch7.2,Petroleum production/refining
+industrial_wastewater,DS-TTB-BEER,activity_data,TRUE,GHGIA Ch7.2,Brewery production
+industrial_wastewater,DS-WW-EF,emission_factor,TRUE,GHGIA Ch7.2,COD/BOD + CH4 and N2O EFs
+industrial_wastewater,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+composting,DS-BIOCYCLE-ORGANICS,activity_data,TRUE,GHGIA Ch7.3,Composting tonnage + system composition base
+composting,DS-CENSUS-POP,activity_data,TRUE,GHGIA Ch7.3,Per-capita extrapolation 2019-2024 from 2018 ratio
+composting,DS-COMPOST-EF,emission_factor,TRUE,GHGIA Ch7.3,IPCC default CH4/N2O EFs
+composting,DS-EREF-COMPOST,activity_data,FALSE,GHGIA Ch7.3,Corroborating tonnage
+composting,DS-USCC,activity_data,FALSE,GHGIA Ch7.3,Supplementary tonnage
+composting,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+anaerobic_digestion,DS-AD-SURVEY,activity_data,TRUE,GHGIA Ch7.4,Waste digested + facility counts; 2024 averaged
+anaerobic_digestion,DS-AD-LEAKAGE,parameter,TRUE,GHGIA Ch7.4,5 percent default CH4 leakage
+anaerobic_digestion,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+enteric_fermentation,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch5.1,Cattle + non-cattle populations (QuickStats)
+enteric_fermentation,DS-USDA-AGCENSUS,activity_data,TRUE,GHGIA Ch5.1,Census populations (horses/goats/bison/mules)
+enteric_fermentation,DS-CEFM-EF,emission_factor,TRUE,GHGIA Ch5.1,Cattle implied EFs (CEFM)
+enteric_fermentation,DS-IPCC-LIVESTOCK-EF,emission_factor,TRUE,GHGIA Ch5.1,Tier 1 EFs for non-cattle
+enteric_fermentation,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+manure_management,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch5.2,Livestock + poultry populations
+manure_management,DS-USDA-AGCENSUS,activity_data,TRUE,GHGIA Ch5.2,Census populations
+manure_management,DS-MANURE-EF,emission_factor,TRUE,GHGIA Ch5.2,Implied per-animal CH4/N2O EFs
+manure_management,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+rice_cultivation,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch5.3,Rice area planted (Crop Production summary)
+rice_cultivation,DS-DAYCENT-OUTPUT,parameter,TRUE,GHGIA Ch5.3,Tier 3 modeled CH4 1990-2020 (via EPA 2025)
+rice_cultivation,DS-USDA-NRI,activity_data,FALSE,GHGIA Ch5.3,DayCent input (proprietary)
+rice_cultivation,DS-USDA-ERS-RICE,activity_data,FALSE,GHGIA Ch5.3,Sector context (irrigation/ratoon)
+rice_cultivation,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ag_soils_direct,DS-DAYCENT-OUTPUT,parameter,TRUE,GHGIA Ch5.4,Tier 3 modeled direct N2O 1990-2020 (via EPA 2025)
+ag_soils_direct,DS-USDA-NRI,activity_data,FALSE,GHGIA Ch5.4,DayCent land-use/management input (proprietary)
+ag_soils_direct,DS-IFA-FERTILIZER,activity_data,TRUE,GHGIA Ch5.4,National N fertilizer consumption (surrogate)
+ag_soils_direct,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch5.4,Corn/soybean planted acreage (surrogate)
+ag_soils_direct,DS-PRISM-PRECIP,activity_data,TRUE,GHGIA Ch5.4,State precipitation (acreage-weighted surrogate)
+ag_soils_direct,DS-IPCC-SOILS-EF,emission_factor,TRUE,GHGIA Ch5.4,Tier 1 EFs (Histosols/specialty crops)
+ag_soils_direct,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ag_soils_indirect,DS-DAYCENT-OUTPUT,parameter,TRUE,GHGIA Ch5.4,Tier 3 modeled indirect N2O (via EPA 2025)
+ag_soils_indirect,DS-IPCC-SOILS-EF,emission_factor,TRUE,GHGIA Ch5.4,Volatilization/leaching/runoff fractions + indirect EFs
+ag_soils_indirect,DS-USDA-NRI,activity_data,FALSE,GHGIA Ch5.4,DayCent input (proprietary)
+ag_soils_indirect,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+liming,DS-USGS-CRUSHEDSTONE,activity_data,TRUE,GHGIA Ch5.5,Limestone/dolomite applied + ag-use proportions
+liming,DS-LIMING-EF,emission_factor,TRUE,GHGIA Ch5.5,CO2 EFs + dissolution fractions
+liming,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+urea_fertilization,DS-IFA-FERTILIZER,activity_data,TRUE,GHGIA Ch5.6,Applied urea 1990-2024 (IFA)
+urea_fertilization,DS-UREA-EF,emission_factor,TRUE,GHGIA Ch5.6,IPCC default CO2 EF
+urea_fertilization,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+field_burning_residues,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch5.7,Crop production/residue data
+field_burning_residues,DS-BURNED-AREA,activity_data,TRUE,GHGIA Ch5.7,Burned area (6-state extrapolated; EPA-derived)
+field_burning_residues,DS-FBAR-EF,emission_factor,TRUE,GHGIA Ch5.7,Tier 2 residue ratios + combustion/EFs
+field_burning_residues,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+cement_production,DS-USGS-CEMENT,activity_data,TRUE,GHGIA Ch4.1,Clinker production (USGS 1990-2013; GHGRP 2014+)
+cement_production,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.1,Clinker production 2014+ + CKD; availability uncertain
+cement_production,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.1,Clinker EF 0.510 + CKD correction 1.02
+cement_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+lime_production,DS-USGS-LIME,activity_data,TRUE,GHGIA Ch4.2,Lime production by type (USGS Minerals Yearbook)
+lime_production,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.2,CO2 captured/recovered 2010+; net-emission adjustment
+lime_production,DS-NLA-LIME-EF,emission_factor,TRUE,GHGIA Ch4.2,High-calcium 0.7455 + dolomitic 0.8675 + LKD 1.02
+lime_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+glass_production,DS-USGS-GLASS-CARB,activity_data,TRUE,GHGIA Ch4.3,Soda ash/limestone/dolomite consumed in glass
+glass_production,DS-GHGRP,activity_data,FALSE,GHGIA Ch4.3,Facility carbonate consumption; availability uncertain
+glass_production,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.3,Carbonate-based CO2 EFs
+glass_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+other_carbonate_uses,DS-USGS-GLASS-CARB,activity_data,TRUE,GHGIA Ch4.4,Limestone/dolomite for FGD/flux/ceramics/magnesia
+other_carbonate_uses,DS-USGS-SODA-ASH,activity_data,TRUE,GHGIA Ch4.4,Soda ash consumption (non-glass)
+other_carbonate_uses,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.4,Carbonate CO2 EFs
+other_carbonate_uses,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ammonia_production,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.5,Ammonia + urea production (aggregated CBI); availability uncertain
+ammonia_production,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.5,CO2 EF from feedstock carbon
+ammonia_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+nitric_acid,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.6,Nitric acid production + abatement; availability uncertain
+nitric_acid,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.6,N2O EF by abatement technology
+nitric_acid,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+adipic_acid,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.7,Adipic acid production + abatement; availability uncertain
+adipic_acid,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.7,N2O EF + destruction efficiency
+adipic_acid,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+caprolactam,DS-ACC-CHEM,activity_data,TRUE,GHGIA Ch4.8,Caprolactam production
+caprolactam,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.8,N2O EF (Tier 1)
+caprolactam,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+carbide,DS-USGS-MINERALS,activity_data,TRUE,GHGIA Ch4.9,Silicon carbide production + petroleum coke input
+carbide,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.9,CO2 + CH4 EFs
+carbide,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+titanium_dioxide,DS-USGS-TITANIUM,activity_data,TRUE,GHGIA Ch4.10,TiO2 production (chloride process)
+titanium_dioxide,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.10,CO2 EF
+titanium_dioxide,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+soda_ash,DS-USGS-SODA-ASH,activity_data,TRUE,GHGIA Ch4.11,Soda ash production (trona)
+soda_ash,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.11,CO2 EF from trona
+soda_ash,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+petrochemical_carbon_black,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.12,Petrochemical + carbon black production; availability uncertain
+petrochemical_carbon_black,DS-ACC-CHEM,activity_data,FALSE,GHGIA Ch4.12,Production context (ACC)
+petrochemical_carbon_black,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.12,CO2 + CH4 EFs by product
+petrochemical_carbon_black,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+fluorochemical_production,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.13,HCFC-22 + other fluorochemical (HFC-23 byproduct); availability uncertain
+fluorochemical_production,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.13,HFC-23 generation factors
+fluorochemical_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,F-gas to CO2 Eq
+chem_other,DS-USGS-PHOSPHATE,activity_data,TRUE,GHGIA Ch4.14,Phosphate rock + composition (phosphoric acid)
+chem_other,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.14,CO2 consumption (extraction/transfer); availability uncertain
+chem_other,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.14,CO2 EFs
+chem_other,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+iron_steel,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.15,Steel/pig iron/coke/sinter production + fuels; availability uncertain
+iron_steel,DS-AISI-STEEL,activity_data,TRUE,GHGIA Ch4.15,Production by process (AISI)
+iron_steel,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.15,CO2 + CH4 EFs by process
+iron_steel,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ferroalloys,DS-USGS-FERROALLOY,activity_data,TRUE,GHGIA Ch4.16,Ferroalloy production by type
+ferroalloys,DS-GHGRP,activity_data,FALSE,GHGIA Ch4.16,Facility cross-check; availability uncertain
+ferroalloys,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.16,CO2 + CH4 EFs
+ferroalloys,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+aluminum,DS-USGS-ALUMINUM,activity_data,TRUE,GHGIA Ch4.17,Primary aluminum production
+aluminum,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.17,Anode effects (PFC) + process CO2; availability uncertain
+aluminum,DS-USAA-ALUMINUM,activity_data,FALSE,GHGIA Ch4.17,Anode-effect parameters (US Aluminum Assoc)
+aluminum,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.17,CO2 + PFC (CF4/C2F6) EFs
+aluminum,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 + PFC to CO2 Eq
+magnesium,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.18,Cover-gas SF6/HFC/PFC use; availability uncertain
+magnesium,DS-USGS-MAGNESIUM,activity_data,FALSE,GHGIA Ch4.18,Production context
+magnesium,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.18,Cover-gas emission factors
+magnesium,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,F-gas to CO2 Eq
+lead,DS-USGS-LEAD,activity_data,TRUE,GHGIA Ch4.19,Primary + secondary lead production
+lead,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.19,CO2 EFs by process
+lead,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+zinc,DS-USGS-ZINC,activity_data,TRUE,GHGIA Ch4.20,Primary + secondary zinc production
+zinc,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.20,CO2 EFs by process
+zinc,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+electronics_industry,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.21,F-gas + N2O use by semiconductor fabs; availability uncertain
+electronics_industry,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.21,Gas utilization/byproduct factors
+electronics_industry,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,F-gas + N2O to CO2 Eq
+ods_substitutes,DS-EPA-VINTAGING,parameter,TRUE,GHGIA Ch4.22,Vintaging Model bottom-up HFC/PFC stocks (PRIMARY)
+ods_substitutes,DS-AHRI-REFRIG,activity_data,TRUE,GHGIA Ch4.22,Equipment/refrigerant shipments (AHRI)
+ods_substitutes,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,F-gas to CO2 Eq
+electrical_equipment_sf6,DS-GHGRP,activity_data,TRUE,GHGIA Ch4.23,Utility SF6 use; availability uncertain
+electrical_equipment_sf6,DS-CARB-SF6,activity_data,FALSE,GHGIA Ch4.23,CA electrical equipment SF6 (non-reporter EF)
+electrical_equipment_sf6,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.23,SF6 emission rates
+electrical_equipment_sf6,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,SF6 to CO2 Eq
+n2o_product_uses,DS-IPCC-IPPU-EF,emission_factor,TRUE,GHGIA Ch4.24,N2O use shares (medical/aerosol)
+n2o_product_uses,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+land_representation,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.1,Non-federal land use/change (conterminous US + Hawaii)
+land_representation,DS-USFS-FIA,activity_data,TRUE,GHGIA Ch6.1,Official forest land area
+land_representation,DS-MRLC-NLCD,activity_data,TRUE,GHGIA Ch6.1,Federal lands + Alaska land cover
+land_representation,DS-USGS-PAD,parameter,TRUE,GHGIA Ch6.1,Managed-land designation
+land_representation,DS-USDA-NASS,activity_data,FALSE,GHGIA Ch6.1,County grazing livestock for grassland-managed test
+ffl,DS-USFS-FIA,activity_data,TRUE,GHGIA Ch6.2,Forest C pool stock changes (all pools)
+ffl,DS-FORCARB,parameter,TRUE,GHGIA Ch6.2,Forest C stock-change estimation
+ffl,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.2,Soil C + pool factors
+ffl,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ffl_fire,DS-MTBS-FIRE,activity_data,TRUE,GHGIA Ch6.2,Forest burned area
+ffl_fire,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.2,Fire CH4/N2O combustion factors
+ffl_fire,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,Non-CO2 to CO2 Eq
+ffl_soils_n2o,DS-USFS-FIA,activity_data,TRUE,GHGIA Ch6.2,Forest fertilizer area
+ffl_soils_n2o,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.2,N2O fertilizer EF
+ffl_soils_n2o,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+ffl_drained,DS-USFS-FIA,activity_data,TRUE,GHGIA Ch6.2,Drained organic soil area
+ffl_drained,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.2,Drained-soil CH4/N2O EFs
+ffl_drained,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,Non-CO2 to CO2 Eq
+land_to_forest,DS-USFS-FIA,activity_data,TRUE,GHGIA Ch6.3,Converted-forest C stocks
+land_to_forest,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.3,Biomass/soil stock factors
+land_to_forest,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+harvested_wood_products,DS-USFS-TPO,activity_data,TRUE,GHGIA Ch6.2,Timber products output
+harvested_wood_products,DS-FAO-FORESTRY,activity_data,TRUE,GHGIA Ch6.2,Wood/paper production + trade
+harvested_wood_products,DS-IPCC-LULUCF-EF,parameter,TRUE,GHGIA Ch6.2,HWP decay/half-life parameters
+harvested_wood_products,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+cc,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.4,Cropland area + management
+cc,DS-DAYCENT-LULUCF,parameter,TRUE,GHGIA Ch6.4,Tier 3 modeled mineral soil C
+cc,DS-NRCS-CEAP,activity_data,FALSE,GHGIA Ch6.4,Management survey (DayCent input)
+cc,DS-OPTIS,activity_data,FALSE,GHGIA Ch6.4,Cover crop + tillage
+cc,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.4,Organic soil + Tier 2 factors
+cc,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+land_to_cropland,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.5,Conversion area + management
+land_to_cropland,DS-DAYCENT-LULUCF,parameter,TRUE,GHGIA Ch6.5,Tier 3 modeled soil C
+land_to_cropland,DS-USFS-FIA,activity_data,FALSE,GHGIA Ch6.5,Forest-to-cropland biomass loss
+land_to_cropland,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.5,Stock-change factors
+land_to_cropland,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+gg,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.6,Grassland area + management
+gg,DS-DAYCENT-LULUCF,parameter,TRUE,GHGIA Ch6.6,Tier 3 modeled soil C
+gg,DS-MRLC-NLCD,activity_data,FALSE,GHGIA Ch6.6,Federal grassland
+gg,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.6,Soil C factors
+gg,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+gg_fire,DS-MTBS-FIRE,activity_data,TRUE,GHGIA Ch6.6,Grassland burned area
+gg_fire,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.6,Fire CH4/N2O factors
+gg_fire,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,Non-CO2 to CO2 Eq
+land_to_grassland,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.7,Conversion area + management
+land_to_grassland,DS-DAYCENT-LULUCF,parameter,TRUE,GHGIA Ch6.7,Tier 3 modeled soil C
+land_to_grassland,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.7,Stock-change factors
+land_to_grassland,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ww_peatland,DS-USGS-MINERALS,activity_data,TRUE,GHGIA Ch6.8,Peat production (Minerals Yearbook)
+ww_peatland,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.8,Peatland C + non-CO2 factors
+ww_peatland,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ww_coastal,DS-NOAA-CCAP,activity_data,TRUE,GHGIA Ch6.8,Coastal wetland area/change
+ww_coastal,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.8,Coastal C + CH4/N2O factors
+ww_coastal,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ww_flooded,DS-NID-RESERVOIR,activity_data,TRUE,GHGIA Ch6.8,Reservoir surface area
+ww_flooded,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.8,Flooded-land CH4 factors
+ww_flooded,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4 to CO2 Eq
+land_to_coastal,DS-NOAA-CCAP,activity_data,TRUE,GHGIA Ch6.9,Converted coastal wetland area
+land_to_coastal,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.9,Biomass/soil + CH4 factors
+land_to_coastal,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+land_to_flooded,DS-NID-RESERVOIR,activity_data,TRUE,GHGIA Ch6.9,New reservoir area
+land_to_flooded,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.9,Flooded-land CO2/CH4 factors
+land_to_flooded,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ss_soil,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.10,Settlement organic soil area
+ss_soil,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.10,Organic soil C factors
+ss_soil,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ss_trees,DS-MRLC-NLCD,activity_data,TRUE,GHGIA Ch6.10,Urban tree canopy cover
+ss_trees,DS-USFS-FIA,activity_data,FALSE,GHGIA Ch6.10,Urban forest sampling
+ss_trees,DS-IPCC-LULUCF-EF,parameter,TRUE,GHGIA Ch6.10,Urban tree C sequestration rates
+ss_trees,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+ss_soils_n2o,DS-USDA-NASS,activity_data,TRUE,GHGIA Ch6.10,Settlement fertilizer application
+ss_soils_n2o,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.10,N2O fertilizer EF
+ss_soils_n2o,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,N2O to CO2 Eq
+land_to_settlements,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.11,Conversion area + management
+land_to_settlements,DS-USFS-FIA,activity_data,FALSE,GHGIA Ch6.11,Forest-to-settlement biomass loss
+land_to_settlements,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.11,Stock-change factors
+land_to_settlements,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+land_to_other,DS-USDA-NRI,activity_data,TRUE,GHGIA Ch6.12,Conversion area
+land_to_other,DS-IPCC-LULUCF-EF,emission_factor,TRUE,GHGIA Ch6.12,Legacy stock-change factors
+land_to_other,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+landfilled_yard_trimmings,DS-EPA-WASTE-CHAR,activity_data,TRUE,GHGIA Ch6.10,Yard trimmings + food scraps landfilled
+landfilled_yard_trimmings,DS-IPCC-LULUCF-EF,parameter,TRUE,GHGIA Ch6.10,Long-term C storage factors
+landfilled_yard_trimmings,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+coal_mining,DS-MSHA-COAL,activity_data,TRUE,GHGIA Ch3.4,Mine-level production + ventilation
+coal_mining,DS-EIA-COAL,activity_data,TRUE,GHGIA Ch3.4,Coal production by basin (underground/surface)
+coal_mining,DS-GHGRP-COAL,activity_data,TRUE,GHGIA Ch3.4,Subpart FF liberated/recovered CH4; availability uncertain
+coal_mining,DS-EPA-CMOP,activity_data,FALSE,GHGIA Ch3.4,Recovered/used CH4 offset; continuity uncertain
+coal_mining,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.4,Basin-specific + default CH4 factors
+coal_mining,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4 to CO2 Eq
+abandoned_coal_mines,DS-EPA-CMOP,activity_data,TRUE,GHGIA Ch3.4,Abandoned mine inventory + flooding status; continuity uncertain
+abandoned_coal_mines,DS-MSHA-COAL,activity_data,TRUE,GHGIA Ch3.4,Mine closure dates + gassiness
+abandoned_coal_mines,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.4,Decline-curve CH4 factors
+abandoned_coal_mines,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4 to CO2 Eq
+petroleum_systems,DS-GHGRP-PETRO,activity_data,TRUE,GHGIA Ch3.5,Subpart W facility-level emissions; availability uncertain
+petroleum_systems,DS-EIA-PETRO-SYS,activity_data,TRUE,GHGIA Ch3.5,Throughput by stage (production/refining/transport)
+petroleum_systems,DS-ENVERUS-WELLS,activity_data,TRUE,GHGIA Ch3.5,Well counts/activity; commercial license
+petroleum_systems,DS-EPA-GAS-STUDY,parameter,TRUE,GHGIA Ch3.5,Component counts + emission factors
+petroleum_systems,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.5,Default fugitive CH4/CO2/N2O factors
+petroleum_systems,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4/N2O to CO2 Eq
+natural_gas_systems,DS-GHGRP-PETRO,activity_data,TRUE,GHGIA Ch3.6,Subpart W facility-level emissions; availability uncertain
+natural_gas_systems,DS-EIA-NGAS,activity_data,TRUE,GHGIA Ch3.6,Throughput by stage (production/processing/transmission/distribution)
+natural_gas_systems,DS-ENVERUS-WELLS,activity_data,TRUE,GHGIA Ch3.6,Well + facility counts; commercial license
+natural_gas_systems,DS-EPA-GAS-STUDY,parameter,TRUE,GHGIA Ch3.6,Component counts + emission factors
+natural_gas_systems,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.6,Default fugitive CH4/CO2 factors
+natural_gas_systems,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4 to CO2 Eq
+abandoned_oil_gas_wells,DS-STATE-WELLS,activity_data,TRUE,GHGIA Ch3.5,Abandoned/orphaned well counts by state
+abandoned_oil_gas_wells,DS-ENVERUS-WELLS,activity_data,FALSE,GHGIA Ch3.5,Well status cross-check; commercial license
+abandoned_oil_gas_wells,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.5,Plugged/unplugged CH4 factors
+abandoned_oil_gas_wells,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CH4 to CO2 Eq
+co2_transport_storage,DS-GHGRP-CO2-INJ,activity_data,TRUE,GHGIA Ch3.7,Subpart RR/UU injected/stored CO2; availability uncertain
+co2_transport_storage,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.7,Transport/injection leakage factors
+co2_transport_storage,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+incineration_of_waste,DS-EPA-MSW-COMBUST,activity_data,TRUE,GHGIA Ch3.3,Combusted MSW mass + composition; continuity uncertain
+incineration_of_waste,DS-EPA-WASTE-CHAR,activity_data,TRUE,GHGIA Ch3.3,Waste characterization (plastics/synthetic share)
+incineration_of_waste,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3.3,CO2/N2O combustion factors (fossil C fraction)
+incineration_of_waste,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2/N2O to CO2 Eq
+non_energy_use_fossil,DS-EIA-MER,activity_data,TRUE,GHGIA Ch3.2,Fuel consumed for non-energy uses by type
+non_energy_use_fossil,DS-NEU-ADJ,activity_data,TRUE,GHGIA Ch3.2,Non-energy use carbon balance + storage fractions
+non_energy_use_fossil,DS-EPA-CARBON-COEFF,emission_factor,TRUE,GHGIA Ch3.2,Carbon content coefficients
+non_energy_use_fossil,DS-IPCC-ENERGY-EF,parameter,TRUE,GHGIA Ch3.2,Storage fractions by product
+non_energy_use_fossil,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+intl_bunker_fuels,DS-BUNKER-ADJ,activity_data,TRUE,GHGIA Ch3,Bunker fuel by mode (memo item)
+intl_bunker_fuels,DS-EPA-CARBON-COEFF,emission_factor,TRUE,GHGIA Ch3,Carbon content coefficients
+intl_bunker_fuels,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
+biomass_biofuel,DS-EIA-MER,activity_data,TRUE,GHGIA Ch3,Biomass + biofuel consumption (memo item)
+biomass_biofuel,DS-IPCC-ENERGY-EF,emission_factor,TRUE,GHGIA Ch3,Biogenic CO2 factors
+biomass_biofuel,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
