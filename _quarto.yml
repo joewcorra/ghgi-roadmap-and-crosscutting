@@ -1,29 +1,33 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - content/ghg_proposal.qmd
+    - content/*.qmd
+    - content/*.md
 
 website:
   title: "U.S. GHG Inventory System Proposal"
   navbar:
     left:
       - text: "Main Proposal"
-        href: ghg_proposal.qmd
+        href: content/ghg_proposal.qmd
       - text: "GHG Inventory Methodology"
-        href: ghg_inventory_methodology.qmd
+        href: content/ghg_inventory_methodology.qmd
       - text: "Technical Standards & Tools"
-        href: technical_standards_and_tools_reference.qmd
+        href: content/technical_standards_and_tools_reference.qmd
       - text: "Boundary Notes"
         menu:
           - text: "Energy"
-            href: energy_boundary_notes.md
+            href: content/energy_boundary_notes.md
           - text: "IPPU"
-            href: ippu_boundary_notes.md
+            href: content/ippu_boundary_notes.md
           - text: "Agriculture"
-            href: agriculture_boundary_notes.md
+            href: content/agriculture_boundary_notes.md
           - text: "LULUCF"
-            href: lulucf_boundary_notes.md
+            href: content/lulucf_boundary_notes.md
           - text: "Waste"
-            href: waste_boundary_notes.md
+            href: content/waste_boundary_notes.md
 
 format:
   html:

@@ -14,8 +14,6 @@ read_ghgi_schema <- function(dir = "schema") {
     datasets   = read_csv(file.path(dir, "ghgi_datasets.csv"),
                           show_col_types = FALSE),
     crosswalk  = read_csv(file.path(dir, "ghgi_category_datasets.csv"),
-                          show_col_types = FALSE),
-    provenance = read_csv(file.path(dir, "dataset_provenance.csv"),
                           show_col_types = FALSE)
   )
 }
@@ -86,39 +84,6 @@ retrieval_plan <- function(schema) {
     arrange(access_method, desc(shared), dataset_id) %>%
     select(access_method, dataset_id, dataset_name, provider,
            endpoint, format, auth, access_verified, source_status)
-}
-
-# ---- Provenance (bridge) views ----------------------------------------------
-# The bridge records HOW each dataset was validated (chapter / code / both) and
-# whether the working pipeline has drifted from current GHGIA methodology.
-
-# Spec datasets not yet validated against any source (the work-remaining list).
-unvalidated_datasets <- function(schema) {
-  anti_join(schema$datasets, schema$provenance, by = "dataset_id") %>%
-    select(dataset_id, dataset_name, provider)
-}
-
-# Everything drifted from current methodology — the UMD-conversation list.
-drift_report <- function(schema) {
-  schema$provenance %>%
-    filter(drift_status != "current") %>%
-    left_join(select(schema$datasets, dataset_id, dataset_name), by = "dataset_id") %>%
-    select(dataset_id, dataset_name, source_layer, pipeline_target, drift_status, note)
-}
-
-# Datasets the code proves but chapter prose missed (parser blind spots).
-code_only_datasets <- function(schema) {
-  schema$provenance %>%
-    filter(source_layer == "code") %>%
-    left_join(select(schema$datasets, dataset_id, dataset_name), by = "dataset_id") %>%
-    select(dataset_id, dataset_name, pipeline_target, note)
-}
-
-# Bridge FK check: every provenance row must reference a real dataset.
-validate_provenance <- function(schema) {
-  orphans <- setdiff(schema$provenance$dataset_id, schema$datasets$dataset_id)
-  stopifnot("provenance references unknown dataset_id" = length(orphans) == 0)
-  invisible(schema)
 }
 
 # ---- Example usage ----------------------------------------------------------

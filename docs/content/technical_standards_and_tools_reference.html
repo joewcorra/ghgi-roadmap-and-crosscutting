@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-05-24">
 
-<title>sample_smn_wastewater – U.S. GHG Inventory System Proposal</title>
+<title>Technical Standards and Tools Reference – U.S. GHG Inventory System Proposal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,6 +19,41 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -3850,15 +3886,15 @@ vertical-align: -.125em;
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../ghg_proposal.html"> 
+    <a class="nav-link" href="../content/ghg_proposal.html"> 
 <span class="menu-text">Main Proposal</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../ghg_inventory_methodology.html"> 
+    <a class="nav-link" href="../content/ghg_inventory_methodology.html"> 
 <span class="menu-text">GHG Inventory Methodology</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../technical_standards_and_tools_reference.html"> 
+    <a class="nav-link active" href="../content/technical_standards_and_tools_reference.html" aria-current="page"> 
 <span class="menu-text">Technical Standards &amp; Tools</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -3867,23 +3903,23 @@ vertical-align: -.125em;
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-boundary-notes">    
         <li>
-    <a class="dropdown-item" href="../energy_boundary_notes.html">
+    <a class="dropdown-item" href="../content/energy_boundary_notes.html">
  <span class="dropdown-text">Energy</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../ippu_boundary_notes.html">
+    <a class="dropdown-item" href="../content/ippu_boundary_notes.html">
  <span class="dropdown-text">IPPU</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../agriculture_boundary_notes.html">
+    <a class="dropdown-item" href="../content/agriculture_boundary_notes.html">
  <span class="dropdown-text">Agriculture</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../lulucf_boundary_notes.html">
+    <a class="dropdown-item" href="../content/lulucf_boundary_notes.html">
  <span class="dropdown-text">LULUCF</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../waste_boundary_notes.html">
+    <a class="dropdown-item" href="../content/waste_boundary_notes.html">
  <span class="dropdown-text">Waste</span></a>
   </li>  
     </ul>
@@ -3903,19 +3939,42 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#methodology-narrative-wastewater-treatment-ch₄-and-n₂o" id="toc-methodology-narrative-wastewater-treatment-ch₄-and-n₂o" class="nav-link active" data-scroll-target="#methodology-narrative-wastewater-treatment-ch₄-and-n₂o">Methodology Narrative — Wastewater Treatment (CH₄ and N₂O)</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#core-language" id="toc-core-language" class="nav-link" data-scroll-target="#core-language">Core Language</a></li>
+  <li><a href="#github-repository-architecture" id="toc-github-repository-architecture" class="nav-link" data-scroll-target="#github-repository-architecture">GitHub Repository Architecture</a>
   <ul class="collapse">
-  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification">Identification</a></li>
-  <li><a href="#what-this-category-covers" id="toc-what-this-category-covers" class="nav-link" data-scroll-target="#what-this-category-covers">What this category covers</a></li>
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data sources</a></li>
-  <li><a href="#emission-factors-and-other-fixed-values" id="toc-emission-factors-and-other-fixed-values" class="nav-link" data-scroll-target="#emission-factors-and-other-fixed-values">Emission factors and other fixed values</a></li>
-  <li><a href="#units" id="toc-units" class="nav-link" data-scroll-target="#units">Units</a></li>
-  <li><a href="#connections-to-other-categories" id="toc-connections-to-other-categories" class="nav-link" data-scroll-target="#connections-to-other-categories">Connections to other categories</a></li>
-  <li><a href="#how-the-calculation-works-step-by-step" id="toc-how-the-calculation-works-step-by-step" class="nav-link" data-scroll-target="#how-the-calculation-works-step-by-step">How the calculation works, step by step</a></li>
-  <li><a href="#rules-and-judgment-calls" id="toc-rules-and-judgment-calls" class="nav-link" data-scroll-target="#rules-and-judgment-calls">Rules and judgment calls</a></li>
-  <li><a href="#known-changes-and-things-to-watch" id="toc-known-changes-and-things-to-watch" class="nav-link" data-scroll-target="#known-changes-and-things-to-watch">Known changes and things to watch</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#organizational-structure" id="toc-organizational-structure" class="nav-link" data-scroll-target="#organizational-structure">Organizational Structure</a></li>
+  <li><a href="#repository-template-structure" id="toc-repository-template-structure" class="nav-link" data-scroll-target="#repository-template-structure">Repository Template Structure</a></li>
+  <li><a href="#the-ghg-core-repository" id="toc-the-ghg-core-repository" class="nav-link" data-scroll-target="#the-ghg-core-repository">The <code>ghg-core</code> Repository</a></li>
+  <li><a href="#github-project-board" id="toc-github-project-board" class="nav-link" data-scroll-target="#github-project-board">GitHub Project Board</a></li>
   </ul></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a>
+  <ul class="collapse">
+  <li><a href="#pipeline-reproducibility" id="toc-pipeline-reproducibility" class="nav-link" data-scroll-target="#pipeline-reproducibility">Pipeline &amp; Reproducibility</a></li>
+  <li><a href="#data-manipulation" id="toc-data-manipulation" class="nav-link" data-scroll-target="#data-manipulation">Data Manipulation</a></li>
+  <li><a href="#testing-validation" id="toc-testing-validation" class="nav-link" data-scroll-target="#testing-validation">Testing &amp; Validation</a></li>
+  <li><a href="#visualization-reporting" id="toc-visualization-reporting" class="nav-link" data-scroll-target="#visualization-reporting">Visualization &amp; Reporting</a></li>
+  <li><a href="#spatial-data-for-lulucf" id="toc-spatial-data-for-lulucf" class="nav-link" data-scroll-target="#spatial-data-for-lulucf">Spatial Data (for LULUCF)</a></li>
+  <li><a href="#database-future-phase" id="toc-database-future-phase" class="nav-link" data-scroll-target="#database-future-phase">Database (Future Phase)</a></li>
+  <li><a href="#internal" id="toc-internal" class="nav-link" data-scroll-target="#internal">Internal</a></li>
+  <li><a href="#package-management-strategy" id="toc-package-management-strategy" class="nav-link" data-scroll-target="#package-management-strategy">Package Management Strategy</a></li>
+  </ul></li>
+  <li><a href="#authoring-documentation" id="toc-authoring-documentation" class="nav-link" data-scroll-target="#authoring-documentation">Authoring &amp; Documentation</a></li>
+  <li><a href="#project-management-version-control" id="toc-project-management-version-control" class="nav-link" data-scroll-target="#project-management-version-control">Project Management &amp; Version Control</a></li>
+  <li><a href="#future-decision-points" id="toc-future-decision-points" class="nav-link" data-scroll-target="#future-decision-points">Future Decision Points</a>
+  <ul class="collapse">
+  <li><a href="#phase-1-decisions-months-0-6" id="toc-phase-1-decisions-months-0-6" class="nav-link" data-scroll-target="#phase-1-decisions-months-0-6">Phase 1 Decisions (Months 0-6)</a></li>
+  <li><a href="#phase-2-decisions-months-6-12" id="toc-phase-2-decisions-months-6-12" class="nav-link" data-scroll-target="#phase-2-decisions-months-6-12">Phase 2 Decisions (Months 6-12)</a></li>
+  <li><a href="#phase-3-decisions-year-2" id="toc-phase-3-decisions-year-2" class="nav-link" data-scroll-target="#phase-3-decisions-year-2">Phase 3+ Decisions (Year 2+)</a></li>
+  </ul></li>
+  <li><a href="#decision-making-framework" id="toc-decision-making-framework" class="nav-link" data-scroll-target="#decision-making-framework">Decision-Making Framework</a>
+  <ul class="collapse">
+  <li><a href="#when-to-add-complexity" id="toc-when-to-add-complexity" class="nav-link" data-scroll-target="#when-to-add-complexity">When to Add Complexity</a></li>
+  <li><a href="#decision-authority" id="toc-decision-authority" class="nav-link" data-scroll-target="#decision-authority">Decision Authority</a></li>
+  </ul></li>
+  <li><a href="#review-milestones" id="toc-review-milestones" class="nav-link" data-scroll-target="#review-milestones">Review Milestones</a></li>
+  <li><a href="#reference-resources" id="toc-reference-resources" class="nav-link" data-scroll-target="#reference-resources">Reference Resources</a></li>
+  <li><a href="#essential-package-documentation" id="toc-essential-package-documentation" class="nav-link" data-scroll-target="#essential-package-documentation">Essential Package Documentation</a></li>
   </ul>
 </nav>
 </nav>
@@ -3928,7 +3987,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">sample_smn_wastewater</h1>
+<h1 class="title">Technical Standards and Tools Reference</h1>
 </div>
 
 
@@ -3936,6 +3995,12 @@ vertical-align: -.125em;
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 24, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -3945,108 +4010,698 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="methodology-narrative-wastewater-treatment-ch₄-and-n₂o" class="level1">
-<h1>Methodology Narrative — Wastewater Treatment (CH₄ and N₂O)</h1>
-<blockquote class="blockquote">
-<p><strong>Example for discussion.</strong> Methodology is simplified for illustration and values shown as [placeholder] are not real. Structure follows the Methodology Narrative Standard v0.2.</p>
-</blockquote>
-<section id="identification" class="level2">
-<h2 class="anchored" data-anchor-id="identification">Identification</h2>
-<ul>
-<li><strong>Category:</strong> Wastewater Treatment — CH₄ and N₂O</li>
-<li><strong>Sector:</strong> Waste (IPCC 4.D, Wastewater Treatment and Discharge)</li>
-<li><strong>Inventory edition:</strong> GHGIA 2026</li>
-<li><strong>Author:</strong> [Waste source lead]</li>
-<li><strong>Last revised:</strong> [date]</li>
-</ul>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This document describes the computational tools, packages, platforms, and workflows used in the compilation of the U.S. Greenhouse Gas Inventory. It is intended as an internal reference for contributors and documents both the current technical stack and future architectural decisions.</p>
+<hr>
 </section>
-<section id="what-this-category-covers" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-category-covers">What this category covers</h2>
-<p>This category covers methane and nitrous oxide from the treatment and discharge of domestic and industrial wastewater. It is organized into two subsources:</p>
-<ul>
-<li><strong>Domestic wastewater</strong> — from residential and commercial sources, treated at publicly owned treatment works (POTWs) or in septic systems, plus emissions from treated effluent discharged to receiving waters.</li>
-<li><strong>Industrial wastewater</strong> — from industries that generate high-organic-load wastewater treated on site, covering breweries, ethanol production, pulp and paper, meat and poultry, petroleum refining, and fruit and vegetable processing.</li>
-</ul>
-<p>It does <strong>not</strong> cover: biogenic carbon dioxide from wastewater (excluded from national totals by convention); methane recovered and combusted for energy, which is netted out of this category’s emissions (see step-by-step); or emissions from biosolids once they leave the treatment system (see connections).</p>
+<section id="core-language" class="level2">
+<h2 class="anchored" data-anchor-id="core-language">Core Language</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.r-project.org/">R</a></td>
+<td>Primary programming language for all inventory calculations, data processing, and reporting</td>
+</tr>
+</tbody>
+</table>
+<hr>
 </section>
-<section id="data-sources" class="level2">
-<h2 class="anchored" data-anchor-id="data-sources">Data sources</h2>
-<ul>
-<li><strong>U.S. population</strong>, from [Census source]. <em>Short label:</em> <code>us_population</code>. Drives domestic wastewater volume.</li>
-<li><strong>Domestic wastewater treatment data</strong> — flows by treatment pathway, from [source]. <em>Short label:</em> <code>ww_treatment_domestic</code>.</li>
-<li><strong>Industrial wastewater treatment data</strong> — by industry, from [source]. <em>Short label:</em> <code>ww_treatment_industrial</code>.</li>
-<li><strong>POTW anaerobic digester flow</strong>, from [source]. <em>Short label:</em> <code>potw_flow_anaerobic_digesters</code>. Used for energy-recovery netting.</li>
-<li><strong>Sludge generation</strong>, from [source]. <em>Short label:</em> <code>sludge_generation</code>.</li>
-<li><strong>Effluent discharge treatment data</strong>, from [source]. <em>Short label:</em> <code>ww_discharge_treatment</code>.</li>
-<li><strong>Available protein and protein consumption</strong>, from [source]. <em>Short labels:</em> <code>available_protein</code>, <code>protein_consumption</code>. Drive the domestic nitrogen load for N₂O.</li>
-<li><strong>Industrial production and wastewater data</strong>, by industry, from [sources] — brewery production and water use, ethanol production, pulp and paper production and wastewater, meat and poultry production and wastewater, petroleum refining wastewater, and fruit and vegetable production. <em>Short labels:</em> <code>brewery_production_annual</code>, <code>brewery_water_usage</code>, <code>ethanol_production_annual</code>, <code>pulp_and_paper_production</code>, <code>pulp_and_paper_ww</code>, <code>meat_and_poultry_production</code>, <code>meat_and_poultry_ww_generation</code>, <code>petroleum_ww_generation</code>, <code>apples_production</code>, <code>citrus_production</code>, <code>grapes_production</code>, <code>other_noncitrus_production</code>, <code>vegetable_production</code>.</li>
-</ul>
+<section id="github-repository-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="github-repository-architecture">GitHub Repository Architecture</h2>
+<section id="organizational-structure" class="level3">
+<h3 class="anchored" data-anchor-id="organizational-structure">Organizational Structure</h3>
+<p>The project uses a <strong>modular repository structure</strong> with separate repos for each major GHG source category, coordinated through an overarching GitHub Project board.</p>
+<section id="repository-structure" class="level4">
+<h4 class="anchored" data-anchor-id="repository-structure">Repository Structure</h4>
+<pre><code>github.com/your-org/
+├── ghg-roadmap-and-crosscutting/ # Planning &amp; cross-cutting issues
+├── ghg-energy/ # IPCC Category 1: Energy
+├── ghg-ippu/ # IPCC Category 2: Industrial Processes
+├── ghg-agriculture/ # IPCC Category 3: Agriculture
+├── ghg-lulucf/ # IPCC Category 4: Land Use
+├── ghg-waste/ # IPCC Category 5: Waste
+├── ghg-core/ # Shared utilities &amp; documentation
+└── syrinx/ # Internal data harmonization package</code></pre>
 </section>
-<section id="emission-factors-and-other-fixed-values" class="level2">
-<h2 class="anchored" data-anchor-id="emission-factors-and-other-fixed-values">Emission factors and other fixed values</h2>
-<ul>
-<li><strong>Methane emission factors</strong> by treatment pathway and by industry — methane produced per unit of organic load (e.g., kg CH₄ per kg BOD or COD). [placeholder]. Source: [reference].</li>
-<li><strong>Nitrous oxide emission factors</strong> for effluent and for applicable industries — N₂O per unit of nitrogen load. [placeholder]. Source: [reference].</li>
-<li><strong>Organic load factors</strong> — BOD or COD generated per person (domestic) or per unit of production (industrial). [placeholder]. Source: [reference].</li>
-<li><strong>Methane correction factors</strong> for each treatment pathway (the degree to which conditions are anaerobic). [placeholder]. Source: [reference].</li>
-<li><strong>Global warming potentials</strong> (AR5) for CH₄ and N₂O, used to express results as CO₂-equivalent.</li>
-</ul>
+<section id="rationale-for-multi-repo-approach" class="level4">
+<h4 class="anchored" data-anchor-id="rationale-for-multi-repo-approach">Rationale for Multi-Repo Approach</h4>
+<p><strong>Advantages:</strong> - <strong>Source independence</strong>: Teams can work without conflicts - <strong>Clear ownership</strong>: Each source lead owns their repository - <strong>Separate release cycles</strong>: Update sources independently - <strong>Coordination via GitHub Project</strong>: Cross-repo task tracking, unified timeline and milestones, dependencies between sectors visible, overall inventory status dashboard</p>
 </section>
-<section id="units" class="level2">
-<h2 class="anchored" data-anchor-id="units">Units</h2>
-<ul>
-<li>Activity data arrive in mixed units: population in persons, production in industry-specific units (e.g., barrels, tons), wastewater flows in volume units.</li>
-<li>Emissions are reported in gigagrams of CH₄ and N₂O, and as CO₂-equivalent for summary tables.</li>
-</ul>
 </section>
-<section id="connections-to-other-categories" class="level2">
-<h2 class="anchored" data-anchor-id="connections-to-other-categories">Connections to other categories</h2>
-<ul>
-<li><strong>Downstream:</strong> biosolids (treated sludge) sent to landfills, incineration, or land application are accounted for in those respective categories, not here. This category’s responsibility ends at the treatment system boundary.</li>
-<li><strong>Downstream:</strong> category totals feed the Waste-sector and national CH₄ and N₂O summaries.</li>
-</ul>
+<section id="repository-template-structure" class="level3">
+<h3 class="anchored" data-anchor-id="repository-template-structure">Repository Template Structure</h3>
+<p>Each sector repository follows a consistent structure:</p>
+<pre><code>ghg-energy/
+├── README.md # Sector overview &amp; quick start
+├── METHODOLOGY.md # Detailed methodology documentation
+├── data/
+│ ├── reference/ # Emission factors, lookups
+│ │ ├── emission_factors.csv
+│ │ ├── gwp_values.csv
+│ │ └── fuel_classifications.csv
+│ ├── activity/ # Processed activity data (git-ignored if large)
+│ └── calculated/ # Results (date-stamped)
+├── data-raw/ # Original downloads (git-ignored)
+├── R/
+│ ├── 01_download.R # Data acquisition scripts
+│ ├── 02_clean.R # Data cleaning and harmonization
+│ ├── 03_calculate.R # Emission calculations
+│ ├── 04_validate.R # QA/QC checks
+│ └── functions/ # Helper functions
+│ ├── load_data.R
+│ ├── calculations.R
+│ └── validation.R
+├── tests/
+│ ├── testthat/ # Unit tests
+│ └── test_calculations.R
+├── outputs/
+│ ├── reports/ # Generated reports
+│ └── figures/ # Plots and visualizations
+├── docs/ # Additional documentation
+│ ├── data_dictionary.md
+│ └── changelog.md
+├── .github/
+│ ├── workflows/ # GitHub Actions (CI/CD)
+│ │ └── run_tests.yml
+│ └── ISSUE_TEMPLATE/
+├── renv.lock # R package dependencies
+└── _targets.R # Targets workflow (optional)</code></pre>
 </section>
-<section id="how-the-calculation-works-step-by-step" class="level2">
-<h2 class="anchored" data-anchor-id="how-the-calculation-works-step-by-step">How the calculation works, step by step</h2>
+<section id="the-ghg-core-repository" class="level3">
+<h3 class="anchored" data-anchor-id="the-ghg-core-repository">The <code>ghg-core</code> Repository</h3>
+<p>Central repository for shared resources:</p>
+<pre><code>ghg-core/
+├── README.md
+├── reference_data/ # Cross-sector reference data
+│ ├── ipcc_categories.csv # Complete IPCC hierarchy
+│ ├── gwp_ar5.csv # Global warming potentials
+│ ├── gwp_ar6.csv
+│ ├── state_codes.csv
+│ └── region_mappings.csv
+├── templates/ # Templates for sector repos
+│ ├── repo_template/
+│ └── script_templates/
+├── documentation/
+│ ├── methodology_standards.md # Cross-sector standards
+│ ├── qaqc_procedures.md
+│ ├── naming_conventions.md
+│ └── git_workflow.md
+├── R/
+│ └── shared_functions/ # Functions used across sectors
+└── tests/</code></pre>
+</section>
+<section id="github-project-board" class="level3">
+<h3 class="anchored" data-anchor-id="github-project-board">GitHub Project Board</h3>
+<p><strong>Project Name:</strong> U.S. GHG Inventory Development</p>
+<p><strong>Board Structure:</strong></p>
+<pre><code>Columns:
+├── Backlog # Future work
+├── Ready # Prioritized and scoped
+├── In Progress # Active development
+├── Review # Code review / validation
+├── Done # Completed this sprint
+└── Blocked # Waiting on dependencies</code></pre>
+<p><strong>Issue Labels (cross-repo):</strong> - <code>sector:energy</code>, <code>sector:agriculture</code>, etc. - <code>priority:high</code>, <code>priority:medium</code>, <code>priority:low</code> - <code>type:bug</code>, <code>type:feature</code>, <code>type:documentation</code> - <code>status:blocked</code>, <code>status:ready-for-review</code></p>
+<hr>
+</section>
+</section>
+<section id="r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="r-packages">R Packages</h2>
+<section id="pipeline-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline-reproducibility">Pipeline &amp; Reproducibility</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://docs.ropensci.org/targets/"><code>{targets}</code></a></td>
+<td>Pipeline orchestration; tracks dependencies and avoids redundant computation (optional — see Future Decision Points §1.1)</td>
+</tr>
+<tr class="even">
+<td><a href="https://docs.ropensci.org/tarchetypes/"><code>{tarchetypes}</code></a></td>
+<td>Helper functions extending <code>{targets}</code> for common pipeline patterns (optional — see Future Decision Points §1.1)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://furrr.futureverse.org/"><code>{furrr}</code></a></td>
+<td>Drop-in parallel replacements for <code>{purrr}</code> iteration functions via the <code>{future}</code> backend</td>
+</tr>
+<tr class="even">
+<td><a href="https://pins.rstudio.com/"><code>{pins}</code></a></td>
+<td>Versioned data retrieval from shared boards</td>
+</tr>
+<tr class="odd">
+<td><a href="https://rstudio.github.io/renv/"><code>{renv}</code></a></td>
+<td>Records exact package versions to ensure collaborators reproduce the same R environment</td>
+</tr>
+<tr class="even">
+<td><a href="https://here.r-lib.org/"><code>{here}</code></a></td>
+<td>Path management</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-manipulation" class="level3">
+<h3 class="anchored" data-anchor-id="data-manipulation">Data Manipulation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.tidyverse.org/"><code>{tidyverse}</code></a></td>
+<td>Meta-package loading the core data science suite; installs and attaches all constituent packages together</td>
+</tr>
+<tr class="even">
+<td><a href="https://dplyr.tidyverse.org/"><code>{dplyr}</code></a></td>
+<td>Core data manipulation verbs: <code>filter()</code>, <code>mutate()</code>, <code>summarise()</code>, <code>join()</code></td>
+</tr>
+<tr class="odd">
+<td><a href="https://purrr.tidyverse.org/"><code>{purrr}</code></a></td>
+<td>Functional programming and iteration over lists and vectors</td>
+</tr>
+<tr class="even">
+<td><a href="https://tidyr.tidyverse.org/"><code>{tidyr}</code></a></td>
+<td>Reshape and tidy data (<code>pivot_longer()</code>, <code>pivot_wider()</code>, <code>nest()</code>)</td>
+</tr>
+<tr class="odd">
+<td><a href="https://readr.tidyverse.org/"><code>{readr}</code></a></td>
+<td>Fast import of CSV and delimited text files</td>
+</tr>
+<tr class="even">
+<td><a href="https://lubridate.tidyverse.org/"><code>{lubridate}</code></a></td>
+<td>Date and time parsing and arithmetic</td>
+</tr>
+<tr class="odd">
+<td><a href="https://stringr.tidyverse.org/"><code>{stringr}</code></a></td>
+<td>String detection, extraction, and replacement</td>
+</tr>
+<tr class="even">
+<td><a href="https://forcats.tidyverse.org/"><code>{forcats}</code></a></td>
+<td>Factor manipulation and level reordering</td>
+</tr>
+<tr class="odd">
+<td><a href="https://tibble.tidyverse.org/"><code>{tibble}</code></a></td>
+<td>Modern data frame with stricter behavior and better printing</td>
+</tr>
+<tr class="even">
+<td><a href="https://sfirke.github.io/janitor/"><code>{janitor}</code></a></td>
+<td>Data cleaning utilities; many functions are wrapped in <code>{syrinx}</code> but also used directly</td>
+</tr>
+<tr class="odd">
+<td><a href="https://larmarange.github.io/labelled/"><code>{labelled}</code></a></td>
+<td>Variable and value labels compatible with survey/SPSS-style metadata</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/r-quantities/units"><code>{units}</code></a></td>
+<td>Physical unit handling and dimensional analysis; enforces unit-safe calculations and conversions</td>
+</tr>
+<tr class="odd">
+<td><a href="https://readxl.tidyverse.org/"><code>{readxl}</code></a></td>
+<td>Excel file import (read-only)</td>
+</tr>
+<tr class="even">
+<td><a href="https://ycphs.github.io/openxlsx/"><code>{openxlsx}</code></a></td>
+<td>Excel file read and write without a Java dependency</td>
+</tr>
+<tr class="odd">
+<td><a href="https://cran.r-project.org/web/packages/jsonlite/"><code>{jsonlite}</code></a></td>
+<td>Read and create JSON files</td>
+</tr>
+<tr class="even">
+<td><a href="https://rvest.tidyverse.org/"><code>{rvest}</code></a></td>
+<td>Web scraping</td>
+</tr>
+<tr class="odd">
+<td><a href="https://httr2.r-lib.org/"><code>{httr2}</code></a></td>
+<td>Modern HTTP client for API access and web requests</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="testing-validation" class="level3">
+<h3 class="anchored" data-anchor-id="testing-validation">Testing &amp; Validation</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://testthat.r-lib.org/"><code>{testthat}</code></a></td>
+<td>Unit testing for inventory functions; verifies that calculations return expected outputs</td>
+</tr>
+<tr class="even">
+<td><a href="https://rstudio.github.io/pointblank/"><code>{pointblank}</code></a></td>
+<td>Data validation; checks that activity data and emissions meet defined expectations at key pipeline stages</td>
+</tr>
+<tr class="odd">
+<td><a href="https://docs.ropensci.org/assertr/"><code>{assertr}</code></a></td>
+<td>Data quality checks</td>
+</tr>
+<tr class="even">
+<td><a href="https://data-cleaning.github.io/validate/"><code>{validate}</code></a></td>
+<td>Rule-based validation</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="visualization-reporting" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-reporting">Visualization &amp; Reporting</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://ggplot2.tidyverse.org/"><code>{ggplot2}</code></a></td>
+<td>Publication-quality plots and figures</td>
+</tr>
+<tr class="even">
+<td><a href="https://patchwork.data-imaginist.com/"><code>{patchwork}</code></a></td>
+<td>Compose multiple ggplot2 plots into a single layout</td>
+</tr>
+<tr class="odd">
+<td><a href="https://scales.r-lib.org/"><code>{scales}</code></a></td>
+<td>Axis and scale formatting helpers for ggplot2</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/yixuan/showtext"><code>{showtext}</code></a></td>
+<td>Use system and Google Fonts in R graphics</td>
+</tr>
+<tr class="odd">
+<td><a href="https://gt.rstudio.com/"><code>{gt}</code></a></td>
+<td>Formatted summary tables for reports and documentation</td>
+</tr>
+<tr class="even">
+<td><a href="https://jthomasmock.github.io/gtExtras/"><code>{gtExtras}</code></a></td>
+<td>Additional gt helpers: inline sparklines, color scales, and icons</td>
+</tr>
+<tr class="odd">
+<td><a href="https://yihui.org/knitr/"><code>{knitr}</code></a></td>
+<td>Report generation and dynamic document rendering</td>
+</tr>
+<tr class="even">
+<td><a href="https://haozhu233.github.io/kableExtra/"><code>{kableExtra}</code></a></td>
+<td>Extended table formatting for knitr output</td>
+</tr>
+<tr class="odd">
+<td><a href="https://datastorm-open.github.io/visNetwork/"><code>{visNetwork}</code></a></td>
+<td>Interactive network diagrams; useful for visualizing pipeline dependencies</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-data-for-lulucf" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-data-for-lulucf">Spatial Data (for LULUCF)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://r-spatial.github.io/sf/"><code>{sf}</code></a></td>
+<td>Spatial data handling</td>
+</tr>
+<tr class="even">
+<td><a href="https://rspatial.org/terra/"><code>{terra}</code></a></td>
+<td>Raster data</td>
+</tr>
+<tr class="odd">
+<td><a href="https://r-spatial.github.io/mapview/"><code>{mapview}</code></a></td>
+<td>Interactive maps</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="database-future-phase" class="level3">
+<h3 class="anchored" data-anchor-id="database-future-phase">Database (Future Phase)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://dbi.r-dbi.org/"><code>{DBI}</code></a></td>
+<td>Database interface</td>
+</tr>
+<tr class="even">
+<td><a href="https://duckdb.org/docs/api/r"><code>{duckdb}</code></a></td>
+<td>DuckDB connection (for future implementation)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="internal" class="level3">
+<h3 class="anchored" data-anchor-id="internal">Internal</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>{syrinx}</code></td>
+<td>Internal package; provides data harmonization, validation, and unit conversion utilities</td>
+</tr>
+</tbody>
+</table>
+<section id="the-syrinx-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-syrinx-package">The <code>syrinx</code> Package</h4>
+<p><strong>Purpose:</strong> Internal package for standardizing data cleaning and harmonization across all sectors.</p>
+<p><strong>Key Functions:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data harmonization and validation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">pre_clean</span>() <span class="co"># Convenience function; wraps several data cleaning operations</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">use_dictionary</span>() <span class="co"># Consult dictionary to validate input data</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">llm_dictionary</span>() <span class="co"># LLM-generated corrections for invalid data</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Common transformations</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">apply_metadata_labels</span>() <span class="co"># Label dataframe columns </span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">convert_units_in</span>() <span class="co"># Convert input data to canonical units</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>syrinx<span class="sc">::</span><span class="fu">convert_units_out</span>() <span class="co"># Convert output data to desired units</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Package Structure:</strong></p>
+<pre><code>syrinx/
+├── DESCRIPTION
+├── NAMESPACE
+├── R/
+│ ├── harmonize.R
+│ ├── transform.R
+│ └── utils.R
+├── data/ # Built-in reference data
+│ ├── standard_units.rda
+│ └── standard_columns.rda
+├── tests/
+│ └── testthat/
+├── man/ # Documentation
+├── vignettes/ # Usage examples
+│ ├── getting_started.Rmd
+│ └── validation_guide.Rmd
+└── README.md</code></pre>
+<p><strong>Installation:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From internal repository</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;joewcorra/syrinx&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or if using private GitHub</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;joewcorra/syrinx&quot;</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">auth_token =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;GITHUB_PAT&quot;</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="package-management-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="package-management-strategy">Package Management Strategy</h3>
+<p><strong>Using <code>renv</code> for Reproducibility:</strong></p>
+<p>Each sector repository includes <code>renv.lock</code> to freeze package versions:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize renv in a new sector repo</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">init</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install packages</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;here&quot;</span>, <span class="st">&quot;testthat&quot;</span>))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;joewcorra/syrinx&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Snapshot current state</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">snapshot</span>()</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Others can restore exact environment</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="authoring-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="authoring-documentation">Authoring &amp; Documentation</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://quarto.org/">Quarto</a></td>
+<td>Reproducible document authoring; renders methodology references, reports, and this site</td>
+</tr>
+<tr class="even">
+<td><a href="https://mermaid.js.org/">Mermaid</a></td>
+<td>Diagram-as-code syntax for flowcharts and process diagrams, natively supported in Quarto</td>
+</tr>
+<tr class="odd">
+<td><a href="https://roxygen2.r-lib.org/"><code>{roxygen2}</code></a></td>
+<td>Automated documentation for R packages</td>
+</tr>
+<tr class="even">
+<td><a href="https://ellmer.tidyverse.org/"><code>{ellmer}</code></a></td>
+<td>Leverage LLMs via API for documentation assistance</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="project-management-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="project-management-version-control">Project Management &amp; Version Control</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://git-scm.com/">Git</a></td>
+<td>Version control for all code and documentation</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/">GitHub</a></td>
+<td>Remote repository hosting and code collaboration</td>
+</tr>
+<tr class="odd">
+<td><a href="https://docs.github.com/en/issues">GitHub Issues</a></td>
+<td>Tracking bugs, methodology questions, and deferred decisions; cross-cutting issues filed in <code>ghg-roadmap-and-crosscutting</code>, source-specific issues in chapter-specific repos</td>
+</tr>
+<tr class="even">
+<td><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects">GitHub Projects</a></td>
+<td>Unified kanban board spanning all inventory repos</td>
+</tr>
+<tr class="odd">
+<td><a href="https://docs.github.com/en/actions">GitHub Actions</a></td>
+<td>Automated workflows; runs <code>{testthat}</code> on push and renders this site to GitHub Pages</td>
+</tr>
+<tr class="even">
+<td><a href="https://pages.github.com/">GitHub Pages</a></td>
+<td>Hosts the rendered version of this planning site</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="future-decision-points" class="level2">
+<h2 class="anchored" data-anchor-id="future-decision-points">Future Decision Points</h2>
+<section id="phase-1-decisions-months-0-6" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-decisions-months-0-6">Phase 1 Decisions (Months 0-6)</h3>
+<section id="workflow-orchestration-targets-vs-scripts" class="level4">
+<h4 class="anchored" data-anchor-id="workflow-orchestration-targets-vs-scripts">1.1 Workflow Orchestration: {targets} vs Scripts</h4>
+<p><strong>Decision:</strong> Whether to implement <code>{targets}</code> pipeline management</p>
+<p><strong>Current Approach:</strong> Sequential R scripts (01_download.R, 02_clean.R, etc.)</p>
+<p><strong>Consider {targets} when:</strong> - Scripts become complex with many interdependencies - Rebuilding everything is taking too long - Need fine-grained caching of intermediate results - Multiple people contributing to the same pipeline</p>
+<p><strong>Evaluation Criteria:</strong> - Is manual script execution becoming error-prone? - Are we re-running expensive calculations unnecessarily? - Would the learning curve justify the benefits?</p>
+<p><strong>Timeline:</strong> Re-evaluate after MVP (Month 4)</p>
+<hr>
+</section>
+<section id="testing-strategy-depth-vs-speed" class="level4">
+<h4 class="anchored" data-anchor-id="testing-strategy-depth-vs-speed">1.2 Testing Strategy: Depth vs Speed</h4>
+<p><strong>Decision:</strong> How comprehensive should automated testing be?</p>
+<p><strong>Current Approach:</strong> Basic unit tests for calculation functions</p>
+<p><strong>Options:</strong> - <strong>Minimal:</strong> Test core calculations only - <strong>Moderate:</strong> Add data validation tests - <strong>Comprehensive:</strong> Include integration tests, benchmark tests</p>
+<p><strong>Consider expansion when:</strong> - Bugs are discovered in production - Onboarding new team members who break things - Preparing for external review</p>
+<p><strong>Timeline:</strong> Decide by Month 3 based on bug frequency</p>
+<hr>
+</section>
+</section>
+<section id="phase-2-decisions-months-6-12" class="level3">
+<h3 class="anchored" data-anchor-id="phase-2-decisions-months-6-12">Phase 2 Decisions (Months 6-12)</h3>
+<section id="database-implementation-duckdb" class="level4">
+<h4 class="anchored" data-anchor-id="database-implementation-duckdb">2.1 Database Implementation: DuckDB</h4>
+<p><strong>Decision:</strong> When/whether to migrate from CSVs to DuckDB</p>
+<p><strong>Current Approach:</strong> Well-organized CSV files</p>
+<p><strong>Triggers for migration:</strong> - Query performance becomes problematic (joins taking &gt;1 minute) - File management becomes unwieldy (&gt;100 CSV files) - Need for referential integrity is critical - Multiple concurrent access patterns</p>
+<p><strong>Migration Path:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 1: Read CSVs (current)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/activity/electricity.csv&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 2: Add DuckDB option</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(duckdb<span class="sc">::</span><span class="fu">duckdb</span>(), <span class="st">&quot;ghg_inventory.duckdb&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">dbReadTable</span>(con, <span class="st">&quot;electricity&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Functions remain unchanged</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_emissions</span>(data, emission_factors)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Implementation Steps:</strong> 1. Pilot DuckDB with one sector 2. Benchmark performance vs CSVs 3. Evaluate team comfort level 4. Decide to expand or revert</p>
+<p><strong>Timeline:</strong> Evaluate Month 8, implement Month 9-10 if approved</p>
+<hr>
+</section>
+<section id="centralized-data-acquisition-hub" class="level4">
+<h4 class="anchored" data-anchor-id="centralized-data-acquisition-hub">2.2 Centralized Data Acquisition Hub</h4>
+<p><strong>Decision:</strong> Build automated data download/update system</p>
+<p><strong>Current Approach:</strong> Manual downloads, sector-by-sector</p>
+<p><strong>Future Vision:</strong></p>
+<pre><code>ghg-data-hub/
+├── R/
+│ ├── download_eia.R # EIA API wrapper
+│ ├── download_epa.R # EPA GHGRP
+│ ├── download_usda.R # USDA NASS
+│ └── schedule_updates.R # Automated scheduling
+├── data/
+│ ├── raw/ # Downloaded files
+│ └── metadata/ # Download logs
+└── logs/
+    └── download_log.csv # Audit trail</code></pre>
+<p><strong>Features:</strong> - Centralized data source definitions - Automated update checks - Version control of raw data - Notification system for new data - Consistent metadata tracking</p>
+<p><strong>Triggers for implementation:</strong> - Manual downloads becoming bottleneck - Missing data updates causing delays - Multiple sectors using same data sources - Need for systematic data provenance tracking</p>
+<p><strong>Dependencies:</strong> - API access established with agencies - Data source landscape well-understood - Team agreement on update frequency</p>
+<p><strong>Timeline:</strong> Design Month 7, pilot Month 10-12</p>
+<hr>
+</section>
+<section id="web-based-data-portal" class="level4">
+<h4 class="anchored" data-anchor-id="web-based-data-portal">2.3 Web-Based Data Portal</h4>
+<p><strong>Decision:</strong> Create public-facing data access system</p>
+<p><strong>Options:</strong> - <strong>Shiny Dashboard:</strong> Interactive exploration - <strong>API:</strong> Programmatic access - <strong>Static Website:</strong> Documentation + download links - <strong>All of the above:</strong> Comprehensive platform</p>
+<p><strong>Consider when:</strong> - Inventory is stable and validated - External users requesting data access - Need to demonstrate transparency - Ready for public scrutiny</p>
+<p><strong>Timeline:</strong> Not before Month 12 (Phase 3+)</p>
+<hr>
+</section>
+</section>
+<section id="phase-3-decisions-year-2" class="level3">
+<h3 class="anchored" data-anchor-id="phase-3-decisions-year-2">Phase 3+ Decisions (Year 2+)</h3>
+<section id="advanced-uncertainty-quantification" class="level4">
+<h4 class="anchored" data-anchor-id="advanced-uncertainty-quantification">3.1 Advanced Uncertainty Quantification</h4>
+<p><strong>Decision:</strong> Implement Monte Carlo simulation</p>
+<p><strong>Current Approach:</strong> Use published uncertainty ranges from EPA</p>
+<p><strong>Enhanced Approach:</strong> - Probability distributions for emission factors - Correlation structures between parameters - Propagation through calculations - Full uncertainty analysis per IPCC guidelines</p>
+<p><strong>Package:</strong> <code>{mc2d}</code> or <code>{propagate}</code></p>
+<p><strong>Triggers:</strong> - Required for peer review or publication - IPCC reporting requirements - Stakeholder requests for uncertainty bounds</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="decision-making-framework" class="level2">
+<h2 class="anchored" data-anchor-id="decision-making-framework">Decision-Making Framework</h2>
+<section id="when-to-add-complexity" class="level3">
+<h3 class="anchored" data-anchor-id="when-to-add-complexity">When to Add Complexity</h3>
+<p><strong>Ask these questions:</strong></p>
 <ol type="1">
-<li>Configure the model constants from the constants source.</li>
-<li><strong>Domestic — organic load:</strong> use population and domestic treatment data to estimate the volume of domestic wastewater and its organic (BOD) load, split across treatment pathways.</li>
-<li><strong>Domestic — tertiary flow:</strong> estimate the share of flow receiving tertiary treatment (constructed wetlands), fitted from historical data where direct figures are unavailable.</li>
-<li><strong>Domestic — CH₄:</strong> compute methane from domestic treatment and from discharged effluent, using the organic load, treatment-pathway fractions, methane correction factors, and emission factors.</li>
-<li><strong>Domestic — energy recovery:</strong> forecast anaerobic digester flow at POTWs, and subtract the methane recovered and combusted for energy from the domestic total.</li>
-<li><strong>Domestic — N₂O:</strong> compute nitrous oxide from effluent, deriving the nitrogen load from protein supply and consumption, then applying the effluent N₂O emission factor.</li>
-<li><strong>Industrial — by industry:</strong> for each industry (breweries, ethanol, pulp and paper, meat and poultry, petroleum refining, fruit and vegetable processing), estimate wastewater generation and organic load from production data, then compute CH₄ — and N₂O for industries where it applies — using the industry-specific emission factors. Subtract industrial energy recovery where methane is captured.</li>
-<li><strong>Aggregate:</strong> sum domestic and industrial CH₄ and N₂O.</li>
-<li>Apply global warming potentials to express totals as CO₂-equivalent, and arrange the result for the inventory database.</li>
+<li><strong>Does the current simple approach actually cause problems?</strong>
+<ul>
+<li>If no → Don’t add complexity</li>
+<li>If yes → Continue evaluation</li>
+</ul></li>
+<li><strong>What’s the cost of the status quo?</strong>
+<ul>
+<li>Time wasted?</li>
+<li>Errors introduced?</li>
+<li>Opportunities missed?</li>
+</ul></li>
+<li><strong>What’s the cost of the new approach?</strong>
+<ul>
+<li>Learning curve?</li>
+<li>Maintenance burden?</li>
+<li>Technical debt?</li>
+</ul></li>
+<li><strong>Who benefits and how much?</strong>
+<ul>
+<li>Entire team or one person?</li>
+<li>Daily impact or occasional?</li>
+<li>Critical or nice-to-have?</li>
+</ul></li>
+<li><strong>Is it reversible?</strong>
+<ul>
+<li>Can we go back if it doesn’t work?</li>
+<li>What’s locked in?</li>
+</ul></li>
+<li><strong>Do we have capacity?</strong>
+<ul>
+<li>Time to implement properly?</li>
+<li>Skills on the team?</li>
+<li>Bandwidth to maintain?</li>
+</ul></li>
 </ol>
 </section>
-<section id="rules-and-judgment-calls" class="level2">
-<h2 class="anchored" data-anchor-id="rules-and-judgment-calls">Rules and judgment calls</h2>
-<ul>
-<li><strong>Treatment-pathway fractions:</strong> the split of domestic wastewater across aerobic, anaerobic, and septic pathways is determined by [rule]. The anaerobic fraction governs methane and is the most consequential of these.</li>
-<li><strong>Tertiary flow estimation:</strong> where direct constructed-wetland flow data is unavailable, the share is fitted from historical trend rather than assumed constant.</li>
-<li><strong>Digester flow forecasting:</strong> for inventory years beyond available digester data, flow is forecast by [method] rather than carried forward flat.</li>
-<li><strong>Which industries get N₂O:</strong> breweries, pulp and paper, meat and poultry, and petroleum refining are estimated for both CH₄ and N₂O; ethanol and fruit and vegetable processing are estimated for CH₄ only, because [reason].</li>
-<li><strong>Load basis:</strong> domestic emissions are computed on a BOD basis; industrial on [BOD/COD] depending on industry, per [rule].</li>
-</ul>
+<section id="decision-authority" class="level3">
+<h3 class="anchored" data-anchor-id="decision-authority">Decision Authority</h3>
+<p><strong>Tech decisions by data system developer:</strong> - R package choices - Code organization - Git workflow details - Development tools</p>
+<p><strong>Collaborative decisions:</strong> - Database implementation - Major workflow changes - Data access/sharing policies - Public-facing features</p>
+<p><strong>Sector lead decisions:</strong> - Sector-specific methodologies - Data source selections - QA/QC thresholds - Reporting priorities</p>
+<hr>
 </section>
-<section id="known-changes-and-things-to-watch" class="level2">
-<h2 class="anchored" data-anchor-id="known-changes-and-things-to-watch">Known changes and things to watch</h2>
-<ul>
-<li>The protein consumption series feeding the domestic N₂O calculation changed source for GHGIA 2026; pre- and post-change years are not directly comparable.</li>
-<li>Digester flow data lags the inventory year, so recent years rely on the forecast in step 5 rather than reported flow.</li>
-</ul>
 </section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>GHGIA 2026, Waste chapter, Wastewater Treatment and Discharge section [section numbers].</li>
-<li>2006 IPCC Guidelines, Volume 5 (Waste), Chapter 6 (Wastewater).</li>
-<li>[Protein and population data documentation].</li>
-</ul>
+<section id="review-milestones" class="level2">
+<h2 class="anchored" data-anchor-id="review-milestones">Review Milestones</h2>
+<p><strong>Month 3 Review:</strong> - Is CSV approach working? - Is <code>syrinx</code> package valuable? - Are GitHub repos effective? - Need to adjust course?</p>
+<p><strong>Month 6 Review:</strong> - Ready for DuckDB evaluation? - Need centralized data hub? - Testing strategy adequate? - Workflow orchestration needed?</p>
+<p><strong>Month 12 Review:</strong> - System meeting goals? - What future capabilities to prioritize? - Resource needs for Year 2? - External engagement strategy?</p>
+<hr>
+</section>
+<section id="reference-resources" class="level2">
+<h2 class="anchored" data-anchor-id="reference-resources">Reference Resources</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Resource</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/">IPCC Guidelines for National Greenhouse Gas Inventories</a></td>
+<td>Primary methodological reference for emission factor tiers and calculation approaches</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks">EPA GHGI Landing Page</a></td>
+<td>Official source for published inventory reports and annexes</td>
+</tr>
+<tr class="odd">
+<td><a href="https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/reporting-requirements">UNFCCC CRF Reporter</a></td>
+<td>Reporting format specifications and submission platform</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="essential-package-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="essential-package-documentation">Essential Package Documentation</h2>
+<p><strong>Key References:</strong> - <strong>{tidyverse}:</strong> https://www.tidyverse.org/ - <strong>{targets}:</strong> https://books.ropensci.org/targets/ - <strong>{renv}:</strong> https://rstudio.github.io/renv/ - <strong>{testthat}:</strong> https://testthat.r-lib.org/ - <strong>{pointblank}:</strong> https://rich-iannone.github.io/pointblank/ - <strong>{duckdb}:</strong> https://duckdb.org/docs/api/r - <strong>{quarto}:</strong> https://quarto.org/docs/computations/r.html</p>
+<p><strong>Internal Documentation:</strong> - <strong>{syrinx} package:</strong> [Link to internal docs when available] - <strong>GitHub organization:</strong> [Your organization link] - <strong>Team wiki:</strong> [Link to wiki]</p>
+<hr>
+<p><em>This reference document is a living document and will be updated as decisions are made and the system evolves.</em></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
