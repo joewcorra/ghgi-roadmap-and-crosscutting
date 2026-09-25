@@ -159,13 +159,13 @@ Columns:
 | [`{purrr}`](https://purrr.tidyverse.org/) | Functional programming and iteration over lists and vectors |
 | [`{tidyr}`](https://tidyr.tidyverse.org/) | Reshape and tidy data (`pivot_longer()`, `pivot_wider()`, `nest()`) |
 | [`{readr}`](https://readr.tidyverse.org/) | Fast import of CSV and delimited text files |
-| [`{lubridate}`](https://lubridate.tidyverse.org/) | Date and time parsing and arithmetic |
+| [`{lubridate}`](https://lubridate.tidyverse.org/) | Date and time parsing and arithmetic; `as_factor()` is the standard way to enforce the house year-as-factor convention (see [R Code Conventions]) |
 | [`{stringr}`](https://stringr.tidyverse.org/) | String detection, extraction, and replacement |
 | [`{forcats}`](https://forcats.tidyverse.org/) | Factor manipulation and level reordering |
 | [`{tibble}`](https://tibble.tidyverse.org/) | Modern data frame with stricter behavior and better printing |
 | [`{janitor}`](https://sfirke.github.io/janitor/) | Data cleaning utilities; many functions are wrapped in `{syrinx}` but also used directly |
 | [`{labelled}`](https://larmarange.github.io/labelled/) | Variable and value labels compatible with survey/SPSS-style metadata |
-| [`{units}`](https://github.com/r-quantities/units) | Physical unit handling and dimensional analysis; enforces unit-safe calculations and conversions |
+| [`{units}`](https://github.com/r-quantities/units) | Physical unit handling and dimensional analysis; an **ingestion-layer** tool — data is converted to canonical units on the way in, never inside a `get_` calculation function (see [R Code Conventions]) |
 | [`{readxl}`](https://readxl.tidyverse.org/) | Excel file import (read-only) |
 | [`{openxlsx}`](https://ycphs.github.io/openxlsx/) | Excel file read and write without a Java dependency |
 | [`{jsonlite}`](https://cran.r-project.org/web/packages/jsonlite/) | Read and create JSON files |
@@ -180,6 +180,14 @@ Columns:
 | [`{pointblank}`](https://rstudio.github.io/pointblank/) | Data validation; checks that activity data and emissions meet defined expectations at key pipeline stages |
 | [`{assertr}`](https://docs.ropensci.org/assertr/) | Data quality checks |
 | [`{validate}`](https://data-cleaning.github.io/validate/) | Rule-based validation |
+
+### Data Documentation
+
+|   Package   |   Purpose   |
+|-------------|-------------|
+| [`{yaml}`](https://cran.r-project.org/web/packages/yaml/) | Read/write YAML; used to hand-validate `data-dict.yaml` files against the real data |
+
+Every documented table gets one `data-dict.yaml` file, hand-authored against the [tidyverse `data-dict.yaml` spec](https://github.com/hadley/data-dict.yaml) — column types, constraints, and a verified `range`/`examples`/`values` for each column. Files are written and checked by hand; this project does not install the spec's companion Rust CLI. See the `r-data-dict-builder` skill under [Claude Skills — Methodology-to-Code Workflow].
 
 ### Visualization & Reporting
 
@@ -233,6 +241,8 @@ syrinx::apply_metadata_labels() # Label dataframe columns
 syrinx::convert_units_in() # Convert input data to canonical units
 syrinx::convert_units_out() # Convert output data to desired units
 ```
+
+`pre_clean()` is the one most calculation code touches directly: call it at the end of a function's pipeline whenever its output will be passed to a downstream function or stored — it's usually unnecessary when input data is already clean, but include it when in doubt.
 
 **Package Structure:**
 
@@ -290,6 +300,120 @@ renv::restore()
 
 ---
 
+## R Code Conventions
+
+These conventions govern how calculation code is written for every source category, regardless of which sector repo it ends up in. They are enforced automatically by the `r-ghg-coder` Claude Skill whenever it generates a script (see [Claude Skills — Methodology-to-Code Workflow] below) and should be followed by hand for any calculation code written without it.
+
+### Function Structure
+
+- One function per logical calculation phase, named `get_[descriptive_name]` — snake_case, and the name describes the *output*, not the process (`get_tire_incineration`, not `calculate_tire_incineration`).
+- Each function takes named dataframe arguments plus, where needed, a named constants vector, and returns a single tibble via an explicit `return()`.
+- No side effects: functions never write files, print, or modify global state. This keeps every function composable as a `{targets}` pipeline step regardless of whether pipeline orchestration is switched on yet (see [§1.1](#workflow-orchestration-targets-vs-scripts)) — adopting `{targets}` later should mean writing `tar_target()` calls, not rewriting functions.
+
+```r
+get_[output_name] <- function([input_df_1], [input_df_2], [constants_vector]) {
+  result <- [input_df_1] %>%
+    ...
+  return(result)
+}
+```
+
+### Style and Iteration
+
+|   Rule   |   Convention   |
+|----------|-----------------|
+| Pipe operator | `%>%` (magrittr) throughout — not R's native pipe |
+| Iteration | `{purrr}` (`map()`, `map_dfr()`, `map2()`, `walk()`) for everything; never `for` loops or the `apply()`/`lapply()`/`sapply()` family |
+| Column extraction | `pull()`, not `$` |
+| Variable names | snake_case throughout |
+| Character data | lowercase, no punctuation except hyphens |
+
+### Data Format and Column Naming
+
+- Time series data stays in **long format** — never pivot to wide inside a calculation function.
+- Year columns are always factors: `lubridate::as_factor(year)`, applied whenever a year column is created inside a function (e.g. scaffolding a time series with `tibble(year = X:Y)`).
+- **No unit suffixes in column names** (`waste_composted`, not `waste_composted_kt`) — unit context belongs in the data dictionary (see [Data Documentation]), not the variable name.
+- Emission columns: `[gas]_emissions` (`co2_emissions`, `ch4_emissions`); CO₂-equivalent columns: `[gas]_co2e`.
+
+### Joining, Grouping, Conditionals
+
+- Joins always specify `by` explicitly, and the joined-in table is trimmed to needed columns first: `left_join(df %>% select(year, value), by = "year")`.
+- Every `group_by()` is followed by `summarize(..., .groups = "drop")` and `ungroup()`.
+- `case_when()` for multi-branch conditionals (always with a `.default` clause); `if_else()` for binary logic. When a branch depends on a value computed earlier in the same `mutate()`, split into sequential `mutate()` calls (see the interpolation pattern below).
+
+### Interpolation and Period Splits
+
+Gap-filling uses `lag()`/`lead()` inside sequential `mutate()` calls; methodology breaks between periods use `case_when()` on a year threshold:
+
+```r
+mutate(value = if_else(
+  is.na(value),
+  lag(value, 1) + ((lead(value, 1) - lag(value, 1)) / 2),
+  value))
+
+mutate(value = case_when(
+  year <= [threshold_year] ~ [method_a_expression],
+  .default = [method_b_expression]))
+```
+
+### Constants and Emission Factors
+
+- Emission factors, GWPs, and other dimensionless parameters are passed in as a single named numeric vector (e.g. `combustion_factors`) and referenced by name — `constants["c_content_rubber"]`, never a bare number.
+- **Unit conversions never live in this vector or inside a `get_` function.** All data arrives in canonical units; conversion happens upstream at ingestion (this is why `{units}`, above, is an ingestion-layer tool, not a calculation-layer one).
+
+### Grouping Sources Within a Section
+
+When a section compiles multiple sources or subsources, the section-level function returns a named list built with `lst()` as its final, implicit expression (no explicit `return()`):
+
+```r
+get_[section] <- function(...) {
+  source_a <- get_[source_a](...)
+  source_b <- get_[source_b](...)
+  lst(source_a, source_b)
+}
+```
+
+### Helper Functions
+
+Helpers shared between national- and state-level compilation live in a common script; helpers specific to one level stay in that level's script. Name descriptively in snake_case; an `h_` prefix is optional, used only to distinguish a helper from a `get_` pipeline function.
+
+---
+
+## Claude Skills — Methodology-to-Code Workflow
+
+Four custom [Claude Code](https://claude.com/claude-code) skills carry the conventions above from inventory chapter text through to reviewed, working R code. They live outside this repo (`~/.claude/skills/`) but are part of the technical stack — the R Code Conventions section above is drawn directly from `r-ghg-coder`'s `SKILL.md` and should be kept in sync with it.
+
+|   Skill   |   Input → Output   |   Use it when   |
+|-----------|---------------------|------------------|
+| `ghg-methodology-parser` | Narrative inventory chapter text → structured, language-agnostic implementation framework (inputs, emission factors, numbered calculation + uncertainty steps, flagged gaps) | Starting a new source category from chapter prose |
+| `r-ghg-coder` | Implementation framework → production-ready R script (`get_` functions, `targets`-pipeline comment block, consolidated TODOs) | Turning a parsed framework — or any described calculation steps — into R |
+| `r-methodology-narrator` | R script → plain-language, numbered methodology narrative (Quarto/Word-ready, no code) | Preparing a script for review by a domain expert who doesn't read R |
+| `r-data-dict-builder` | An R table/object → `data-dict.yaml` (tidyverse spec), every range/example verified against real data | Documenting a dataset — schema tables, source outputs, or intermediate objects |
+
+**Typical flow for one source category:**
+
+```
+inventory chapter text
+        │  ghg-methodology-parser
+        ▼
+implementation framework
+   (this is what fills the [CODING] boxes in
+   ghg_inventory_methodology.qmd)
+        │  r-ghg-coder
+        ▼
+R script (get_* functions, per the conventions above)
+        │  r-methodology-narrator
+        ▼
+plain-language narrative
+   (for source-lead / reviewer sign-off)
+```
+
+`r-data-dict-builder` runs independently against any table at any point in this flow — most usefully once a `get_` function's output tibble is stable, or against this repo's own `schema/` registry tables.
+
+Because the skills — not this document — are the enforced source of truth for code conventions, update the relevant `SKILL.md` first when a convention changes, then mirror the change here.
+
+---
+
 ## Authoring & Documentation
 
 | Tool | Purpose |
@@ -297,7 +421,7 @@ renv::restore()
 | [Quarto](https://quarto.org/) | Reproducible document authoring; renders methodology references, reports, and this site |
 | [Mermaid](https://mermaid.js.org/) | Diagram-as-code syntax for flowcharts and process diagrams, natively supported in Quarto |
 | [`{roxygen2}`](https://roxygen2.r-lib.org/) | Automated documentation for R packages |
-| [`{ellmer}`](https://ellmer.tidyverse.org/) | Leverage LLMs via API for documentation assistance |
+| [`{ellmer}`](https://ellmer.tidyverse.org/) | Leverage LLMs via direct API calls for documentation assistance — distinct from the Claude Code skills in [Claude Skills — Methodology-to-Code Workflow], which run in an agentic coding environment rather than via API |
 
 ---
 
@@ -336,6 +460,8 @@ renv::restore()
 - Would the learning curve justify the benefits?
 
 **Timeline:** Re-evaluate after MVP (Month 4)
+
+**Note:** This decision only concerns pipeline *orchestration* (whether `tar_target()` calls actually wire up the scripts). Calculation functions are already written in `{targets}`-ready form regardless — see [R Code Conventions] — so nothing here blocks adopting `{targets}` later without a rewrite.
 
 ---
 
@@ -564,6 +690,7 @@ ghg-data-hub/
 | [IPCC Guidelines for National Greenhouse Gas Inventories](https://www.ipcc-nggip.iges.or.jp/public/2006gl/) | Primary methodological reference for emission factor tiers and calculation approaches |
 | [EPA GHGI Landing Page](https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks) | Official source for published inventory reports and annexes |
 | [UNFCCC CRF Reporter](https://unfccc.int/process-and-meetings/transparency-and-reporting/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties/reporting-requirements) | Reporting format specifications and submission platform |
+| [tidyverse `data-dict.yaml` spec](https://github.com/hadley/data-dict.yaml) | Format followed for every `data-dict.yaml` (see [Data Documentation]) |
 
 ---
 
