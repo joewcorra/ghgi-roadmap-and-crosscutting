@@ -2,13 +2,17 @@
 
 A Quarto website and data schema for the U.S. Greenhouse Gas Inventory and Analysis (GHGIA) system proposal.
 
+## Role in the overall system
+
+This repository is the coordination hub for the GHGI pipeline: the schema registry, methodology narratives, and cross-cutting design decisions. It does not itself pull, transform, or calculate emissions data. Each source category (for example, Waste, Energy, IPPU) has its own separate repository for that category's data pulling, transformation, aggregation, calculation, and visualization. Source-category repositories depend on the schema and methodology defined here, and on shared internal packages such as `{syrinx}`, installed as needed. Work across all repositories is tracked on the "ghgi" GitHub Project board.
+
 ## Rendering the site
 
 ```
 quarto render
 ```
 
-Output goes to `docs/`. The site includes the main proposal, inventory methodology, technical reference, and sector-level boundary notes.
+Output goes to `docs/`. The site includes the main proposal, inventory methodology, and cross-sector boundary rules.
 
 ## Repository layout
 
@@ -18,9 +22,8 @@ _quarto.yml                  Quarto website configuration
 content/
   ghg_proposal.qmd             Main system proposal
   ghg_inventory_methodology.qmd  GHG inventory methodology document
-  technical_standards_and_tools_reference.qmd
   sample_smn_wastewater.qmd    Example Structure Methodology Narrative
-  *_boundary_notes.md          Sector boundary notes (Energy, IPPU, Agriculture, LULUCF, Waste)
+  cross_sector_boundaries.qmd  Cross-sector boundary rules (which sector reports each emission)
 
 schema/
   ghgi_categories.csv        Inventory source categories (node hierarchy, CRT codes, gases)
@@ -29,6 +32,11 @@ schema/
 
 R/
   ghgi_schema.R               R interface: load, validate, and query the schema files
+
+agent/
+  AGENTS.MD                   Working conventions and instructions for AI-assisted development
+  architecture.qmd             Design principles, repository map, and data flow
+  glossary.qmd                 Project terms and abbreviations
 ```
 
 ## Schema

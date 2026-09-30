@@ -87,9 +87,8 @@ retrieval_plan <- function(schema) {
 }
 
 # ---- Example usage ----------------------------------------------------------
-# schema <- read_ghgi_schema() |> validate_ghgi_schema()
+# schema <- read_ghgi_schema() %>% validate_ghgi_schema()
 # datasets_for(schema, "composting")
 # shared_dataset_usage(schema)
 # unmapped_sources(schema)   # gap list to fill via ghg-methodology-parser
 # at_risk_sources(schema)    # categories leaning on now-uncertain federal data
-

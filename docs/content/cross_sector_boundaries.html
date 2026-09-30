@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>sample_smn_wastewater – U.S. GHG Inventory System Proposal</title>
+<title>Cross-Sector Boundary Rules – U.S. GHG Inventory System Proposal</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -4033,7 +4033,7 @@ vertical-align: -.125em;
 <span class="menu-text">Technical Standards &amp; Tools</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../content/cross_sector_boundaries.html"> 
+    <a class="nav-link active" href="../content/cross_sector_boundaries.html" aria-current="page"> 
 <span class="menu-text">Cross-Sector Boundaries</span></a>
   </li>  
 </ul>
@@ -4051,18 +4051,15 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#methodology-narrative-wastewater-treatment-ch₄-and-n₂o" id="toc-methodology-narrative-wastewater-treatment-ch₄-and-n₂o" class="nav-link active" data-scroll-target="#methodology-narrative-wastewater-treatment-ch₄-and-n₂o">Methodology Narrative — Wastewater Treatment (CH₄ and N₂O)</a>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#boundary-rules" id="toc-boundary-rules" class="nav-link" data-scroll-target="#boundary-rules">Boundary rules</a></li>
+  <li><a href="#sector-notes-not-yet-relocated" id="toc-sector-notes-not-yet-relocated" class="nav-link" data-scroll-target="#sector-notes-not-yet-relocated">Sector notes not yet relocated</a>
   <ul class="collapse">
-  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification">Identification</a></li>
-  <li><a href="#what-this-category-covers" id="toc-what-this-category-covers" class="nav-link" data-scroll-target="#what-this-category-covers">What this category covers</a></li>
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data sources</a></li>
-  <li><a href="#emission-factors-and-other-fixed-values" id="toc-emission-factors-and-other-fixed-values" class="nav-link" data-scroll-target="#emission-factors-and-other-fixed-values">Emission factors and other fixed values</a></li>
-  <li><a href="#units" id="toc-units" class="nav-link" data-scroll-target="#units">Units</a></li>
-  <li><a href="#connections-to-other-categories" id="toc-connections-to-other-categories" class="nav-link" data-scroll-target="#connections-to-other-categories">Connections to other categories</a></li>
-  <li><a href="#how-the-calculation-works-step-by-step" id="toc-how-the-calculation-works-step-by-step" class="nav-link" data-scroll-target="#how-the-calculation-works-step-by-step">How the calculation works, step by step</a></li>
-  <li><a href="#rules-and-judgment-calls" id="toc-rules-and-judgment-calls" class="nav-link" data-scroll-target="#rules-and-judgment-calls">Rules and judgment calls</a></li>
-  <li><a href="#known-changes-and-things-to-watch" id="toc-known-changes-and-things-to-watch" class="nav-link" data-scroll-target="#known-changes-and-things-to-watch">Known changes and things to watch</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#energy" id="toc-energy" class="nav-link" data-scroll-target="#energy">Energy</a></li>
+  <li><a href="#ippu" id="toc-ippu" class="nav-link" data-scroll-target="#ippu">IPPU</a></li>
+  <li><a href="#agriculture" id="toc-agriculture" class="nav-link" data-scroll-target="#agriculture">Agriculture</a></li>
+  <li><a href="#lulucf" id="toc-lulucf" class="nav-link" data-scroll-target="#lulucf">LULUCF</a></li>
+  <li><a href="#waste" id="toc-waste" class="nav-link" data-scroll-target="#waste">Waste</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -4076,7 +4073,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">sample_smn_wastewater</h1>
+<h1 class="title">Cross-Sector Boundary Rules</h1>
 </div>
 
 
@@ -4093,104 +4090,286 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="methodology-narrative-wastewater-treatment-ch₄-and-n₂o" class="level1">
-<h1>Methodology Narrative — Wastewater Treatment (CH₄ and N₂O)</h1>
-<blockquote class="blockquote">
-<p><strong>Example for discussion.</strong> Methodology is simplified for illustration and values shown as [placeholder] are not real. Structure follows the Methodology Narrative Standard v0.2.</p>
-</blockquote>
-<section id="identification" class="level2">
-<h2 class="anchored" data-anchor-id="identification">Identification</h2>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>These rules determine which sector reports each emission or activity, so that ingestion logic never counts the same activity twice. Each rule is stated once. Chapter references are to the GHGIA (Greenhouse Gas Inventory and Analysis) 2026 report: Energy is Chapter 3, Industrial Processes and Product Use (IPPU) is Chapter 4, Agriculture is Chapter 5, Land Use, Land-Use Change, and Forestry (LULUCF) is Chapter 6, and Waste is Chapter 7. CRT means Common Reporting Tables.</p>
+<p>This document consolidates the five former sector boundary notes. Entries marked [Verify] need confirmation against the GHGIA chapter text.</p>
+</section>
+<section id="boundary-rules" class="level2">
+<h2 class="anchored" data-anchor-id="boundary-rules">Boundary rules</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Activity or emission</th>
+<th>Reported in</th>
+<th>Not reported in</th>
+<th>Sectors involved</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fuel burned for energy vs. leaks, venting, and flaring from fuel production and transport</td>
+<td>Combustion: Energy 1A. Fugitive: Energy 1B</td>
+<td>—</td>
+<td>Energy</td>
+<td>Fugitive emissions involve no combustion.</td>
+</tr>
+<tr class="even">
+<td>Fuel combustion at industrial facilities (cement kilns, lime kilns, glass furnaces, and similar)</td>
+<td>Energy, industrial end use (Ch. 3)</td>
+<td>IPPU</td>
+<td>Energy, IPPU</td>
+<td>IPPU captures only process and by-product emissions.</td>
+</tr>
+<tr class="odd">
+<td>Fuels consumed as feedstock or reducing agent</td>
+<td>IPPU (Ch. 4)</td>
+<td>Energy combustion</td>
+<td>Energy, IPPU</td>
+<td>Portions of seven fuel categories are reallocated from Energy to IPPU: coking coal, distillate, industrial other coal, petroleum coke, natural gas, residual fuel oil, and other oil. Receiving sources: ammonia, petrochemicals, carbon black, iron and steel, aluminum, titanium dioxide, and zinc.</td>
+</tr>
+<tr class="even">
+<td>Non-energy use of fossil fuels (lubricants, waxes, asphalt, solvents)</td>
+<td>Energy (Ch. 3.2)</td>
+<td>IPPU 2D</td>
+<td>Energy, IPPU</td>
+<td>Follows U.S. carbon-balance national circumstances.</td>
+</tr>
+<tr class="odd">
+<td>Waste incineration (waste-to-energy and industrial boilers)</td>
+<td>Energy (Ch. 3.3)</td>
+<td>Waste 5C1</td>
+<td>Energy, Waste</td>
+<td>Waste 5C1 is a pointer only. Only the fossil carbon fraction counts. Medical-waste and sewage-sludge incineration are assessed as insignificant (under 500 kt CO2 Eq.) and not estimated.</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from waste incineration</td>
+<td>LULUCF</td>
+<td>Energy</td>
+<td>Energy, LULUCF</td>
+<td>[Verify] Standard IPCC practice reports this as a memo item, as is done for biomass combustion.</td>
+</tr>
+<tr class="odd">
+<td>International bunker fuels; biomass and biofuel combustion</td>
+<td>Memo items</td>
+<td>National totals</td>
+<td>Energy</td>
+<td>Reported for transparency; excluded to avoid double counting and per IPCC biogenic treatment.</td>
+</tr>
+<tr class="even">
+<td>Coal mine methane recovered and used</td>
+<td>Energy 1B (netted)</td>
+<td>—</td>
+<td>Energy</td>
+<td>Reported as methane liberated minus methane recovered and used.</td>
+</tr>
+<tr class="odd">
+<td>CO2 transport and injection</td>
+<td>Energy 1C</td>
+<td>—</td>
+<td>Energy</td>
+<td>New category; covers geologic storage accounting.</td>
+</tr>
+<tr class="even">
+<td>On-farm energy use</td>
+<td>Energy. CO2 (stationary and mobile) and stationary CH4 and N2O go to stationary combustion; mobile CH4 and N2O go to mobile combustion</td>
+<td>Agriculture</td>
+<td>Agriculture, Energy</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Land-use and land-conversion fluxes (cropland cultivation, grassland management, grassland fires, aquaculture, forest converted to cropland)</td>
+<td>LULUCF (Ch. 6)</td>
+<td>Agriculture</td>
+<td>Agriculture, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>N2O from manure deposited on pasture, range, and paddock by grazing livestock</td>
+<td>Agricultural Soil Management (3D)</td>
+<td>Manure Management (3B)</td>
+<td>Agriculture</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Anaerobic digesters</td>
+<td>On-farm: Manure Management (3B, Ch. 5.2). Water resource recovery facilities: Wastewater (5D). Stand-alone biogas facilities: Anaerobic Digestion (5B2)</td>
+<td>—</td>
+<td>Agriculture, Waste</td>
+<td>Split by facility type.</td>
+</tr>
+<tr class="even">
+<td>Wastewater sludge digestion (digester’s primary purpose is treating wastewater solids)</td>
+<td>Wastewater (5D)</td>
+<td>Anaerobic Digestion (5B2)</td>
+<td>Waste</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Urea for non-agricultural use</td>
+<td>IPPU (Ch. 4)</td>
+<td>Agriculture</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Lime and limestone applied to agricultural soils</td>
+<td>Agriculture, Liming (3G, Ch. 5.5)</td>
+<td>IPPU</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Liming minerals used in industrial processes (cement, glass)</td>
+<td>IPPU (Ch. 4)</td>
+<td>Agriculture</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Limestone and soda ash consumed in glass production</td>
+<td>Glass (2A3)</td>
+<td>Other Process Uses of Carbonates (2A4)</td>
+<td>IPPU</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Flue gas desulfurization limestone and lime at power plants</td>
+<td>Other Process Uses of Carbonates (2A4)</td>
+<td>—</td>
+<td>IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from regenerated lime (Kraft pulp mills, water treatment)</td>
+<td>LULUCF</td>
+<td>IPPU</td>
+<td>IPPU, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Soda ash CO2 captured for precipitated calcium carbonate or sugar refining</td>
+<td>Netted out</td>
+<td>—</td>
+<td>IPPU</td>
+<td>No net emissions.</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from landfills and composting</td>
+<td>LULUCF (Ch. 6)</td>
+<td>Waste</td>
+<td>Waste, LULUCF</td>
+<td>Waste estimates only CH4, plus N2O from composting.</td>
+</tr>
+<tr class="odd">
+<td>Flooded lands and constructed waterbodies not used for wastewater treatment</td>
+<td>LULUCF Wetlands (Ch. 6.8 and 6.9)</td>
+<td>Waste</td>
+<td>Waste, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Nitrogen fertilizer N2O on croplands and grasslands</td>
+<td>Agriculture (Ch. 5.4)</td>
+<td>LULUCF</td>
+<td>Agriculture, LULUCF</td>
+<td>LULUCF soils cover carbon stock change, plus fertilizer N2O on forest and settlement land only.</td>
+</tr>
+<tr class="odd">
+<td>Drained organic soil carbon, and all non-CO2 from land converted to forest</td>
+<td>Forest Land Remaining Forest Land</td>
+<td>Land Converted to Forest Land</td>
+<td>LULUCF</td>
+<td>Not separable in the activity data.</td>
+</tr>
+<tr class="even">
+<td>Non-CO2 from forest fires and grassland fires</td>
+<td>Covers both “remaining” and “converted” categories</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>Not separable.</td>
+</tr>
+<tr class="odd">
+<td>Settlement N2O</td>
+<td>Covers both Settlements Remaining and Land Converted to Settlements</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>Not separable.</td>
+</tr>
+<tr class="even">
+<td>Harvested wood products</td>
+<td>Forest Land (tracked under Forest Land Remaining Forest Land)</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Rice cultivation land, cranberry bogs, wet meadows</td>
+<td>Cropland or Grassland</td>
+<td>Wetlands</td>
+<td>LULUCF</td>
+<td>Land classification follows national circumstances.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sector-notes-not-yet-relocated" class="level2">
+<h2 class="anchored" data-anchor-id="sector-notes-not-yet-relocated">Sector notes not yet relocated</h2>
+<p>The notes below are not boundary rules. They came from the former sector notes and are kept here so nothing is lost. Most are category-specific and could move to the relevant source-category repository. The data-availability lists could instead be generated from <code>schema/ghgi_datasets.csv</code> (for example with <code>at_risk_sources()</code>).</p>
+<section id="energy" class="level3">
+<h3 class="anchored" data-anchor-id="energy">Energy</h3>
 <ul>
-<li><strong>Category:</strong> Wastewater Treatment — CH₄ and N₂O</li>
-<li><strong>Sector:</strong> Waste (IPCC 4.D, Wastewater Treatment and Discharge)</li>
-<li><strong>Inventory edition:</strong> GHGIA 2026</li>
-<li><strong>Author:</strong> [Waste source lead]</li>
-<li><strong>Last revised:</strong> [date]</li>
+<li>Availability risk: Greenhouse Gas Reporting Program (GHGRP) Subparts W (petroleum and natural gas systems), FF (coal), and RR/UU (CO2 injection) all have <code>source_status</code> = uncertain. <code>DS-EPA-CMOP</code> and <code>DS-EPA-MSW-COMBUST</code> are EPA programs with uncertain continuity.</li>
+<li>Hard to retrieve: <code>DS-ENVERUS-WELLS</code> requires a commercial license. <code>DS-STATE-WELLS</code> comes from many state oil and gas commissions with no single feed, and is the hardest abandoned-well activity data to assemble.</li>
+<li>Easier to retrieve: EIA Open Data v2 covers coal, natural gas, and petroleum throughput through the same API client as the fossil fuel combustion fetcher. The MSHA Mine Data Retrieval System is a public CSV download.</li>
+<li>Fossil fuel combustion was mapped and reconciled against the existing <code>_targets.R</code>. The notes cite a <code>dataset_provenance.csv</code> bridging code and chapter (FOKS method drift, MOVES version drift, GHGRP disaggregation structure, state and territory scope), but that file is not in this repository. [Locate or remove this reference.]</li>
 </ul>
 </section>
-<section id="what-this-category-covers" class="level2">
-<h2 class="anchored" data-anchor-id="what-this-category-covers">What this category covers</h2>
-<p>This category covers methane and nitrous oxide from the treatment and discharge of domestic and industrial wastewater. It is organized into two subsources:</p>
+<section id="ippu" class="level3">
+<h3 class="anchored" data-anchor-id="ippu">IPPU</h3>
 <ul>
-<li><strong>Domestic wastewater</strong> — from residential and commercial sources, treated at publicly owned treatment works (POTWs) or in septic systems, plus emissions from treated effluent discharged to receiving waters.</li>
-<li><strong>Industrial wastewater</strong> — from industries that generate high-organic-load wastewater treated on site, covering breweries, ethanol production, pulp and paper, meat and poultry, petroleum refining, and fruit and vegetable processing.</li>
-</ul>
-<p>It does <strong>not</strong> cover: biogenic carbon dioxide from wastewater (excluded from national totals by convention); methane recovered and combusted for energy, which is netted out of this category’s emissions (see step-by-step); or emissions from biosolids once they leave the treatment system (see connections).</p>
-</section>
-<section id="data-sources" class="level2">
-<h2 class="anchored" data-anchor-id="data-sources">Data sources</h2>
-<ul>
-<li><strong>U.S. population</strong>, from [Census source]. <em>Short label:</em> <code>us_population</code>. Drives domestic wastewater volume.</li>
-<li><strong>Domestic wastewater treatment data</strong> — flows by treatment pathway, from [source]. <em>Short label:</em> <code>ww_treatment_domestic</code>.</li>
-<li><strong>Industrial wastewater treatment data</strong> — by industry, from [source]. <em>Short label:</em> <code>ww_treatment_industrial</code>.</li>
-<li><strong>POTW anaerobic digester flow</strong>, from [source]. <em>Short label:</em> <code>potw_flow_anaerobic_digesters</code>. Used for energy-recovery netting.</li>
-<li><strong>Sludge generation</strong>, from [source]. <em>Short label:</em> <code>sludge_generation</code>.</li>
-<li><strong>Effluent discharge treatment data</strong>, from [source]. <em>Short label:</em> <code>ww_discharge_treatment</code>.</li>
-<li><strong>Available protein and protein consumption</strong>, from [source]. <em>Short labels:</em> <code>available_protein</code>, <code>protein_consumption</code>. Drive the domestic nitrogen load for N₂O.</li>
-<li><strong>Industrial production and wastewater data</strong>, by industry, from [sources] — brewery production and water use, ethanol production, pulp and paper production and wastewater, meat and poultry production and wastewater, petroleum refining wastewater, and fruit and vegetable production. <em>Short labels:</em> <code>brewery_production_annual</code>, <code>brewery_water_usage</code>, <code>ethanol_production_annual</code>, <code>pulp_and_paper_production</code>, <code>pulp_and_paper_ww</code>, <code>meat_and_poultry_production</code>, <code>meat_and_poultry_ww_generation</code>, <code>petroleum_ww_generation</code>, <code>apples_production</code>, <code>citrus_production</code>, <code>grapes_production</code>, <code>other_noncitrus_production</code>, <code>vegetable_production</code>.</li>
+<li>GHGRP is the dominant IPPU activity-data source. Many values are aggregated confidential business information (ammonia, nitric acid, lime, cement, petrochemicals, CO2 consumption, urea). All GHGRP-dependent IPPU categories inherit <code>source_status</code> = uncertain.</li>
+<li>The USGS National Minerals Information Center publishes per-commodity files for minerals and metals.</li>
+<li>Industry associations (AISI, ACC, AHRI, TFI, USAA, NLA) are membership or manual sources and need manual retrieval.</li>
+<li>ODS substitutes, the largest IPPU source, are driven by the EPA Vintaging Model, a bottom-up stock model rather than a downloadable dataset. Continuity of its output is uncertain.</li>
+<li>CARB SF6 data informs the non-reporter emission factor for electrical equipment.</li>
+<li>Reconciliation: the four <code>ippu_dist_*</code> targets in the existing <code>_targets.R</code> (ammonia, petrochemicals, carbon black, iron and steel) are the Energy side of the feedstock reallocation, and the IPPU chapter is the receiving side. The rule above lists seven receiving sources, so aluminum, titanium dioxide, and zinc have no matching target yet. An end-to-end trace should confirm the reallocation reconciles.</li>
 </ul>
 </section>
-<section id="emission-factors-and-other-fixed-values" class="level2">
-<h2 class="anchored" data-anchor-id="emission-factors-and-other-fixed-values">Emission factors and other fixed values</h2>
+<section id="agriculture" class="level3">
+<h3 class="anchored" data-anchor-id="agriculture">Agriculture</h3>
 <ul>
-<li><strong>Methane emission factors</strong> by treatment pathway and by industry — methane produced per unit of organic load (e.g., kg CH₄ per kg BOD or COD). [placeholder]. Source: [reference].</li>
-<li><strong>Nitrous oxide emission factors</strong> for effluent and for applicable industries — N₂O per unit of nitrogen load. [placeholder]. Source: [reference].</li>
-<li><strong>Organic load factors</strong> — BOD or COD generated per person (domestic) or per unit of production (industrial). [placeholder]. Source: [reference].</li>
-<li><strong>Methane correction factors</strong> for each treatment pathway (the degree to which conditions are anaerobic). [placeholder]. Source: [reference].</li>
-<li><strong>Global warming potentials</strong> (AR5) for CH₄ and N₂O, used to express results as CO₂-equivalent.</li>
+<li>Hard to retrieve: <code>DS-USDA-NRI</code> is proprietary and underlies DayCent. <code>DS-DAYCENT-OUTPUT</code> is model output available only via EPA 2025 (FOIA), with uncertain continuity. <code>DS-IFA-FERTILIZER</code> (IFASTAT) is membership-gated for the full series. <code>DS-BURNED-AREA</code> is an EPA-derived six-state analysis, extrapolated, with no clean public feed.</li>
+<li>Easier to retrieve: the USDA NASS QuickStats API covers enteric fermentation, manure, rice, soils surrogate data, and field burning activity data through one endpoint. PRISM precipitation and USGS crushed stone are straightforward downloads.</li>
 </ul>
 </section>
-<section id="units" class="level2">
-<h2 class="anchored" data-anchor-id="units">Units</h2>
+<section id="lulucf" class="level3">
+<h3 class="anchored" data-anchor-id="lulucf">LULUCF</h3>
 <ul>
-<li>Activity data arrive in mixed units: population in persons, production in industry-specific units (e.g., barrels, tons), wastewater flows in volume units.</li>
-<li>Emissions are reported in gigagrams of CH₄ and N₂O, and as CO₂-equivalent for summary tables.</li>
+<li>Land representation: three databases (NRI for non-federal land, FIA for forest, NLCD for federal land and Alaska) classify the 936 million hectare U.S. land base into 36 IPCC land-use and land-use-change categories. FIA is authoritative for forest; NRI and NLCD are adjusted to match.</li>
+<li>Only managed land is inventoried (886 of 936 million hectares). The managed-land designation uses PAD-US, USFS TPO (timber), NASS county grazing data, and EIA and USGS resource-extraction data, so several datasets feed the land base before any flux calculation.</li>
+<li>Hard to retrieve: <code>DS-USDA-NRI</code> is the most load-bearing LULUCF input (cropland, grassland, settlements, conversions, land base); it is proprietary and runs through 2017 only. <code>DS-DAYCENT-LULUCF</code> is Tier 3 model output via EPA 2025 (FOIA) with uncertain continuity. <code>DS-NRCS-CEAP</code> is a restricted management survey. <code>DS-OPTIS</code> is a proprietary remote-sensing product.</li>
+<li>DayCent underlies both agricultural soils (Ch. 5.4) and cropland and grassland soil carbon here: one dependency, two sectors. The registry records it as two datasets, <code>DS-DAYCENT-OUTPUT</code> and <code>DS-DAYCENT-LULUCF</code>.</li>
+<li>Easier to retrieve: USFS FIA DataMart (forest, harvested wood products, urban trees); NLCD, NOAA C-CAP, MTBS, and PAD-US geospatial downloads; and the NID public API for reservoir surface area.</li>
+<li>Some leaf categories (peatlands, land converted to other land) are flagged <code>needs_validation</code> pending the GHGIA chapter’s exact treatment.</li>
 </ul>
 </section>
-<section id="connections-to-other-categories" class="level2">
-<h2 class="anchored" data-anchor-id="connections-to-other-categories">Connections to other categories</h2>
+<section id="waste" class="level3">
+<h3 class="anchored" data-anchor-id="waste">Waste</h3>
+<p>Recent-year (2024) data gaps worth tracking as provenance:</p>
 <ul>
-<li><strong>Downstream:</strong> biosolids (treated sludge) sent to landfills, incineration, or land application are accounted for in those respective categories, not here. This category’s responsibility ends at the treatment system boundary.</li>
-<li><strong>Downstream:</strong> category totals feed the Waste-sector and national CH₄ and N₂O summaries.</li>
-</ul>
-</section>
-<section id="how-the-calculation-works-step-by-step" class="level2">
-<h2 class="anchored" data-anchor-id="how-the-calculation-works-step-by-step">How the calculation works, step by step</h2>
-<ol type="1">
-<li>Configure the model constants from the constants source.</li>
-<li><strong>Domestic — organic load:</strong> use population and domestic treatment data to estimate the volume of domestic wastewater and its organic (BOD) load, split across treatment pathways.</li>
-<li><strong>Domestic — tertiary flow:</strong> estimate the share of flow receiving tertiary treatment (constructed wetlands), fitted from historical data where direct figures are unavailable.</li>
-<li><strong>Domestic — CH₄:</strong> compute methane from domestic treatment and from discharged effluent, using the organic load, treatment-pathway fractions, methane correction factors, and emission factors.</li>
-<li><strong>Domestic — energy recovery:</strong> forecast anaerobic digester flow at POTWs, and subtract the methane recovered and combusted for energy from the domestic total.</li>
-<li><strong>Domestic — N₂O:</strong> compute nitrous oxide from effluent, deriving the nitrogen load from protein supply and consumption, then applying the effluent N₂O emission factor.</li>
-<li><strong>Industrial — by industry:</strong> for each industry (breweries, ethanol, pulp and paper, meat and poultry, petroleum refining, fruit and vegetable processing), estimate wastewater generation and organic load from production data, then compute CH₄ — and N₂O for industries where it applies — using the industry-specific emission factors. Subtract industrial energy recovery where methane is captured.</li>
-<li><strong>Aggregate:</strong> sum domestic and industrial CH₄ and N₂O.</li>
-<li>Apply global warming potentials to express totals as CO₂-equivalent, and arrange the result for the inventory database.</li>
-</ol>
-</section>
-<section id="rules-and-judgment-calls" class="level2">
-<h2 class="anchored" data-anchor-id="rules-and-judgment-calls">Rules and judgment calls</h2>
-<ul>
-<li><strong>Treatment-pathway fractions:</strong> the split of domestic wastewater across aerobic, anaerobic, and septic pathways is determined by [rule]. The anaerobic fraction governs methane and is the most consequential of these.</li>
-<li><strong>Tertiary flow estimation:</strong> where direct constructed-wetland flow data is unavailable, the share is fitted from historical trend rather than assumed constant.</li>
-<li><strong>Digester flow forecasting:</strong> for inventory years beyond available digester data, flow is forecast by [method] rather than carried forward flat.</li>
-<li><strong>Which industries get N₂O:</strong> breweries, pulp and paper, meat and poultry, and petroleum refining are estimated for both CH₄ and N₂O; ethanol and fruit and vegetable processing are estimated for CH₄ only, because [reason].</li>
-<li><strong>Load basis:</strong> domestic emissions are computed on a BOD basis; industrial on [BOD/COD] depending on industry, per [rule].</li>
-</ul>
-</section>
-<section id="known-changes-and-things-to-watch" class="level2">
-<h2 class="anchored" data-anchor-id="known-changes-and-things-to-watch">Known changes and things to watch</h2>
-<ul>
-<li>The protein consumption series feeding the domestic N₂O calculation changed source for GHGIA 2026; pre- and post-change years are not directly comparable.</li>
-<li>Digester flow data lags the inventory year, so recent years rely on the forecast in step 5 rather than reported flow.</li>
-</ul>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>GHGIA 2026, Waste chapter, Wastewater Treatment and Discharge section [section numbers].</li>
-<li>2006 IPCC Guidelines, Volume 5 (Waste), Chapter 6 (Wastewater).</li>
-<li>[Protein and population data documentation].</li>
+<li>MSW landfills: 2024 GHGRP data were not available at preparation time, so 2023 net emissions and derived parameters are held constant.</li>
+<li>Composting: 2019–2024 tonnage is extrapolated from the 2018 per-capita ratio times Census population.</li>
+<li>Anaerobic digestion: 1990–2015, 2020–2021, and 2024 rely on extrapolation or interpolation; 2024 is approximated by averaging 2022–2023 survey data.</li>
+<li>The BioCycle State of Garbage survey (historical MSW activity data) is discontinued.</li>
 </ul>
 
 

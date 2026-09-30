@@ -1,0 +1,52 @@
+---
+title: "glossary"
+editor: visual
+---
+
+---
+title: "GHGI Glossary"
+---
+
+This glossary defines the terms and abbreviations used across the GHGI (Greenhouse Gas Inventory) pipeline. Entries marked with square brackets need confirmation before this file is committed.
+
+## Reporting and methodology
+
+**CRT (Common Reporting Tables).** The standardized table format used to report national greenhouse gas inventories to the United Nations Framework Convention on Climate Change. Emissions intermediates in the code are named after CRT row letters, for example `f1_ch4_emissions`.
+
+**GWP (global warming potential).** A factor that expresses how much a gas warms the atmosphere relative to carbon dioxide over a fixed period, used to convert emissions of different gases into carbon dioxide equivalents. This project uses the values from the Intergovernmental Panel on Climate Change (IPCC) Fifth Assessment Report (AR5).
+
+**IPCC Tier 1 and Tier 2.** Levels of methodological detail in IPCC guidance. Tier 1 uses default emission factors supplied by the IPCC. Tier 2 uses country-specific factors and more detailed activity data. Tier 3 is more detailed still.
+
+**GHGRP (Greenhouse Gas Reporting Program).** The U.S. Environmental Protection Agency program under which large emitters report their emissions directly. Its data is one input to several source categories.
+
+**LMOP (Landfill Methane Outreach Program).** An Environmental Protection Agency program that maintains a database of landfills and landfill gas energy projects.
+
+**FOD (first-order decay).** A model in which waste decomposes, and produces methane, at a rate proportional to the amount of decomposable material remaining. It is used for landfill methane.
+
+**BOD and COD (biochemical and chemical oxygen demand).** Measures of the organic content of wastewater, which drives methane production in wastewater treatment.
+
+**MOVES (Motor Vehicle Emission Simulator).** The Environmental Protection Agency's model of emissions from on-road vehicles. The code currently uses MOVES3, while the GHGIA 2026 report refers to MOVES5. This is a known difference between code and narrative.
+
+**FFC.** Fossil fuel combustion.
+
+**FOKS.** EIA Fuel Oil and Kerosine Sales. Discontined in 2020.
+
+**Gg and Tg (gigagram and teragram).** Units of mass. One teragram equals one thousand gigagrams. Inputs are handled in gigagrams, and the conversion to teragrams happens only at the final output step.
+
+## Project practices
+
+**Spec-driven development (SDD).** A way of building software in which a written specification, not the programmer's judgment, defines what the code must do. Here, domain experts write the specifications as methodology narratives.
+
+**Canonical units.** The single agreed unit for each kind of quantity. Every input is converted to its canonical unit at ingestion, and the `canonical_units` tibble in `{syrinx}` records them.
+
+**Drift.** A disagreement between what the methodology narrative says and what the code does. The project treats drift as useful information to be reported, not as noise to be smoothed over.
+
+## Packages
+
+**`{targets}` and `{tarchetypes}`.** Tools for defining the pipeline as a graph of steps that are re-run only when their inputs change.
+
+**`{pins}`.** Versioned storage for datasets.
+
+**`{pointblank}`.** Data validation checks.
+
+**`{syrinx}`.** The project's internal package for cleaning data and converting units to canonical units. It lives at `joewcorra/syrinx`.
