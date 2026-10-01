@@ -20,7 +20,6 @@ Output goes to `docs/`. The site includes the main proposal, inventory methodolo
 _quarto.yml                  Quarto website configuration
 
 content/
-  ghg_proposal.qmd             Main system proposal
   ghg_inventory_methodology.qmd  GHG inventory methodology document
   sample_smn_wastewater.qmd    Example Structure Methodology Narrative
   cross_sector_boundaries.qmd  Cross-sector boundary rules (which sector reports each emission)
