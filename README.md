@@ -6,7 +6,7 @@ A Quarto website and data schema for the U.S. Greenhouse Gas Inventory and Analy
 
 This repository is the coordination hub for the GHGI pipeline: the schema registry, methodology narratives, and cross-cutting design decisions. It does not itself pull, transform, or calculate emissions data. Each source category (for example, Waste, Energy, IPPU) has its own separate repository for that category's data pulling, transformation, aggregation, calculation, and visualization. Source-category repositories depend on the schema and methodology defined here, and on shared internal packages such as `{syrinx}`, installed as needed. Work across all repositories is tracked on the "ghgi" GitHub Project board.
 
-## Rendering the site
+## Rendering 
 
 ```
 quarto render
