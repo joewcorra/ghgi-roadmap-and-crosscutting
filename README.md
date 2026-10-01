@@ -1,6 +1,6 @@
 # GHG Inventory System — Roadmap and Crosscutting
 
-A Quarto website and data schema for the U.S. Greenhouse Gas Inventory and Analysis (GHGIA) system proposal.
+Data schema and documentation for the U.S. Greenhouse Gas Inventory and Analysis (GHGIA) system proposal.
 
 ## Role in the overall system
 
