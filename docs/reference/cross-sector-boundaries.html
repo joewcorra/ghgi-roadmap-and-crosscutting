@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Cross-Sector Boundary Rules</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2167,26 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#boundary-rules" id="toc-boundary-rules" class="nav-link" data-scroll-target="#boundary-rules">Boundary rules</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Cross-Sector Boundary Rules</h1>
 </div>
 
 
@@ -2192,39 +2203,236 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
-<ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
-</ul>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>These rules determine which sector reports each emission or activity, so that ingestion logic never counts the same activity twice. Each rule is stated once. Chapter references are to the GHGIA (Greenhouse Gas Inventory and Analysis) 2026 report: Energy is Chapter 3, Industrial Processes and Product Use (IPPU) is Chapter 4, Agriculture is Chapter 5, Land Use, Land-Use Change, and Forestry (LULUCF) is Chapter 6, and Waste is Chapter 7. CRT means Common Reporting Tables.</p>
+<p>This document consolidates the five former sector boundary notes. Entries marked [Verify] need confirmation against the GHGIA chapter text.</p>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
-<ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
-</ul>
-</section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
-</section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="boundary-rules" class="level2">
+<h2 class="anchored" data-anchor-id="boundary-rules">Boundary rules</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Activity or emission</th>
+<th>Reported in</th>
+<th>Not reported in</th>
+<th>Sectors involved</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fuel burned for energy vs. leaks, venting, and flaring from fuel production and transport</td>
+<td>Combustion: Energy 1A. Fugitive: Energy 1B</td>
+<td>—</td>
+<td>Energy</td>
+<td>Fugitive emissions involve no combustion.</td>
+</tr>
+<tr class="even">
+<td>Fuel combustion at industrial facilities (cement kilns, lime kilns, glass furnaces, and similar)</td>
+<td>Energy, industrial end use (Ch. 3)</td>
+<td>IPPU</td>
+<td>Energy, IPPU</td>
+<td>IPPU captures only process and by-product emissions.</td>
+</tr>
+<tr class="odd">
+<td>Fuels consumed as feedstock or reducing agent</td>
+<td>IPPU (Ch. 4)</td>
+<td>Energy combustion</td>
+<td>Energy, IPPU</td>
+<td>Portions of seven fuel categories are reallocated from Energy to IPPU: coking coal, distillate, industrial other coal, petroleum coke, natural gas, residual fuel oil, and other oil. Receiving sources: ammonia, petrochemicals, carbon black, iron and steel, aluminum, titanium dioxide, and zinc.</td>
+</tr>
+<tr class="even">
+<td>Non-energy use of fossil fuels (lubricants, waxes, asphalt, solvents)</td>
+<td>Energy (Ch. 3.2)</td>
+<td>IPPU 2D</td>
+<td>Energy, IPPU</td>
+<td>Follows U.S. carbon-balance national circumstances.</td>
+</tr>
+<tr class="odd">
+<td>Waste incineration (waste-to-energy and industrial boilers)</td>
+<td>Energy (Ch. 3.3)</td>
+<td>Waste 5C1</td>
+<td>Energy, Waste</td>
+<td>Waste 5C1 is a pointer only. Only the fossil carbon fraction counts. Medical-waste and sewage-sludge incineration are assessed as insignificant (under 500 kt CO2 Eq.) and not estimated.</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from waste incineration</td>
+<td>LULUCF</td>
+<td>Energy</td>
+<td>Energy, LULUCF</td>
+<td>[Verify] Standard IPCC practice reports this as a memo item, as is done for biomass combustion.</td>
+</tr>
+<tr class="odd">
+<td>International bunker fuels; biomass and biofuel combustion</td>
+<td>Memo items</td>
+<td>National totals</td>
+<td>Energy</td>
+<td>Reported for transparency; excluded to avoid double counting and per IPCC biogenic treatment.</td>
+</tr>
+<tr class="even">
+<td>Coal mine methane recovered and used</td>
+<td>Energy 1B (netted)</td>
+<td>—</td>
+<td>Energy</td>
+<td>Reported as methane liberated minus methane recovered and used.</td>
+</tr>
+<tr class="odd">
+<td>CO2 transport and injection</td>
+<td>Energy 1C</td>
+<td>—</td>
+<td>Energy</td>
+<td>New category; covers geologic storage accounting.</td>
+</tr>
+<tr class="even">
+<td>On-farm energy use</td>
+<td>Energy. CO2 (stationary and mobile) and stationary CH4 and N2O go to stationary combustion; mobile CH4 and N2O go to mobile combustion</td>
+<td>Agriculture</td>
+<td>Agriculture, Energy</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Land-use and land-conversion fluxes (cropland cultivation, grassland management, grassland fires, aquaculture, forest converted to cropland)</td>
+<td>LULUCF (Ch. 6)</td>
+<td>Agriculture</td>
+<td>Agriculture, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>N2O from manure deposited on pasture, range, and paddock by grazing livestock</td>
+<td>Agricultural Soil Management (3D)</td>
+<td>Manure Management (3B)</td>
+<td>Agriculture</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Anaerobic digesters</td>
+<td>On-farm: Manure Management (3B, Ch. 5.2). Water resource recovery facilities: Wastewater (5D). Stand-alone biogas facilities: Anaerobic Digestion (5B2)</td>
+<td>—</td>
+<td>Agriculture, Waste</td>
+<td>Split by facility type.</td>
+</tr>
+<tr class="even">
+<td>Wastewater sludge digestion (digester’s primary purpose is treating wastewater solids)</td>
+<td>Wastewater (5D)</td>
+<td>Anaerobic Digestion (5B2)</td>
+<td>Waste</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Urea for non-agricultural use</td>
+<td>IPPU (Ch. 4)</td>
+<td>Agriculture</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Lime and limestone applied to agricultural soils</td>
+<td>Agriculture, Liming (3G, Ch. 5.5)</td>
+<td>IPPU</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Liming minerals used in industrial processes (cement, glass)</td>
+<td>IPPU (Ch. 4)</td>
+<td>Agriculture</td>
+<td>Agriculture, IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Limestone and soda ash consumed in glass production</td>
+<td>Glass (2A3)</td>
+<td>Other Process Uses of Carbonates (2A4)</td>
+<td>IPPU</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Flue gas desulfurization limestone and lime at power plants</td>
+<td>Other Process Uses of Carbonates (2A4)</td>
+<td>—</td>
+<td>IPPU</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from regenerated lime (Kraft pulp mills, water treatment)</td>
+<td>LULUCF</td>
+<td>IPPU</td>
+<td>IPPU, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Soda ash CO2 captured for precipitated calcium carbonate or sugar refining</td>
+<td>Netted out</td>
+<td>—</td>
+<td>IPPU</td>
+<td>No net emissions.</td>
+</tr>
+<tr class="even">
+<td>Biogenic CO2 from landfills and composting</td>
+<td>LULUCF (Ch. 6)</td>
+<td>Waste</td>
+<td>Waste, LULUCF</td>
+<td>Waste estimates only CH4, plus N2O from composting.</td>
+</tr>
+<tr class="odd">
+<td>Flooded lands and constructed waterbodies not used for wastewater treatment</td>
+<td>LULUCF Wetlands (Ch. 6.8 and 6.9)</td>
+<td>Waste</td>
+<td>Waste, LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Nitrogen fertilizer N2O on croplands and grasslands</td>
+<td>Agriculture (Ch. 5.4)</td>
+<td>LULUCF</td>
+<td>Agriculture, LULUCF</td>
+<td>LULUCF soils cover carbon stock change, plus fertilizer N2O on forest and settlement land only.</td>
+</tr>
+<tr class="odd">
+<td>Drained organic soil carbon, and all non-CO2 from land converted to forest</td>
+<td>Forest Land Remaining Forest Land</td>
+<td>Land Converted to Forest Land</td>
+<td>LULUCF</td>
+<td>Not separable in the activity data.</td>
+</tr>
+<tr class="even">
+<td>Non-CO2 from forest fires and grassland fires</td>
+<td>Covers both “remaining” and “converted” categories</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>Not separable.</td>
+</tr>
+<tr class="odd">
+<td>Settlement N2O</td>
+<td>Covers both Settlements Remaining and Land Converted to Settlements</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>Not separable.</td>
+</tr>
+<tr class="even">
+<td>Harvested wood products</td>
+<td>Forest Land (tracked under Forest Land Remaining Forest Land)</td>
+<td>—</td>
+<td>LULUCF</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Rice cultivation land, cranberry bogs, wet meadows</td>
+<td>Cropland or Grassland</td>
+<td>Wetlands</td>
+<td>LULUCF</td>
+<td>Land classification follows national circumstances.</td>
+</tr>
+</tbody>
+</table>
 </section>
 
 </main>

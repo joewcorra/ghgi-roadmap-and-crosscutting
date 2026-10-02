@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Sector Data Notes</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2167,29 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#energy" id="toc-energy" class="nav-link active" data-scroll-target="#energy">Energy</a></li>
+  <li><a href="#ippu" id="toc-ippu" class="nav-link" data-scroll-target="#ippu">IPPU</a></li>
+  <li><a href="#agriculture" id="toc-agriculture" class="nav-link" data-scroll-target="#agriculture">Agriculture</a></li>
+  <li><a href="#lulucf" id="toc-lulucf" class="nav-link" data-scroll-target="#lulucf">LULUCF</a></li>
+  <li><a href="#waste" id="toc-waste" class="nav-link" data-scroll-target="#waste">Waste</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Sector Data Notes</h1>
 </div>
 
 
@@ -2192,39 +2206,55 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
+<p>These notes explain data-availability risks, retrieval difficulty, and known recent-year gaps for each sector. They were collected from the former sector boundary notes. They are context, not rules: the rules for which sector reports each emission are in <a href="../reference/cross-sector-boundaries.qmd">Cross-Sector Boundary Rules</a>.</p>
+<p>Most notes are category-specific and could eventually move to the relevant source-category repository. The data-availability lists could instead be generated from <code>schema/ghgi_datasets.csv</code>, for example with <code>at_risk_sources()</code> (see <a href="../how-to/query-the-schema.qmd">Query the schema</a>).</p>
+<section id="energy" class="level2">
+<h2 class="anchored" data-anchor-id="energy">Energy</h2>
 <ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
+<li>Availability risk: Greenhouse Gas Reporting Program (GHGRP) Subparts W (petroleum and natural gas systems), FF (coal), and RR/UU (CO2 injection) all have <code>source_status</code> = uncertain. <code>DS-EPA-CMOP</code> and <code>DS-EPA-MSW-COMBUST</code> are EPA programs with uncertain continuity.</li>
+<li>Hard to retrieve: <code>DS-ENVERUS-WELLS</code> requires a commercial license. <code>DS-STATE-WELLS</code> comes from many state oil and gas commissions with no single feed, and is the hardest abandoned-well activity data to assemble.</li>
+<li>Easier to retrieve: EIA Open Data v2 covers coal, natural gas, and petroleum throughput through the same API client as the fossil fuel combustion fetcher. The MSHA Mine Data Retrieval System is a public CSV download.</li>
+<li>Fossil fuel combustion was mapped and reconciled against the existing <code>_targets.R</code>. The reconciliation identified four differences between code and chapter: Fuel Oil and Kerosene Sales (FOKS) method drift, Motor Vehicle Emission Simulator (MOVES) version drift, the GHGRP disaggregation structure, and state and territory scope. The <code>dataset_provenance.csv</code> file that originally recorded these was retired as duplicative.</li>
 </ul>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
+<section id="ippu" class="level2">
+<h2 class="anchored" data-anchor-id="ippu">IPPU</h2>
 <ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
+<li>GHGRP is the dominant IPPU activity-data source. Many values are aggregated confidential business information (ammonia, nitric acid, lime, cement, petrochemicals, CO2 consumption, urea). All GHGRP-dependent IPPU categories inherit <code>source_status</code> = uncertain.</li>
+<li>The USGS National Minerals Information Center publishes per-commodity files for minerals and metals.</li>
+<li>Industry associations (AISI, ACC, AHRI, TFI, USAA, NLA) are membership or manual sources and need manual retrieval.</li>
+<li>ODS substitutes, the largest IPPU source, are driven by the EPA Vintaging Model, a bottom-up stock model rather than a downloadable dataset. Continuity of its output is uncertain.</li>
+<li>CARB SF6 data informs the non-reporter emission factor for electrical equipment.</li>
+<li>Reconciliation: the four <code>ippu_dist_*</code> targets in the existing <code>_targets.R</code> (ammonia, petrochemicals, carbon black, iron and steel) are the Energy side of the feedstock reallocation, and the IPPU chapter is the receiving side. The rule above lists seven receiving sources, so aluminum, titanium dioxide, and zinc have no matching target yet. An end-to-end trace should confirm the reallocation reconciles.</li>
 </ul>
 </section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
+<section id="agriculture" class="level2">
+<h2 class="anchored" data-anchor-id="agriculture">Agriculture</h2>
 <ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
+<li>Hard to retrieve: <code>DS-USDA-NRI</code> is proprietary and underlies DayCent. <code>DS-DAYCENT-OUTPUT</code> is model output available only via EPA 2025 (FOIA), with uncertain continuity. <code>DS-IFA-FERTILIZER</code> (IFASTAT) is membership-gated for the full series. <code>DS-BURNED-AREA</code> is an EPA-derived six-state analysis, extrapolated, with no clean public feed.</li>
+<li>Easier to retrieve: the USDA NASS QuickStats API covers enteric fermentation, manure, rice, soils surrogate data, and field burning activity data through one endpoint. PRISM precipitation and USGS crushed stone are straightforward downloads.</li>
 </ul>
 </section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="lulucf" class="level2">
+<h2 class="anchored" data-anchor-id="lulucf">LULUCF</h2>
+<ul>
+<li>Land representation: three databases (NRI for non-federal land, FIA for forest, NLCD for federal land and Alaska) classify the 936 million hectare U.S. land base into 36 IPCC land-use and land-use-change categories. FIA is authoritative for forest; NRI and NLCD are adjusted to match.</li>
+<li>Only managed land is inventoried (886 of 936 million hectares). The managed-land designation uses PAD-US, USFS TPO (timber), NASS county grazing data, and EIA and USGS resource-extraction data, so several datasets feed the land base before any flux calculation.</li>
+<li>Hard to retrieve: <code>DS-USDA-NRI</code> is the most load-bearing LULUCF input (cropland, grassland, settlements, conversions, land base); it is proprietary and runs through 2017 only. <code>DS-DAYCENT-LULUCF</code> is Tier 3 model output via EPA 2025 (FOIA) with uncertain continuity. <code>DS-NRCS-CEAP</code> is a restricted management survey. <code>DS-OPTIS</code> is a proprietary remote-sensing product.</li>
+<li>DayCent underlies both agricultural soils (Ch. 5.4) and cropland and grassland soil carbon here: one dependency, two sectors. The registry records it as two datasets, <code>DS-DAYCENT-OUTPUT</code> and <code>DS-DAYCENT-LULUCF</code>.</li>
+<li>Easier to retrieve: USFS FIA DataMart (forest, harvested wood products, urban trees); NLCD, NOAA C-CAP, MTBS, and PAD-US geospatial downloads; and the NID public API for reservoir surface area.</li>
+<li>Some leaf categories (peatlands, land converted to other land) are flagged <code>needs_validation</code> pending the GHGIA chapter’s exact treatment.</li>
+</ul>
+</section>
+<section id="waste" class="level2">
+<h2 class="anchored" data-anchor-id="waste">Waste</h2>
+<p>Recent-year (2024) data gaps worth tracking as provenance:</p>
+<ul>
+<li>MSW landfills: 2024 GHGRP data were not available at preparation time, so 2023 net emissions and derived parameters are held constant.</li>
+<li>Composting: 2019–2024 tonnage is extrapolated from the 2018 per-capita ratio times Census population.</li>
+<li>Anaerobic digestion: 1990–2015, 2020–2021, and 2024 rely on extrapolation or interpolation; 2024 is approximated by averaging 2022–2023 survey data.</li>
+<li>The BioCycle State of Garbage survey (historical MSW activity data) is discontinued.</li>
+</ul>
 </section>
 
 </main>

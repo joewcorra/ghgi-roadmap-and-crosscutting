@@ -1,0 +1,18 @@
+---
+title: "Render the Documents"
+---
+
+1. Restore the R package library once per machine: run `renv::restore()` from the project root.
+2. From the project root, run:
+
+   ```
+   quarto render
+   ```
+
+   To render a single document, pass its path, for example `quarto render reference/glossary.qmd`.
+
+3. HTML output goes to `docs/`. Commit the regenerated files with your source changes.
+
+The documents that are rendered are listed in `_quarto.yml`. When you add a document, place it in the Diátaxis folder that matches its purpose (`how-to/`, `reference/`, or `explanation/`), then add it to the map in `index.qmd` and to the layout in `README.md`.
+
+When you rename or delete a document, also delete its old HTML file from `docs/`. Quarto does not remove outputs for documents that no longer exist.

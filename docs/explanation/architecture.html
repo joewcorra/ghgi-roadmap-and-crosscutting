@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>GHGI Architecture and Design Principles</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2167,40 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#narrative-as-specification" id="toc-narrative-as-specification" class="nav-link" data-scroll-target="#narrative-as-specification">Narrative as specification</a></li>
+  <li><a href="#principles" id="toc-principles" class="nav-link" data-scroll-target="#principles">Principles</a></li>
+  <li><a href="#ordering-decisions-to-make-early" id="toc-ordering-decisions-to-make-early" class="nav-link" data-scroll-target="#ordering-decisions-to-make-early">Ordering decisions to make early</a></li>
+  <li><a href="#where-the-effort-goes" id="toc-where-the-effort-goes" class="nav-link" data-scroll-target="#where-the-effort-goes">Where the effort goes</a></li>
+  <li><a href="#why-a-hub-and-separate-source-category-repositories" id="toc-why-a-hub-and-separate-source-category-repositories" class="nav-link" data-scroll-target="#why-a-hub-and-separate-source-category-repositories">Why a hub and separate source-category repositories</a></li>
+  <li><a href="#open-decisions" id="toc-open-decisions" class="nav-link" data-scroll-target="#open-decisions">Open decisions</a>
+  <ul class="collapse">
+  <li><a href="#pipeline-orchestration-with-targets" id="toc-pipeline-orchestration-with-targets" class="nav-link" data-scroll-target="#pipeline-orchestration-with-targets">Pipeline orchestration with <code>{targets}</code></a></li>
+  <li><a href="#testing-depth" id="toc-testing-depth" class="nav-link" data-scroll-target="#testing-depth">Testing depth</a></li>
+  <li><a href="#central-data-acquisition-hub" id="toc-central-data-acquisition-hub" class="nav-link" data-scroll-target="#central-data-acquisition-hub">Central data acquisition hub</a></li>
+  <li><a href="#public-data-portal" id="toc-public-data-portal" class="nav-link" data-scroll-target="#public-data-portal">Public data portal</a></li>
+  <li><a href="#criteria-for-adding-complexity" id="toc-criteria-for-adding-complexity" class="nav-link" data-scroll-target="#criteria-for-adding-complexity">Criteria for adding complexity</a></li>
+  <li><a href="#review-milestones" id="toc-review-milestones" class="nav-link" data-scroll-target="#review-milestones">Review milestones</a></li>
+  </ul></li>
+  <li><a href="#data-flow" id="toc-data-flow" class="nav-link" data-scroll-target="#data-flow">Data flow</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">GHGI Architecture and Design Principles</h1>
 </div>
 
 
@@ -2192,39 +2217,88 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>This document records the design decisions behind the GHGI pipeline and the reasons for them, so that future contributors, human or automated, can follow the intent behind the code.</p>
+</section>
+<section id="narrative-as-specification" class="level2">
+<h2 class="anchored" data-anchor-id="narrative-as-specification">Narrative as specification</h2>
+<p>Domain experts write plain-language methodology narratives for each source category. These narratives are the specification. A chain of three custom tools turns them into code and back into readable documentation:</p>
+<ol type="1">
+<li>A methodology parser converts a narrative into a structured, step-by-step implementation framework, without writing any code.</li>
+<li>An R coder turns that framework into R code that follows the project’s conventions.</li>
+<li>A methodology narrator translates finished R code back into a plain-language description that experts can review even if they do not read R.</li>
+</ol>
+<p>The distinctive feature of this approach is that the specifications are written by domain experts, not programmers, and the work is tied to regulatory accountability. Human judgment sits at the design stage and at review checkpoints, and the tools follow the specification.</p>
+</section>
+<section id="principles" class="level2">
+<h2 class="anchored" data-anchor-id="principles">Principles</h2>
+<p><strong>Fail loudly, not silently.</strong> Missing inputs, unrecognized units, and ambiguous steps must stop the pipeline with a clear error. A plausible guess in a compliance inventory is worse than no answer.</p>
+<p><strong>Drift is signal.</strong> The specification layer and the code layer are kept separate on purpose. When they disagree, the disagreement is reported. Two real examples: a discontinued data source is still live in the code, and the code uses MOVES3 while the 2026 report cites MOVES5.</p>
+<p><strong>Canonical units at ingestion, conversion at output.</strong> Converting once at the boundary, and nowhere else, means a unit error can only enter at two well-defined places, both of which are checked. Calculations in between stay unitless and easy to audit. The detailed rules are under Unit discipline in <a href="../reference/conventions.qmd"><code>AGENTS.md</code></a>.</p>
+<p><strong>The meta-module is a control plane.</strong> The narratives and the schema should generate and constrain the pipeline, not merely sit beside it as documentation.</p>
+<p><strong>Pilot first.</strong> Each pattern is proven on one source category before it is applied more widely, with a human review at each step.</p>
+</section>
+<section id="ordering-decisions-to-make-early" class="level2">
+<h2 class="anchored" data-anchor-id="ordering-decisions-to-make-early">Ordering decisions to make early</h2>
+<p>Two choices constrain everything built afterward and are easy to postpone by mistake:</p>
 <ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
+<li>The convention for representing uncertainty must be settled before ingestion is built. This supersedes an earlier plan to defer uncertainty analysis (Monte Carlo simulation) to a later phase. Whether the convention relies on EPA’s published uncertainty ranges or propagates probability distributions through the calculations is part of this decision.</li>
+<li>The schema for the emissions store should be frozen earlier than it feels necessary.</li>
 </ul>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
+<section id="where-the-effort-goes" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-effort-goes">Where the effort goes</h2>
+<p>Writing specifications is the main bottleneck, more than writing code. Adding contractors does not relieve it, because the expertise required is the scarce resource. The AI tool chain absorbs much of the work that would otherwise be contracted out.</p>
+</section>
+<section id="why-a-hub-and-separate-source-category-repositories" class="level2">
+<h2 class="anchored" data-anchor-id="why-a-hub-and-separate-source-category-repositories">Why a hub and separate source-category repositories</h2>
+<p>Work is split between this coordination hub and one repository per sector. The hub holds everything that must be shared and agreed once: the schema registry, the methodology narratives, cross-cutting rules, and conventions. Each source-category repository holds only the data pulling, transformation, calculation, and visualization for its sector. This keeps sector leads’ work independent while guaranteeing that every sector reads the same categories, datasets, and boundary rules. <code>{syrinx}</code> is installed as a package rather than copied into each repository for the same reason: one shared implementation, one place to fix it.</p>
+<p>The list of repositories and the standard source-category layout are under Repository structure in <a href="../reference/conventions.qmd"><code>AGENTS.md</code></a>.</p>
+</section>
+<section id="open-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="open-decisions">Open decisions</h2>
+<p>These decisions are deliberately left open. Who makes each kind of decision is set out under Decision authority in <a href="../reference/conventions.qmd"><code>AGENTS.md</code></a>. Months are counted from project start. [Confirm the start date.]</p>
+<section id="pipeline-orchestration-with-targets" class="level3">
+<h3 class="anchored" data-anchor-id="pipeline-orchestration-with-targets">Pipeline orchestration with <code>{targets}</code></h3>
+<p>The current approach is numbered sequential scripts (<code>01_download.R</code>, <code>02_clean.R</code>, and so on). Consider adopting <code>{targets}</code> when scripts develop many interdependencies, full rebuilds take too long, intermediate results need caching, or several people contribute to the same pipeline. The questions to ask are whether running scripts by hand is becoming error-prone, whether expensive calculations are being re-run unnecessarily, and whether the benefit justifies the learning curve. Re-evaluate after the minimum viable product, around Month 4. Calculation functions are already written so they can become <code>{targets}</code> steps, so adopting it later means adding <code>tar_target()</code> calls, not rewriting functions.</p>
+</section>
+<section id="testing-depth" class="level3">
+<h3 class="anchored" data-anchor-id="testing-depth">Testing depth</h3>
+<p>The current approach is basic unit tests for calculation functions. Data validation at ingestion and output is already required, so the open question is whether to add integration tests and benchmark tests. Consider expanding when bugs reach production, when new team members join, or before external review. Decide by Month 3, based on how often bugs appear.</p>
+</section>
+<section id="central-data-acquisition-hub" class="level3">
+<h3 class="anchored" data-anchor-id="central-data-acquisition-hub">Central data acquisition hub</h3>
+<p>The current approach is manual downloads, sector by sector. A central hub would hold one download wrapper per provider (for example EIA, the EPA Greenhouse Gas Reporting Program, and USDA NASS), automated update checks, versioned raw data, notification when new data is released, and download logs as an audit trail. The dataset registry in <code>schema/ghgi_datasets.csv</code> already records each dataset’s access method and endpoint, and <code>retrieval_plan()</code> groups datasets by access method, so the registry would drive the hub. Consider building it when manual downloads become a bottleneck, missed updates cause delays, several sectors share the same sources, or provenance tracking becomes a requirement. It depends on established API access with the agencies and agreement on update frequency. Design around Month 7 and pilot in Months 10 to 12.</p>
+</section>
+<section id="public-data-portal" class="level3">
+<h3 class="anchored" data-anchor-id="public-data-portal">Public data portal</h3>
+<p>Options are an interactive Shiny dashboard, an API for programmatic access, a static website with documentation and download links, or a combination. Consider it once the inventory is stable and validated, external users are asking for data, and the work is ready for public scrutiny. Not before Month 12.</p>
+</section>
+<section id="criteria-for-adding-complexity" class="level3">
+<h3 class="anchored" data-anchor-id="criteria-for-adding-complexity">Criteria for adding complexity</h3>
+<p>Before adding a tool or process, ask:</p>
+<ol type="1">
+<li>Does the current simple approach actually cause problems? If not, do not add complexity.</li>
+<li>What does the status quo cost in time, errors, or missed opportunities?</li>
+<li>What does the new approach cost in learning curve, maintenance, and technical debt?</li>
+<li>Who benefits, how often, and is the benefit critical or merely convenient?</li>
+<li>Is the change reversible, and what would it lock in?</li>
+<li>Is there time, skill, and bandwidth to implement and maintain it?</li>
+</ol>
+</section>
+<section id="review-milestones" class="level3">
+<h3 class="anchored" data-anchor-id="review-milestones">Review milestones</h3>
 <ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
+<li><strong>Month 3:</strong> Is the storage approach (Parquet with <code>{pins}</code>) working? Is <code>{syrinx}</code> proving valuable? Are the separate GitHub repositories effective? Does the course need adjusting?</li>
+<li><strong>Month 6:</strong> Is a central data hub needed? Is the testing strategy adequate? Is workflow orchestration needed?</li>
+<li><strong>Month 12:</strong> Is the system meeting its goals? Which future capabilities come next? What resources are needed for Year 2? What is the external engagement strategy?</li>
 </ul>
 </section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
 </section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="data-flow" class="level2">
+<h2 class="anchored" data-anchor-id="data-flow">Data flow</h2>
+<p>[Describe the layers here once confirmed: where raw data lands, where it is validated and converted, and where the final output is produced.]</p>
 </section>
 
 </main>

@@ -1,0 +1,9 @@
+---
+title: "Project Conventions"
+---
+
+::: {.callout-note}
+This page shows `AGENTS.md` from the repository root. That file is the single source of truth for conventions and is also read by AI coding tools, so edit it there, not here.
+:::
+
+{{< include ../AGENTS.md >}}

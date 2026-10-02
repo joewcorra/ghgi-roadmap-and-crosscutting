@@ -1,0 +1,26 @@
+---
+title: "Query the Schema"
+---
+
+The functions in `R/ghgi_schema.R` load, validate, and query the three schema files in `schema/`. The file layouts are described in the [schema reference](../reference/schema.qmd).
+
+## Load and validate
+
+```r
+source("R/ghgi_schema.R")
+schema <- read_ghgi_schema() %>% validate_ghgi_schema()
+```
+
+`read_ghgi_schema()` reads from `schema/` by default; pass `dir` to read from elsewhere. `validate_ghgi_schema()` stops with an error if a `node_id` or `dataset_id` is duplicated, if the crosswalk references an unknown category or dataset, or if a category has an unknown parent.
+
+## Common questions
+
+| To find | Call |
+|---|---|
+| Every dataset one source category needs, with full metadata | `datasets_for(schema, "composting")` |
+| Datasets shared across sources, ranked by how many depend on them | `shared_dataset_usage(schema)` |
+| Categories with no datasets mapped yet (the worklist for the methodology parser) | `unmapped_sources(schema)` |
+| Categories that depend on a dataset whose status is not `available` | `at_risk_sources(schema)` |
+| Datasets grouped by access method, for building one retrieval function per method | `retrieval_plan(schema)` |
+
+In `retrieval_plan()`, rows with `access_verified` equal to `FALSE` are endpoints to confirm before relying on them.

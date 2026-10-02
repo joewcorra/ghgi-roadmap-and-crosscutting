@@ -1,0 +1,46 @@
+---
+title: "Sector Data Notes"
+---
+
+These notes explain data-availability risks, retrieval difficulty, and known recent-year gaps for each sector. They were collected from the former sector boundary notes. They are context, not rules: the rules for which sector reports each emission are in [Cross-Sector Boundary Rules](../reference/cross-sector-boundaries.qmd).
+
+Most notes are category-specific and could eventually move to the relevant source-category repository. The data-availability lists could instead be generated from `schema/ghgi_datasets.csv`, for example with `at_risk_sources()` (see [Query the schema](../how-to/query-the-schema.qmd)).
+
+## Energy
+
+- Availability risk: Greenhouse Gas Reporting Program (GHGRP) Subparts W (petroleum and natural gas systems), FF (coal), and RR/UU (CO2 injection) all have `source_status` = uncertain. `DS-EPA-CMOP` and `DS-EPA-MSW-COMBUST` are EPA programs with uncertain continuity.
+- Hard to retrieve: `DS-ENVERUS-WELLS` requires a commercial license. `DS-STATE-WELLS` comes from many state oil and gas commissions with no single feed, and is the hardest abandoned-well activity data to assemble.
+- Easier to retrieve: EIA Open Data v2 covers coal, natural gas, and petroleum throughput through the same API client as the fossil fuel combustion fetcher. The MSHA Mine Data Retrieval System is a public CSV download.
+- Fossil fuel combustion was mapped and reconciled against the existing `_targets.R`. The reconciliation identified four differences between code and chapter: Fuel Oil and Kerosene Sales (FOKS) method drift, Motor Vehicle Emission Simulator (MOVES) version drift, the GHGRP disaggregation structure, and state and territory scope. The `dataset_provenance.csv` file that originally recorded these was retired as duplicative.
+
+## IPPU
+
+- GHGRP is the dominant IPPU activity-data source. Many values are aggregated confidential business information (ammonia, nitric acid, lime, cement, petrochemicals, CO2 consumption, urea). All GHGRP-dependent IPPU categories inherit `source_status` = uncertain.
+- The USGS National Minerals Information Center publishes per-commodity files for minerals and metals.
+- Industry associations (AISI, ACC, AHRI, TFI, USAA, NLA) are membership or manual sources and need manual retrieval.
+- ODS substitutes, the largest IPPU source, are driven by the EPA Vintaging Model, a bottom-up stock model rather than a downloadable dataset. Continuity of its output is uncertain.
+- CARB SF6 data informs the non-reporter emission factor for electrical equipment.
+- Reconciliation: the four `ippu_dist_*` targets in the existing `_targets.R` (ammonia, petrochemicals, carbon black, iron and steel) are the Energy side of the feedstock reallocation, and the IPPU chapter is the receiving side. The rule above lists seven receiving sources, so aluminum, titanium dioxide, and zinc have no matching target yet. An end-to-end trace should confirm the reallocation reconciles.
+
+## Agriculture
+
+- Hard to retrieve: `DS-USDA-NRI` is proprietary and underlies DayCent. `DS-DAYCENT-OUTPUT` is model output available only via EPA 2025 (FOIA), with uncertain continuity. `DS-IFA-FERTILIZER` (IFASTAT) is membership-gated for the full series. `DS-BURNED-AREA` is an EPA-derived six-state analysis, extrapolated, with no clean public feed.
+- Easier to retrieve: the USDA NASS QuickStats API covers enteric fermentation, manure, rice, soils surrogate data, and field burning activity data through one endpoint. PRISM precipitation and USGS crushed stone are straightforward downloads.
+
+## LULUCF
+
+- Land representation: three databases (NRI for non-federal land, FIA for forest, NLCD for federal land and Alaska) classify the 936 million hectare U.S. land base into 36 IPCC land-use and land-use-change categories. FIA is authoritative for forest; NRI and NLCD are adjusted to match.
+- Only managed land is inventoried (886 of 936 million hectares). The managed-land designation uses PAD-US, USFS TPO (timber), NASS county grazing data, and EIA and USGS resource-extraction data, so several datasets feed the land base before any flux calculation.
+- Hard to retrieve: `DS-USDA-NRI` is the most load-bearing LULUCF input (cropland, grassland, settlements, conversions, land base); it is proprietary and runs through 2017 only. `DS-DAYCENT-LULUCF` is Tier 3 model output via EPA 2025 (FOIA) with uncertain continuity. `DS-NRCS-CEAP` is a restricted management survey. `DS-OPTIS` is a proprietary remote-sensing product.
+- DayCent underlies both agricultural soils (Ch. 5.4) and cropland and grassland soil carbon here: one dependency, two sectors. The registry records it as two datasets, `DS-DAYCENT-OUTPUT` and `DS-DAYCENT-LULUCF`.
+- Easier to retrieve: USFS FIA DataMart (forest, harvested wood products, urban trees); NLCD, NOAA C-CAP, MTBS, and PAD-US geospatial downloads; and the NID public API for reservoir surface area.
+- Some leaf categories (peatlands, land converted to other land) are flagged `needs_validation` pending the GHGIA chapter's exact treatment.
+
+## Waste
+
+Recent-year (2024) data gaps worth tracking as provenance:
+
+- MSW landfills: 2024 GHGRP data were not available at preparation time, so 2023 net emissions and derived parameters are held constant.
+- Composting: 2019–2024 tonnage is extrapolated from the 2018 per-capita ratio times Census population.
+- Anaerobic digestion: 1990–2015, 2020–2021, and 2024 rely on extrapolation or interpolation; 2024 is approximated by averaging 2022–2023 survey data.
+- The BioCycle State of Garbage survey (historical MSW activity data) is discontinued.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Schema</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2167,27 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ghgi_categories.csv-source-categories" id="toc-ghgi_categories.csv-source-categories" class="nav-link active" data-scroll-target="#ghgi_categories.csv-source-categories"><code>ghgi_categories.csv</code>: source categories</a></li>
+  <li><a href="#ghgi_datasets.csv-dataset-registry" id="toc-ghgi_datasets.csv-dataset-registry" class="nav-link" data-scroll-target="#ghgi_datasets.csv-dataset-registry"><code>ghgi_datasets.csv</code>: dataset registry</a></li>
+  <li><a href="#ghgi_category_datasets.csv-crosswalk" id="toc-ghgi_category_datasets.csv-crosswalk" class="nav-link" data-scroll-target="#ghgi_category_datasets.csv-crosswalk"><code>ghgi_category_datasets.csv</code>: crosswalk</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Schema</h1>
 </div>
 
 
@@ -2192,39 +2204,160 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
-<ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
-</ul>
+<p>The schema is three related CSV files in <code>schema/</code>. They record what the inventory estimates, what data each estimate needs, and how that data is obtained. To load and query them, see <a href="../how-to/query-the-schema.qmd">Query the schema</a>.</p>
+<section id="ghgi_categories.csv-source-categories" class="level2">
+<h2 class="anchored" data-anchor-id="ghgi_categories.csv-source-categories"><code>ghgi_categories.csv</code>: source categories</h2>
+<p>One row per node in the category hierarchy.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>node_id</code></td>
+<td>Unique key</td>
+</tr>
+<tr class="even">
+<td><code>level</code></td>
+<td>One of <code>sector</code>, <code>source</code>, <code>category</code>, <code>subsource</code>, <code>method</code>, or <code>memo</code></td>
+</tr>
+<tr class="odd">
+<td><code>parent_id</code></td>
+<td><code>node_id</code> of the parent node; empty for sectors</td>
+</tr>
+<tr class="even">
+<td><code>crt_code</code></td>
+<td>Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a)</td>
+</tr>
+<tr class="odd">
+<td><code>source_name</code></td>
+<td>Display name</td>
+</tr>
+<tr class="even">
+<td><code>gases</code></td>
+<td>Gases estimated, separated by semicolons (for example <code>CO2;CH4;N2O</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>chapter</code></td>
+<td>GHGIA 2026 chapter: 3 Energy, 4 IPPU, 5 Agriculture, 6 LULUCF, 7 Waste</td>
+</tr>
+<tr class="even">
+<td><code>needs_validation</code></td>
+<td><code>TRUE</code> when the treatment awaits confirmation against the GHGIA chapter text</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
-<ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
-</ul>
+<section id="ghgi_datasets.csv-dataset-registry" class="level2">
+<h2 class="anchored" data-anchor-id="ghgi_datasets.csv-dataset-registry"><code>ghgi_datasets.csv</code>: dataset registry</h2>
+<p>One row per dataset.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dataset_id</code></td>
+<td>Unique key, prefixed <code>DS-</code></td>
+</tr>
+<tr class="even">
+<td><code>dataset_name</code>, <code>provider</code></td>
+<td>Description and publishing organization</td>
+</tr>
+<tr class="odd">
+<td><code>role_default</code></td>
+<td>Usual role: <code>activity_data</code>, <code>emission_factor</code>, or <code>parameter</code></td>
+</tr>
+<tr class="even">
+<td><code>shared</code></td>
+<td>Hand-maintained flag for datasets used by more than one source category. It can lag the crosswalk; <code>shared_dataset_usage()</code> computes actual usage</td>
+</tr>
+<tr class="odd">
+<td><code>access_method</code></td>
+<td><code>api</code>, <code>bulk_download</code>, <code>csv_download</code>, <code>scrape</code>, <code>manual</code>, or <code>static</code></td>
+</tr>
+<tr class="even">
+<td><code>endpoint</code>, <code>format</code></td>
+<td>Where the data is retrieved and in what format</td>
+</tr>
+<tr class="odd">
+<td><code>auth</code></td>
+<td><code>none</code>, <code>api_key_optional</code>, <code>api_key</code>, <code>account</code>, <code>membership</code>, <code>license</code>, or <code>restricted</code></td>
+</tr>
+<tr class="even">
+<td><code>update_frequency</code></td>
+<td>How often the provider publishes</td>
+</tr>
+<tr class="odd">
+<td><code>source_status</code></td>
+<td><code>available</code>, <code>uncertain</code>, <code>restricted</code>, or <code>historical</code></td>
+</tr>
+<tr class="even">
+<td><code>access_verified</code></td>
+<td><code>TRUE</code> once the endpoint has been confirmed to work</td>
+</tr>
+<tr class="odd">
+<td><code>notes</code></td>
+<td>Free text</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
-</section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="ghgi_category_datasets.csv-crosswalk" class="level2">
+<h2 class="anchored" data-anchor-id="ghgi_category_datasets.csv-crosswalk"><code>ghgi_category_datasets.csv</code>: crosswalk</h2>
+<p>One row per dataset used by a category.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>node_id</code></td>
+<td>Category, from <code>ghgi_categories.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>dataset_id</code></td>
+<td>Dataset, from <code>ghgi_datasets.csv</code></td>
+</tr>
+<tr class="odd">
+<td><code>role</code></td>
+<td>Role in this category: <code>activity_data</code>, <code>emission_factor</code>, or <code>parameter</code></td>
+</tr>
+<tr class="even">
+<td><code>required</code></td>
+<td><code>FALSE</code> when the dataset is a cross-check or optional input</td>
+</tr>
+<tr class="odd">
+<td><code>provenance</code></td>
+<td>Where the mapping comes from, usually a GHGIA chapter section</td>
+</tr>
+<tr class="even">
+<td><code>notes</code></td>
+<td>Free text</td>
+</tr>
+</tbody>
+</table>
 </section>
 
 </main>

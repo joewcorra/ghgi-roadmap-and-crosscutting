@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Render the Documents</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2167,19 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Render the Documents</h1>
 </div>
 
 
@@ -2192,40 +2196,15 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
-<ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
-</ul>
-</section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
-<ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
-</ul>
-</section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
-</section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
-</section>
+<ol type="1">
+<li><p>Restore the R package library once per machine: run <code>renv::restore()</code> from the project root.</p></li>
+<li><p>From the project root, run:</p>
+<pre><code>quarto render</code></pre>
+<p>To render a single document, pass its path, for example <code>quarto render reference/glossary.qmd</code>.</p></li>
+<li><p>HTML output goes to <code>docs/</code>. Commit the regenerated files with your source changes.</p></li>
+</ol>
+<p>The documents that are rendered are listed in <code>_quarto.yml</code>. When you add a document, place it in the Diátaxis folder that matches its purpose (<code>how-to/</code>, <code>reference/</code>, or <code>explanation/</code>), then add it to the map in <code>index.qmd</code> and to the layout in <code>README.md</code>.</p>
+<p>When you rename or delete a document, also delete its old HTML file from <code>docs/</code>. Quarto does not remove outputs for documents that no longer exist.</p>
 
 </main>
 <!-- /main column -->

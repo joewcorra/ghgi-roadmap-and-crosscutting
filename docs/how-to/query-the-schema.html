@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Query the Schema</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,41 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -2167,15 +2202,26 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#load-and-validate" id="toc-load-and-validate" class="nav-link active" data-scroll-target="#load-and-validate">Load and validate</a></li>
+  <li><a href="#common-questions" id="toc-common-questions" class="nav-link" data-scroll-target="#common-questions">Common questions</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Query the Schema</h1>
 </div>
 
 
@@ -2192,39 +2238,50 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
-<ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
-</ul>
+<p>The functions in <code>R/ghgi_schema.R</code> load, validate, and query the three schema files in <code>schema/</code>. The file layouts are described in the <a href="../reference/schema.qmd">schema reference</a>.</p>
+<section id="load-and-validate" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-validate">Load and validate</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/ghgi_schema.R&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>schema <span class="ot">&lt;-</span> <span class="fu">read_ghgi_schema</span>() <span class="sc">%&gt;%</span> <span class="fu">validate_ghgi_schema</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>read_ghgi_schema()</code> reads from <code>schema/</code> by default; pass <code>dir</code> to read from elsewhere. <code>validate_ghgi_schema()</code> stops with an error if a <code>node_id</code> or <code>dataset_id</code> is duplicated, if the crosswalk references an unknown category or dataset, or if a category has an unknown parent.</p>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
-<ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
-</ul>
-</section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
-</section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="common-questions" class="level2">
+<h2 class="anchored" data-anchor-id="common-questions">Common questions</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>To find</th>
+<th>Call</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Every dataset one source category needs, with full metadata</td>
+<td><code>datasets_for(schema, &quot;composting&quot;)</code></td>
+</tr>
+<tr class="even">
+<td>Datasets shared across sources, ranked by how many depend on them</td>
+<td><code>shared_dataset_usage(schema)</code></td>
+</tr>
+<tr class="odd">
+<td>Categories with no datasets mapped yet (the worklist for the methodology parser)</td>
+<td><code>unmapped_sources(schema)</code></td>
+</tr>
+<tr class="even">
+<td>Categories that depend on a dataset whose status is not <code>available</code></td>
+<td><code>at_risk_sources(schema)</code></td>
+</tr>
+<tr class="odd">
+<td>Datasets grouped by access method, for building one retrieval function per method</td>
+<td><code>retrieval_plan(schema)</code></td>
+</tr>
+</tbody>
+</table>
+<p>In <code>retrieval_plan()</code>, rows with <code>access_verified</code> equal to <code>FALSE</code> are endpoints to confirm before relying on them.</p>
 </section>
 
 </main>

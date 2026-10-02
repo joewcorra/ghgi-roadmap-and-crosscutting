@@ -1,20 +1,11 @@
 project:
-  type: website
   output-dir: docs
   render:
-    - content/ghg_proposal.qmd
-    - content/*.qmd
-
-website:
-  title: "U.S. GHG Inventory System Proposal"
-  navbar:
-    left:
-      - text: "Main Proposal"
-        href: content/ghg_proposal.qmd
-      - text: "GHG Inventory Methodology"
-        href: content/ghg_inventory_methodology.qmd
-      - text: "Cross-Sector Boundaries"
-        href: content/cross_sector_boundaries.qmd
+    - index.qmd
+    - how-to/*.qmd
+    - reference/*.qmd
+    - reference/methodology/*.qmd
+    - explanation/*.qmd
 
 format:
   html:

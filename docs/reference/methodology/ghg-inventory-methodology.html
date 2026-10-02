@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-10-02">
 
-<title>GHG Inventory Project Hub</title>
+<title>National GHG Inventory – Methodology Reference</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -2167,15 +2168,188 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#energy" id="toc-energy" class="nav-link" data-scroll-target="#energy"><span class="header-section-number">1</span> Energy</a>
+  <ul class="collapse">
+  <li><a href="#sec-annex2-1" id="toc-sec-annex2-1" class="nav-link" data-scroll-target="#sec-annex2-1"><span class="header-section-number">1.1</span> Annex 2.1 – CO2 Emissions from Fossil Fuel Combustion</a>
+  <ul class="collapse">
+  <li><a href="#step-1-determine-total-fuel-consumption-by-fuel-type-and-sector" id="toc-step-1-determine-total-fuel-consumption-by-fuel-type-and-sector" class="nav-link" data-scroll-target="#step-1-determine-total-fuel-consumption-by-fuel-type-and-sector"><span class="header-section-number">1.1.1</span> Step 1 – Determine total fuel consumption by fuel type and sector</a></li>
+  <li><a href="#step-2-subtract-uses-accounted-for-in-the-ippu-chapter" id="toc-step-2-subtract-uses-accounted-for-in-the-ippu-chapter" class="nav-link" data-scroll-target="#step-2-subtract-uses-accounted-for-in-the-ippu-chapter"><span class="header-section-number">1.1.2</span> Step 2 – Subtract uses accounted for in the IPPU chapter</a></li>
+  <li><a href="#step-3-adjust-for-conversion-of-fossil-fuels-and-exports" id="toc-step-3-adjust-for-conversion-of-fossil-fuels-and-exports" class="nav-link" data-scroll-target="#step-3-adjust-for-conversion-of-fossil-fuels-and-exports"><span class="header-section-number">1.1.3</span> Step 3 – Adjust for conversion of fossil fuels and exports</a></li>
+  <li><a href="#step-4-adjust-sectoral-allocation-of-distillate-fuel-oil-and-motor-gasoline" id="toc-step-4-adjust-sectoral-allocation-of-distillate-fuel-oil-and-motor-gasoline" class="nav-link" data-scroll-target="#step-4-adjust-sectoral-allocation-of-distillate-fuel-oil-and-motor-gasoline"><span class="header-section-number">1.1.4</span> Step 4 – Adjust sectoral allocation of distillate fuel oil and motor gasoline</a></li>
+  <li><a href="#step-5-subtract-consumption-for-non-energy-use" id="toc-step-5-subtract-consumption-for-non-energy-use" class="nav-link" data-scroll-target="#step-5-subtract-consumption-for-non-energy-use"><span class="header-section-number">1.1.5</span> Step 5 – Subtract consumption for non-energy use</a></li>
+  <li><a href="#step-6-subtract-consumption-of-international-bunker-fuels" id="toc-step-6-subtract-consumption-of-international-bunker-fuels" class="nav-link" data-scroll-target="#step-6-subtract-consumption-of-international-bunker-fuels"><span class="header-section-number">1.1.6</span> Step 6 – Subtract consumption of international bunker fuels</a></li>
+  <li><a href="#step-7-determine-the-carbon-content-of-all-fuels" id="toc-step-7-determine-the-carbon-content-of-all-fuels" class="nav-link" data-scroll-target="#step-7-determine-the-carbon-content-of-all-fuels"><span class="header-section-number">1.1.7</span> Step 7 – Determine the carbon content of all fuels</a></li>
+  <li><a href="#step-8-estimate-co2-emissions" id="toc-step-8-estimate-co2-emissions" class="nav-link" data-scroll-target="#step-8-estimate-co2-emissions"><span class="header-section-number">1.1.8</span> Step 8 – Estimate CO2 emissions</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#industrial-processes-and-product-use-ippu" id="toc-industrial-processes-and-product-use-ippu" class="nav-link" data-scroll-target="#industrial-processes-and-product-use-ippu"><span class="header-section-number">2</span> Industrial Processes and Product Use (IPPU)</a>
+  <ul class="collapse">
+  <li><a href="#sec-4-1" id="toc-sec-4-1" class="nav-link" data-scroll-target="#sec-4-1"><span class="header-section-number">2.1</span> 4.1 Cement Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-clinker-production-data" id="toc-step-1-obtain-clinker-production-data" class="nav-link" data-scroll-target="#step-1-obtain-clinker-production-data"><span class="header-section-number">2.1.1</span> Step 1 – Obtain clinker production data</a></li>
+  <li><a href="#step-2-apply-clinker-emission-factor-and-ckd-correction" id="toc-step-2-apply-clinker-emission-factor-and-ckd-correction" class="nav-link" data-scroll-target="#step-2-apply-clinker-emission-factor-and-ckd-correction"><span class="header-section-number">2.1.2</span> Step 2 – Apply clinker emission factor and CKD correction</a></li>
+  </ul></li>
+  <li><a href="#sec-4-2" id="toc-sec-4-2" class="nav-link" data-scroll-target="#sec-4-2"><span class="header-section-number">2.2</span> 4.2 Lime Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-lime-production-data-by-type" id="toc-step-1-obtain-lime-production-data-by-type" class="nav-link" data-scroll-target="#step-1-obtain-lime-production-data-by-type"><span class="header-section-number">2.2.1</span> Step 1 – Obtain lime production data by type</a></li>
+  <li><a href="#step-2-apply-type-specific-emission-factors" id="toc-step-2-apply-type-specific-emission-factors" class="nav-link" data-scroll-target="#step-2-apply-type-specific-emission-factors"><span class="header-section-number">2.2.2</span> Step 2 – Apply type-specific emission factors</a></li>
+  </ul></li>
+  <li><a href="#sec-4-3" id="toc-sec-4-3" class="nav-link" data-scroll-target="#sec-4-3"><span class="header-section-number">2.3</span> 4.3 Glass Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-carbonate-input-quantities-by-type" id="toc-step-1-obtain-carbonate-input-quantities-by-type" class="nav-link" data-scroll-target="#step-1-obtain-carbonate-input-quantities-by-type"><span class="header-section-number">2.3.1</span> Step 1 – Obtain carbonate input quantities by type</a></li>
+  <li><a href="#step-2-apply-carbonate-specific-emission-factors" id="toc-step-2-apply-carbonate-specific-emission-factors" class="nav-link" data-scroll-target="#step-2-apply-carbonate-specific-emission-factors"><span class="header-section-number">2.3.2</span> Step 2 – Apply carbonate-specific emission factors</a></li>
+  </ul></li>
+  <li><a href="#sec-4-4" id="toc-sec-4-4" class="nav-link" data-scroll-target="#sec-4-4"><span class="header-section-number">2.4</span> 4.4 Other Process Uses of Carbonates</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-limestone-and-dolomite-consumption-by-end-use" id="toc-step-1-obtain-limestone-and-dolomite-consumption-by-end-use" class="nav-link" data-scroll-target="#step-1-obtain-limestone-and-dolomite-consumption-by-end-use"><span class="header-section-number">2.4.1</span> Step 1 – Obtain limestone and dolomite consumption by end use</a></li>
+  <li><a href="#step-2-apply-emission-factors-for-limestone-and-dolomite" id="toc-step-2-apply-emission-factors-for-limestone-and-dolomite" class="nav-link" data-scroll-target="#step-2-apply-emission-factors-for-limestone-and-dolomite"><span class="header-section-number">2.4.2</span> Step 2 – Apply emission factors for limestone and dolomite</a></li>
+  <li><a href="#step-3-estimate-emissions-from-soda-ash-consumption" id="toc-step-3-estimate-emissions-from-soda-ash-consumption" class="nav-link" data-scroll-target="#step-3-estimate-emissions-from-soda-ash-consumption"><span class="header-section-number">2.4.3</span> Step 3 – Estimate emissions from soda ash consumption</a></li>
+  </ul></li>
+  <li><a href="#sec-4-5" id="toc-sec-4-5" class="nav-link" data-scroll-target="#sec-4-5"><span class="header-section-number">2.5</span> 4.5 Ammonia Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-process-co2-data-2010-2022" id="toc-step-1-obtain-process-co2-data-2010-2022" class="nav-link" data-scroll-target="#step-1-obtain-process-co2-data-2010-2022"><span class="header-section-number">2.5.1</span> Step 1 – Obtain process CO2 data (2010-2022)</a></li>
+  <li><a href="#step-2-estimate-emissions-from-feedstock-data-1990-2009" id="toc-step-2-estimate-emissions-from-feedstock-data-1990-2009" class="nav-link" data-scroll-target="#step-2-estimate-emissions-from-feedstock-data-1990-2009"><span class="header-section-number">2.5.2</span> Step 2 – Estimate emissions from feedstock data (1990-2009)</a></li>
+  <li><a href="#step-3-splice-time-series" id="toc-step-3-splice-time-series" class="nav-link" data-scroll-target="#step-3-splice-time-series"><span class="header-section-number">2.5.3</span> Step 3 – Splice time series</a></li>
+  </ul></li>
+  <li><a href="#sec-4-6" id="toc-sec-4-6" class="nav-link" data-scroll-target="#sec-4-6"><span class="header-section-number">2.6</span> 4.6 Urea Consumption for Non-Agricultural Purposes</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-non-agricultural-urea-consumption" id="toc-step-1-obtain-non-agricultural-urea-consumption" class="nav-link" data-scroll-target="#step-1-obtain-non-agricultural-urea-consumption"><span class="header-section-number">2.6.1</span> Step 1 – Obtain non-agricultural urea consumption</a></li>
+  <li><a href="#step-2-apply-stoichiometric-emission-factor" id="toc-step-2-apply-stoichiometric-emission-factor" class="nav-link" data-scroll-target="#step-2-apply-stoichiometric-emission-factor"><span class="header-section-number">2.6.2</span> Step 2 – Apply stoichiometric emission factor</a></li>
+  </ul></li>
+  <li><a href="#sec-4-7" id="toc-sec-4-7" class="nav-link" data-scroll-target="#sec-4-7"><span class="header-section-number">2.7</span> 4.7 Nitric Acid Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-n2o-emissions-and-production-data-2010-2022" id="toc-step-1-obtain-n2o-emissions-and-production-data-2010-2022" class="nav-link" data-scroll-target="#step-1-obtain-n2o-emissions-and-production-data-2010-2022"><span class="header-section-number">2.7.1</span> Step 1 – Obtain N2O emissions and production data (2010-2022)</a></li>
+  <li><a href="#step-2-estimate-emissions-from-production-data-1990-2009" id="toc-step-2-estimate-emissions-from-production-data-1990-2009" class="nav-link" data-scroll-target="#step-2-estimate-emissions-from-production-data-1990-2009"><span class="header-section-number">2.7.2</span> Step 2 – Estimate emissions from production data (1990-2009)</a></li>
+  <li><a href="#step-3-splice-and-express-as-co2-equivalents" id="toc-step-3-splice-and-express-as-co2-equivalents" class="nav-link" data-scroll-target="#step-3-splice-and-express-as-co2-equivalents"><span class="header-section-number">2.7.3</span> Step 3 – Splice and express as CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-8" id="toc-sec-4-8" class="nav-link" data-scroll-target="#sec-4-8"><span class="header-section-number">2.8</span> 4.8 Adipic Acid Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-adipic-acid-production-data" id="toc-step-1-obtain-adipic-acid-production-data" class="nav-link" data-scroll-target="#step-1-obtain-adipic-acid-production-data"><span class="header-section-number">2.8.1</span> Step 1 – Obtain adipic acid production data</a></li>
+  <li><a href="#step-2-apply-emission-factor-with-abatement-adjustment" id="toc-step-2-apply-emission-factor-with-abatement-adjustment" class="nav-link" data-scroll-target="#step-2-apply-emission-factor-with-abatement-adjustment"><span class="header-section-number">2.8.2</span> Step 2 – Apply emission factor with abatement adjustment</a></li>
+  </ul></li>
+  <li><a href="#sec-4-9" id="toc-sec-4-9" class="nav-link" data-scroll-target="#sec-4-9"><span class="header-section-number">2.9</span> 4.9 Caprolactam, Glyoxal and Glyoxylic Acid Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-production-data" id="toc-step-1-obtain-production-data" class="nav-link" data-scroll-target="#step-1-obtain-production-data"><span class="header-section-number">2.9.1</span> Step 1 – Obtain production data</a></li>
+  <li><a href="#step-2-apply-tier-1-emission-factors" id="toc-step-2-apply-tier-1-emission-factors" class="nav-link" data-scroll-target="#step-2-apply-tier-1-emission-factors"><span class="header-section-number">2.9.2</span> Step 2 – Apply Tier 1 emission factors</a></li>
+  </ul></li>
+  <li><a href="#sec-4-10" id="toc-sec-4-10" class="nav-link" data-scroll-target="#sec-4-10"><span class="header-section-number">2.10</span> 4.10 Carbide Production and Consumption</a>
+  <ul class="collapse">
+  <li><a href="#step-1-apply-tier-1-emission-factors-to-sic-production" id="toc-step-1-apply-tier-1-emission-factors-to-sic-production" class="nav-link" data-scroll-target="#step-1-apply-tier-1-emission-factors-to-sic-production"><span class="header-section-number">2.10.1</span> Step 1 – Apply Tier 1 emission factors to SiC production</a></li>
+  <li><a href="#step-2-estimate-co2-from-sic-consumption" id="toc-step-2-estimate-co2-from-sic-consumption" class="nav-link" data-scroll-target="#step-2-estimate-co2-from-sic-consumption"><span class="header-section-number">2.10.2</span> Step 2 – Estimate CO2 from SiC consumption</a></li>
+  </ul></li>
+  <li><a href="#sec-4-11" id="toc-sec-4-11" class="nav-link" data-scroll-target="#sec-4-11"><span class="header-section-number">2.11</span> 4.11 Titanium Dioxide Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-tio2-production-data-and-apply-emission-factor" id="toc-step-1-obtain-tio2-production-data-and-apply-emission-factor" class="nav-link" data-scroll-target="#step-1-obtain-tio2-production-data-and-apply-emission-factor"><span class="header-section-number">2.11.1</span> Step 1 – Obtain TiO2 production data and apply emission factor</a></li>
+  </ul></li>
+  <li><a href="#sec-4-12" id="toc-sec-4-12" class="nav-link" data-scroll-target="#sec-4-12"><span class="header-section-number">2.12</span> 4.12 Soda Ash Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-trona-ore-consumption-and-apply-emission-factor" id="toc-step-1-obtain-trona-ore-consumption-and-apply-emission-factor" class="nav-link" data-scroll-target="#step-1-obtain-trona-ore-consumption-and-apply-emission-factor"><span class="header-section-number">2.12.1</span> Step 1 – Obtain trona ore consumption and apply emission factor</a></li>
+  </ul></li>
+  <li><a href="#sec-4-13" id="toc-sec-4-13" class="nav-link" data-scroll-target="#sec-4-13"><span class="header-section-number">2.13</span> 4.13 Petrochemical Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-production-data-by-chemical" id="toc-step-1-obtain-production-data-by-chemical" class="nav-link" data-scroll-target="#step-1-obtain-production-data-by-chemical"><span class="header-section-number">2.13.1</span> Step 1 – Obtain production data by chemical</a></li>
+  <li><a href="#step-2-apply-chemical-specific-emission-factors-for-co2" id="toc-step-2-apply-chemical-specific-emission-factors-for-co2" class="nav-link" data-scroll-target="#step-2-apply-chemical-specific-emission-factors-for-co2"><span class="header-section-number">2.13.2</span> Step 2 – Apply chemical-specific emission factors for CO2</a></li>
+  <li><a href="#step-3-apply-tier-1-factors-for-ch4" id="toc-step-3-apply-tier-1-factors-for-ch4" class="nav-link" data-scroll-target="#step-3-apply-tier-1-factors-for-ch4"><span class="header-section-number">2.13.3</span> Step 3 – Apply Tier 1 factors for CH4</a></li>
+  </ul></li>
+  <li><a href="#sec-4-14" id="toc-sec-4-14" class="nav-link" data-scroll-target="#sec-4-14"><span class="header-section-number">2.14</span> 4.14 HCFC-22 Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-facility-level-hfc-23-emissions-data" id="toc-step-1-obtain-facility-level-hfc-23-emissions-data" class="nav-link" data-scroll-target="#step-1-obtain-facility-level-hfc-23-emissions-data"><span class="header-section-number">2.14.1</span> Step 1 – Obtain facility-level HFC-23 emissions data</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents" id="toc-step-2-convert-to-co2-equivalents" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents"><span class="header-section-number">2.14.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-15" id="toc-sec-4-15" class="nav-link" data-scroll-target="#sec-4-15"><span class="header-section-number">2.15</span> 4.15 Production of Fluorochemicals Other Than HCFC-22</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-facility-level-fluorinated-ghg-emissions" id="toc-step-1-obtain-facility-level-fluorinated-ghg-emissions" class="nav-link" data-scroll-target="#step-1-obtain-facility-level-fluorinated-ghg-emissions"><span class="header-section-number">2.15.1</span> Step 1 – Obtain facility-level fluorinated GHG emissions</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-1" id="toc-step-2-convert-to-co2-equivalents-1" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-1"><span class="header-section-number">2.15.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-16" id="toc-sec-4-16" class="nav-link" data-scroll-target="#sec-4-16"><span class="header-section-number">2.16</span> 4.16 Carbon Dioxide Consumption</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-co2-extraction-and-transfer-data" id="toc-step-1-obtain-co2-extraction-and-transfer-data" class="nav-link" data-scroll-target="#step-1-obtain-co2-extraction-and-transfer-data"><span class="header-section-number">2.16.1</span> Step 1 – Obtain CO2 extraction and transfer data</a></li>
+  <li><a href="#step-2-assume-full-atmospheric-release" id="toc-step-2-assume-full-atmospheric-release" class="nav-link" data-scroll-target="#step-2-assume-full-atmospheric-release"><span class="header-section-number">2.16.2</span> Step 2 – Assume full atmospheric release</a></li>
+  </ul></li>
+  <li><a href="#sec-4-17" id="toc-sec-4-17" class="nav-link" data-scroll-target="#sec-4-17"><span class="header-section-number">2.17</span> 4.17 Phosphoric Acid Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-phosphate-rock-consumption-data" id="toc-step-1-obtain-phosphate-rock-consumption-data" class="nav-link" data-scroll-target="#step-1-obtain-phosphate-rock-consumption-data"><span class="header-section-number">2.17.1</span> Step 1 – Obtain phosphate rock consumption data</a></li>
+  <li><a href="#step-2-apply-inorganic-carbon-content-and-calculate-emissions" id="toc-step-2-apply-inorganic-carbon-content-and-calculate-emissions" class="nav-link" data-scroll-target="#step-2-apply-inorganic-carbon-content-and-calculate-emissions"><span class="header-section-number">2.17.2</span> Step 2 – Apply inorganic carbon content and calculate emissions</a></li>
+  </ul></li>
+  <li><a href="#sec-4-18" id="toc-sec-4-18" class="nav-link" data-scroll-target="#sec-4-18"><span class="header-section-number">2.18</span> 4.18 Iron and Steel Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-compile-carbonaceous-input-and-output-data" id="toc-step-1-compile-carbonaceous-input-and-output-data" class="nav-link" data-scroll-target="#step-1-compile-carbonaceous-input-and-output-data"><span class="header-section-number">2.18.1</span> Step 1 – Compile carbonaceous input and output data</a></li>
+  <li><a href="#step-2-calculate-co2-from-each-process-via-mass-balance" id="toc-step-2-calculate-co2-from-each-process-via-mass-balance" class="nav-link" data-scroll-target="#step-2-calculate-co2-from-each-process-via-mass-balance"><span class="header-section-number">2.18.2</span> Step 2 – Calculate CO2 from each process via mass balance</a></li>
+  </ul></li>
+  <li><a href="#sec-4-19" id="toc-sec-4-19" class="nav-link" data-scroll-target="#sec-4-19"><span class="header-section-number">2.19</span> 4.19 Ferroalloy Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-ferroalloy-production-data-and-carbon-inputs" id="toc-step-1-obtain-ferroalloy-production-data-and-carbon-inputs" class="nav-link" data-scroll-target="#step-1-obtain-ferroalloy-production-data-and-carbon-inputs"><span class="header-section-number">2.19.1</span> Step 1 – Obtain ferroalloy production data and carbon inputs</a></li>
+  <li><a href="#step-2-apply-carbon-mass-balance" id="toc-step-2-apply-carbon-mass-balance" class="nav-link" data-scroll-target="#step-2-apply-carbon-mass-balance"><span class="header-section-number">2.19.2</span> Step 2 – Apply carbon mass balance</a></li>
+  </ul></li>
+  <li><a href="#sec-4-20" id="toc-sec-4-20" class="nav-link" data-scroll-target="#sec-4-20"><span class="header-section-number">2.20</span> 4.20 Aluminum Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-process-emissions-data-2010-2022" id="toc-step-1-obtain-process-emissions-data-2010-2022" class="nav-link" data-scroll-target="#step-1-obtain-process-emissions-data-2010-2022"><span class="header-section-number">2.20.1</span> Step 1 – Obtain process emissions data (2010-2022)</a></li>
+  <li><a href="#step-2-estimate-pre-2010-emissions" id="toc-step-2-estimate-pre-2010-emissions" class="nav-link" data-scroll-target="#step-2-estimate-pre-2010-emissions"><span class="header-section-number">2.20.2</span> Step 2 – Estimate pre-2010 emissions</a></li>
+  <li><a href="#step-3-convert-pfcs-to-co2-equivalents-and-combine" id="toc-step-3-convert-pfcs-to-co2-equivalents-and-combine" class="nav-link" data-scroll-target="#step-3-convert-pfcs-to-co2-equivalents-and-combine"><span class="header-section-number">2.20.3</span> Step 3 – Convert PFCs to CO2 equivalents and combine</a></li>
+  </ul></li>
+  <li><a href="#sec-4-21" id="toc-sec-4-21" class="nav-link" data-scroll-target="#sec-4-21"><span class="header-section-number">2.21</span> 4.21 Magnesium Production and Processing</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-sf6-consumptionemissions-data" id="toc-step-1-obtain-sf6-consumptionemissions-data" class="nav-link" data-scroll-target="#step-1-obtain-sf6-consumptionemissions-data"><span class="header-section-number">2.21.1</span> Step 1 – Obtain SF6 consumption/emissions data</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-2" id="toc-step-2-convert-to-co2-equivalents-2" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-2"><span class="header-section-number">2.21.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-22" id="toc-sec-4-22" class="nav-link" data-scroll-target="#sec-4-22"><span class="header-section-number">2.22</span> 4.22 Lead Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-lead-production-by-route-and-apply-emission-factors" id="toc-step-1-obtain-lead-production-by-route-and-apply-emission-factors" class="nav-link" data-scroll-target="#step-1-obtain-lead-production-by-route-and-apply-emission-factors"><span class="header-section-number">2.22.1</span> Step 1 – Obtain lead production by route and apply emission factors</a></li>
+  </ul></li>
+  <li><a href="#sec-4-23" id="toc-sec-4-23" class="nav-link" data-scroll-target="#sec-4-23"><span class="header-section-number">2.23</span> 4.23 Zinc Production</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-zinc-production-data-and-apply-emission-factor" id="toc-step-1-obtain-zinc-production-data-and-apply-emission-factor" class="nav-link" data-scroll-target="#step-1-obtain-zinc-production-data-and-apply-emission-factor"><span class="header-section-number">2.23.1</span> Step 1 – Obtain zinc production data and apply emission factor</a></li>
+  </ul></li>
+  <li><a href="#sec-4-24" id="toc-sec-4-24" class="nav-link" data-scroll-target="#sec-4-24"><span class="header-section-number">2.24</span> 4.24 Electronics Industry</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-fluorinated-ghg-emissions-by-sub-sector-and-period" id="toc-step-1-obtain-fluorinated-ghg-emissions-by-sub-sector-and-period" class="nav-link" data-scroll-target="#step-1-obtain-fluorinated-ghg-emissions-by-sub-sector-and-period"><span class="header-section-number">2.24.1</span> Step 1 – Obtain fluorinated GHG emissions by sub-sector and period</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-3" id="toc-step-2-convert-to-co2-equivalents-3" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-3"><span class="header-section-number">2.24.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-25" id="toc-sec-4-25" class="nav-link" data-scroll-target="#sec-4-25"><span class="header-section-number">2.25</span> 4.25 Substitution of Ozone Depleting Substances</a>
+  <ul class="collapse">
+  <li><a href="#step-1-model-equipment-stock-and-annual-emissions-via-vintaging-model" id="toc-step-1-model-equipment-stock-and-annual-emissions-via-vintaging-model" class="nav-link" data-scroll-target="#step-1-model-equipment-stock-and-annual-emissions-via-vintaging-model"><span class="header-section-number">2.25.1</span> Step 1 – Model equipment stock and annual emissions via Vintaging Model</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-4" id="toc-step-2-convert-to-co2-equivalents-4" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-4"><span class="header-section-number">2.25.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-26" id="toc-sec-4-26" class="nav-link" data-scroll-target="#sec-4-26"><span class="header-section-number">2.26</span> 4.26 Electrical Equipment</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-sf6-emissions-by-source-and-period" id="toc-step-1-obtain-sf6-emissions-by-source-and-period" class="nav-link" data-scroll-target="#step-1-obtain-sf6-emissions-by-source-and-period"><span class="header-section-number">2.26.1</span> Step 1 – Obtain SF6 emissions by source and period</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-5" id="toc-step-2-convert-to-co2-equivalents-5" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-5"><span class="header-section-number">2.26.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-27" id="toc-sec-4-27" class="nav-link" data-scroll-target="#sec-4-27"><span class="header-section-number">2.27</span> 4.27 SF6 and PFCs from Other Product Uses</a>
+  <ul class="collapse">
+  <li><a href="#step-1-estimate-emissions-by-application" id="toc-step-1-estimate-emissions-by-application" class="nav-link" data-scroll-target="#step-1-estimate-emissions-by-application"><span class="header-section-number">2.27.1</span> Step 1 – Estimate emissions by application</a></li>
+  <li><a href="#step-2-convert-to-co2-equivalents-6" id="toc-step-2-convert-to-co2-equivalents-6" class="nav-link" data-scroll-target="#step-2-convert-to-co2-equivalents-6"><span class="header-section-number">2.27.2</span> Step 2 – Convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-28" id="toc-sec-4-28" class="nav-link" data-scroll-target="#sec-4-28"><span class="header-section-number">2.28</span> 4.28 Nitrous Oxide from Product Uses</a>
+  <ul class="collapse">
+  <li><a href="#step-1-obtain-n2o-production-and-disaggregate-by-application" id="toc-step-1-obtain-n2o-production-and-disaggregate-by-application" class="nav-link" data-scroll-target="#step-1-obtain-n2o-production-and-disaggregate-by-application"><span class="header-section-number">2.28.1</span> Step 1 – Obtain N2O production and disaggregate by application</a></li>
+  <li><a href="#step-2-apply-emission-rates-and-convert-to-co2-equivalents" id="toc-step-2-apply-emission-rates-and-convert-to-co2-equivalents" class="nav-link" data-scroll-target="#step-2-apply-emission-rates-and-convert-to-co2-equivalents"><span class="header-section-number">2.28.2</span> Step 2 – Apply emission rates and convert to CO2 equivalents</a></li>
+  </ul></li>
+  <li><a href="#sec-4-29" id="toc-sec-4-29" class="nav-link" data-scroll-target="#sec-4-29"><span class="header-section-number">2.29</span> 4.29 Industrial Processes and Product Use – Summary</a>
+  <ul class="collapse">
+  <li><a href="#step-1-aggregate-all-ippu-subcategory-estimates" id="toc-step-1-aggregate-all-ippu-subcategory-estimates" class="nav-link" data-scroll-target="#step-1-aggregate-all-ippu-subcategory-estimates"><span class="header-section-number">2.29.1</span> Step 1 – Aggregate all IPPU subcategory estimates</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ghg-inventory-methodology.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">National GHG Inventory – Methodology Reference</h1>
+<p class="subtitle lead">Source Category Methodologies: Narrative, Coding Roadmap, and Documentation</p>
 </div>
 
 
@@ -2183,6 +2357,12 @@ vertical-align: -.125em;
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 2, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -2192,39 +2372,3359 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
-<ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
-</ul>
+<section id="introduction" class="level1 unnumbered">
+<h1 class="unnumbered">Introduction</h1>
+<p>This document serves three purposes:</p>
+<ol type="1">
+<li><strong>Methodology narrative</strong> – a plain-language description of the calculation methodology for each source category, suitable for review by domain experts and auditors.</li>
+<li><strong>Coding roadmap</strong> – technical annotations identifying the inputs, outputs, and key operations required for each step, to guide development of the corresponding R scripts.</li>
+<li><strong>Inventory documentation</strong> – a reference record of the methodological approach taken in the national GHG Inventory.</li>
+</ol>
+<p>Each source category is organised by its category code. Technical annotations appear as callout boxes beneath each step.</p>
+<hr>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
-<ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
-</ul>
+<section id="energy" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Energy</h1>
+<section id="sec-annex2-1" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-annex2-1"><span class="header-section-number">1.1</span> Annex 2.1 – CO2 Emissions from Fossil Fuel Combustion</h2>
+<p><strong>Overview.</strong> CO2 emissions from fossil fuel combustion are estimated using a bottom-up, sector-based approach aligned with the IPCC 2006 Guidelines Tier 2 method. The methodology begins with raw fuel consumption data from the Energy Information Administration (EIA), applies a series of adjustments to arrive at energy consumed for combustion purposes, and then converts adjusted consumption to CO2 emissions using fuel-specific carbon content coefficients. The primary inputs are EIA fuel consumption statistics; the primary output is CO2 emissions in MMT CO2 Eq. by fuel type and end-use sector.</p>
+<hr>
+<section id="step-1-determine-total-fuel-consumption-by-fuel-type-and-sector" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="step-1-determine-total-fuel-consumption-by-fuel-type-and-sector"><span class="header-section-number">1.1.1</span> Step 1 – Determine total fuel consumption by fuel type and sector</h3>
+<p>Fuel consumption data are obtained from the EIA in physical units and converted to energy equivalents (TBtu, using higher heating values). Data are aggregated by end-use sector (residential, commercial, industrial, transportation, electric power, and U.S. Territories) and by primary and secondary fuel type. Electricity use is allocated to sectors based on EIA retail sales to ultimate customers. For years 2010 onward, electricity consumption by electric vehicles is estimated separately and reallocated from residential and commercial sectors to transportation.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>EIA Monthly Energy Review; EIA fuel consumption surveys by sector and fuel type; EIA electricity retail sales data; Browning (2018) EV electricity methodology</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Table of unadjusted fuel consumption (TBtu) by fuel type x sector x year</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Unit conversion (physical -&gt; TBtu); aggregation by sector and fuel type; EV electricity reallocation from residential/commercial to transportation</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td><code>dplyr::summarise()</code> for aggregation; conversion factors stored as named constants or lookup table; EV reallocation applied conditionally for years &gt;= 2010</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/01_fuel_consumption_raw.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
 </section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
-<ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
-</ul>
+<section id="step-2-subtract-uses-accounted-for-in-the-ippu-chapter" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="step-2-subtract-uses-accounted-for-in-the-ippu-chapter"><span class="header-section-number">1.1.2</span> Step 2 – Subtract uses accounted for in the IPPU chapter</h3>
+<p>Portions of seven fuel types (coking coal, distillate fuel, industrial other coal, petroleum coke, natural gas, residual fuel oil, and other oil &gt;401 degreesF) are reallocated to the Industrial Processes and Product Use (IPPU) chapter because they are consumed as raw materials rather than as combustion fuels. These amounts are removed from Energy chapter totals to avoid double-counting with IPPU. The adjustment quantities are derived from activity data used in the relevant IPPU calculations (e.g., iron and steel production, aluminum production, ammonia production, carbon black, silicon carbide, titanium dioxide, ferroalloys).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>IPPU activity data for iron &amp; steel, aluminum, ammonia, carbon black, SiC, TiO2, ferroalloys; EIA reported coking coal consumption</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Adjustment table (TBtu) by fuel type to be subtracted from industrial sector totals</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Join IPPU-derived fuel quantities to energy consumption table; subtract adjustment amounts by fuel type</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Left join on fuel type; negative values possible where IPPU consumption exceeds EIA-reported totals – handle with <code>pmax()</code> or explicit flag</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/02_ippu_adjustments.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
 </section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="step-3-adjust-for-conversion-of-fossil-fuels-and-exports" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="step-3-adjust-for-conversion-of-fossil-fuels-and-exports"><span class="header-section-number">1.1.3</span> Step 3 – Adjust for conversion of fossil fuels and exports</h3>
+<p>Three adjustments are applied. First, ethanol blended into motor gasoline is removed (biogenic carbon tracked in LULUCF, not Energy). Second, biodiesel and renewable diesel blended into distillate fuel oil are removed for the same reason (from 2009 onward). Third, industrial other coal used to produce synthetic natural gas at the Dakota Gasification Plant is adjusted: the energy content associated with CO2 exported to Canada by pipeline is subtracted from industrial other coal consumption, as that CO2 is not emitted to the U.S. atmosphere.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>EIA ethanol blending volumes; EIA biodiesel/renewable diesel volumes (2009+); Dakota Gasification Plant CO2 export volumes</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Further-adjusted consumption table with biofuel fractions and exported CO2 energy removed</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Conditional subtraction by year and fuel type; motor gasoline and distillate fuel oil adjusted separately</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Year-conditional logic (<code>if_else()</code> or <code>case_when()</code>) for biodiesel adjustment start year; Dakota adjustment is a single small annual subtraction from industrial other coal</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/03_biofuel_and_conversion_adjustments.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-4-adjust-sectoral-allocation-of-distillate-fuel-oil-and-motor-gasoline" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="step-4-adjust-sectoral-allocation-of-distillate-fuel-oil-and-motor-gasoline"><span class="header-section-number">1.1.4</span> Step 4 – Adjust sectoral allocation of distillate fuel oil and motor gasoline</h3>
+<p>EPA conducts an independent bottom-up analysis of transportation fuel consumption using Federal Highway Administration (FHWA) data. Where FHWA estimates differ from EIA’s sectoral allocation, the transportation sector’s distillate and motor gasoline consumption is adjusted to match the FHWA-derived figure. Because EIA national totals are considered accurate, the difference is redistributed proportionally across the residential, commercial, and industrial sectors.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>FHWA Highway Statistics (annual); EIA sectoral distillate and motor gasoline consumption</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Revised distillate and motor gasoline consumption by sector, with transportation adjusted to FHWA estimate</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Calculate difference between FHWA and EIA transportation figures; redistribute difference proportionally across residential, commercial, and industrial sectors</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Proportional redistribution: non-transport sector shares calculated from unadjusted values, then applied to the adjustment delta</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/04_fhwa_sectoral_adjustment.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-5-subtract-consumption-for-non-energy-use" class="level3" data-number="1.1.5">
+<h3 data-number="1.1.5" class="anchored" data-anchor-id="step-5-subtract-consumption-for-non-energy-use"><span class="header-section-number">1.1.5</span> Step 5 – Subtract consumption for non-energy use</h3>
+<p>Fossil fuels consumed for non-energy purposes (e.g., asphalt, lubricants, plastics feedstocks) are subtracted from total fuel consumption. These fuels sequester varying fractions of their carbon content in products rather than releasing it to the atmosphere during combustion. Their emissions are estimated separately in the Carbon Emitted from Non-Energy Uses of Fossil Fuels section.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>EIA non-energy use estimates by fuel type and sector (Table A-18)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Consumption table with non-energy fuel quantities removed</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Subtract non-energy use volumes by fuel type from total consumption</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Non-energy use table joined by fuel type and year; subtraction produces the combustion-only consumption figures</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/05_non_energy_use_adjustment.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-6-subtract-consumption-of-international-bunker-fuels" class="level3" data-number="1.1.6">
+<h3 data-number="1.1.6" class="anchored" data-anchor-id="step-6-subtract-consumption-of-international-bunker-fuels"><span class="header-section-number">1.1.6</span> Step 6 – Subtract consumption of international bunker fuels</h3>
+<p>Emissions from international transport (aviation jet fuel, marine residual and distillate fuel oil used in international shipping) are excluded from national totals per IPCC and UNFCCC guidelines. The estimated bunker fuel volumes are subtracted from EIA transportation sector consumption figures. Bunker fuel emissions are reported separately.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>International bunker fuel estimates by fuel type (Table A-19); see also Annex 3.3 for aviation methodology</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Final adjusted consumption table (TBtu), equivalent to Tables A-5 through A-17 in the Annex</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Subtract bunker volumes from transportation sector jet fuel, residual fuel, and distillate fuel entries</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Straightforward subtraction; bunker fuel table joined by fuel type and year</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/06_bunker_fuel_adjustment.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-7-determine-the-carbon-content-of-all-fuels" class="level3" data-number="1.1.7">
+<h3 data-number="1.1.7" class="anchored" data-anchor-id="step-7-determine-the-carbon-content-of-all-fuels"><span class="header-section-number">1.1.7</span> Step 7 – Determine the carbon content of all fuels</h3>
+<p>Adjusted energy consumption (TBtu) for each fuel type is multiplied by a fuel-specific carbon content coefficient (MMT C/QBtu) to yield the carbon content of combusted fuels. Coefficients are sourced from EIA and EPA and largely reflect U.S.-specific fuel qualities rather than IPCC defaults. For several fuels (motor gasoline, distillate, HGL, natural gas, crude oil, motor gasoline blending components), coefficients vary annually to reflect changes in fuel composition. For geothermal electricity generation, carbon content is estimated from net generation by geotype (flash steam, dry steam, binary) multiplied by geotype-specific coefficients.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Adjusted fuel consumption by fuel type and sector (Steps 1-6 output); carbon content coefficient table (Table A-20), annually variable for select fuels</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Carbon content (MMT C) by fuel type and sector</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Join adjusted consumption to carbon content coefficients by fuel type and year; multiply consumption x coefficient; geothermal handled separately by geotype</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Annual variability in coefficients means the join must be on both <code>fuel_type</code> and <code>year</code>; fixed coefficients can be stored as a lookup; variable ones require a time-series table</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/07_carbon_content.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-8-estimate-co2-emissions" class="level3" data-number="1.1.8">
+<h3 data-number="1.1.8" class="anchored" data-anchor-id="step-8-estimate-co2-emissions"><span class="header-section-number">1.1.8</span> Step 8 – Estimate CO2 emissions</h3>
+<p>Carbon content values are converted to CO2 emissions by applying a 100 percent oxidation fraction (per IPCC 2006 guidance). Emissions are expressed in MMT CO2 Eq. and summarised by major fuel type and consuming sector. To report emissions by final end-use sector, electric power sector emissions are distributed to residential, commercial, industrial, and transportation sectors in proportion to each sector’s share of aggregate electricity consumption. Transportation emissions are further disaggregated by vehicle type and mode using fuel consumption data by vehicle type (see Annex 3.1).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Carbon content by fuel type and sector (Step 7); electricity consumption by end-use sector (Table A-22); transportation fuel consumption by vehicle type (Annex 3.1)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) by fuel type x sector; also by final end-use sector with electric power distributed; transportation sub-allocated by vehicle/mode</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply C content x (44/12) to convert C to CO2; allocate electric power emissions to end-use sectors by electricity share; join transport mode allocation factors</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>C-to-CO2 conversion factor is 44.01/12.011 ~ 3.664; electric power allocation is a weighted redistribution; final output table structure should mirror Annex Tables A-5 through A-17</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/08_co2_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a Tier 2 bottom-up methodology using EIA aggregate fuel consumption as its foundation. Key assumptions include: 100% oxidation of carbon during combustion; HHV (not LHV) energy basis throughout; use of No. 2 distillate as representative of all distillate grades; and U.S.-specific carbon content coefficients that vary annually for several fuel types.</p>
+<ul>
+<li><strong>Open question:</strong> EV electricity reallocation methodology (Browning 2018) – confirm the current implementation aligns with the most recent technical memo.</li>
+<li><strong>Open question:</strong> IPPU adjustment quantities (Step 2) need to be sourced consistently from the same IPPU module outputs to ensure cross-chapter consistency.</li>
+<li><strong>Open question:</strong> Confirm treatment of geothermal in Step 7 – binary/flash hybrids may require special handling.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="industrial-processes-and-product-use-ippu" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Industrial Processes and Product Use (IPPU)</h1>
+<section id="sec-4-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-4-1"><span class="header-section-number">2.1</span> 4.1 Cement Production</h2>
+<p><strong>Overview.</strong> CO2 emissions from cement production arise from the calcination of calcium carbonate (limestone) during clinker production. The methodology applies a Tier 2 approach: national clinker production data are multiplied by a fixed emission factor (0.510 metric tons CO2 per metric ton clinker), with a 2% correction factor applied to account for cement kiln dust (CKD) not returned to the kiln. Data source transitions from USGS (1990-2013) to GHGRP (2014-2022).</p>
+<hr>
+<section id="step-1-obtain-clinker-production-data" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="step-1-obtain-clinker-production-data"><span class="header-section-number">2.1.1</span> Step 1 – Obtain clinker production data</h3>
+<p>National clinker production (metric tons) is compiled. For 1990-2013, data come from USGS mineral commodity surveys. From 2014 onward, GHGRP Subpart H facility-level reports are aggregated to a national total. An overlap comparison is performed to check consistency between the two sources at the transition year.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS clinker production data (1990-2013); EPA GHGRP Subpart H (2014-2022)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual clinker production time series (metric tons), 1990-2022</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Aggregate GHGRP facility-level data to national; splice USGS and GHGRP series at 2013/2014; overlap check</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>GHGRP data likely imported from CSV/API; <code>dplyr::summarise()</code> for national rollup; splice with <code>bind_rows()</code> after filtering by year range</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/cement/01_clinker_production.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-clinker-emission-factor-and-ckd-correction" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="step-2-apply-clinker-emission-factor-and-ckd-correction"><span class="header-section-number">2.1.2</span> Step 2 – Apply clinker emission factor and CKD correction</h3>
+<p>Clinker production is multiplied by the IPCC Tier 2 emission factor of 0.510 metric tons CO2 per metric ton clinker. A CKD correction factor of 1.02 is then applied to account for CO2 emissions from calcinated CKD that is not returned to the kiln.</p>
+<p>Emissions = clinker production x 0.510 x 1.02</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Clinker production time series (Step 1); fixed emission factor = 0.510 t CO2/t clinker; CKD correction factor = 1.02</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual CO2 emissions from cement production (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply production x EF x CKD correction; unit conversion to MMT</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Both factors are constants – store in a <code>params</code> list or header section for transparency; one-liner mutate</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/cement/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is a straightforward Tier 2 calculation with two fixed parameters. The main sources of uncertainty are the assumed 65% lime fraction in clinker and the default CKD correction factor.</p>
+<ul>
+<li><strong>Open question:</strong> Confirm that the GHGRP Subpart H data used does not include fuel combustion CO2 (only process CO2); some facilities report combined totals via CEMS.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-4-2"><span class="header-section-number">2.2</span> 4.2 Lime Production</h2>
+<p><strong>Overview.</strong> CO2 emissions from lime production result from the calcination of calcium and magnesium carbonates. The Tier 2 methodology multiplies high-calcium and dolomitic lime production separately by their respective stoichiometric emission factors, derived from the CaO and MgO content of lime (assumed 95% for both types).</p>
+<hr>
+<section id="step-1-obtain-lime-production-data-by-type" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="step-1-obtain-lime-production-data-by-type"><span class="header-section-number">2.2.1</span> Step 1 – Obtain lime production data by type</h3>
+<p>Annual production of high-calcium lime and dolomitic lime (metric tons) is obtained from USGS mineral commodity data for 1990-2021, and from GHGRP Subpart S for more recent years where applicable.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS lime production by type; GHGRP Subpart S facility data (where used)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual production of high-calcium and dolomitic lime (metric tons) by year</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Separate production into high-calcium vs. dolomitic categories; aggregate to national</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Two-row output per year (one per lime type); or wide format with two columns</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/lime/01_lime_production.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-type-specific-emission-factors" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="step-2-apply-type-specific-emission-factors"><span class="header-section-number">2.2.2</span> Step 2 – Apply type-specific emission factors</h3>
+<p>Each lime type is multiplied by its stoichiometric emission factor:</p>
+<ul>
+<li>High-calcium lime: EF = 0.95 x (44.01/56.08) = 0.7454 metric tons CO2/metric ton lime</li>
+<li>Dolomitic lime: EF = 0.95 x [(44.01/56.08) + (44.01/84.31)] x 0.5 ~ 0.8364 metric tons CO2/metric ton lime</li>
+</ul>
+<p>Total emissions are the sum across lime types.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Lime production by type (Step 1); type-specific emission factors (derived from stoichiometry)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) by lime type and total</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply production x EF by lime type; sum to total</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Emission factors are constants derived from molecular weights – document derivation clearly; <code>group_by(lime_type)</code> then <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/lime/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Open question:</strong> Confirm current data source for lime production – USGS coverage vs. GHGRP Subpart S and transition year if applicable.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-3" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-4-3"><span class="header-section-number">2.3</span> 4.3 Glass Production</h2>
+<p><strong>Overview.</strong> CO2 emissions from glass production arise from the calcination of carbonate inputs (limestone, dolomite, soda ash, and other carbonates). A Tier 3 approach is used: quantities of each carbonate input are multiplied by carbonate-specific emission factors and mass fractions. For 2010-2022, GHGRP data provide carbonate input quantities; USGS data on soda ash supplement this. Pre-2010 data use a different source blend.</p>
+<hr>
+<section id="step-1-obtain-carbonate-input-quantities-by-type" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="step-1-obtain-carbonate-input-quantities-by-type"><span class="header-section-number">2.3.1</span> Step 1 – Obtain carbonate input quantities by type</h3>
+<p>For 2010-2022: quantities of limestone, dolomite, soda ash, barium carbonate, potassium carbonate, lithium carbonate, and strontium carbonate used in glass production are obtained from GHGRP and USGS. For earlier years, alternative data sources are used.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP facility-level carbonate inputs (2010-2022); USGS soda ash consumption for glass; pre-2010 sources</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual carbonate input quantities (metric tons) by carbonate type</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Aggregate GHGRP facility data by carbonate type; supplement with USGS soda ash; handle pre-2010 differently</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Year-conditional data sourcing – consider using a <code>targets</code> pipeline with separate data ingestion targets per source/period</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/glass/01_carbonate_inputs.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-carbonate-specific-emission-factors" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="step-2-apply-carbonate-specific-emission-factors"><span class="header-section-number">2.3.2</span> Step 2 – Apply carbonate-specific emission factors</h3>
+<p>Each carbonate is multiplied by its stoichiometric CO2 emission factor (metric tons CO2 per metric ton carbonate) and its average mineral mass fraction. Total emissions are summed across all carbonate types.</p>
+<p>Emissions = Sum (carbonate quantity x emission factor x mass fraction)</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Carbonate quantities by type (Step 1); IPCC-derived emission factors and mass fractions by carbonate type</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from glass production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Join carbonate quantities to EF lookup; multiply and sum</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>EF lookup table keyed on carbonate type; <code>left_join()</code> then <code>mutate()</code> and <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/glass/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Open question:</strong> Clarify which specific carbonate types are covered by GHGRP Subpart H (glass) versus those requiring USGS supplementation. Confirm whether “other carbonates” in GHGRP align with the Inventory categorisation.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-4" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-4-4"><span class="header-section-number">2.4</span> 4.4 Other Process Uses of Carbonates</h2>
+<p><strong>Overview.</strong> This category covers CO2 emissions from limestone and dolomite consumed in non-glass, non-cement applications – flux stone, flue gas desulfurization (FGD), chemical stone, mine dusting, acid water treatment, and acid neutralization. It also covers soda ash consumption not associated with glass manufacturing. A Tier 2 approach is used for limestone and dolomite; a separate approach is used for soda ash.</p>
+<hr>
+<section id="step-1-obtain-limestone-and-dolomite-consumption-by-end-use" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="step-1-obtain-limestone-and-dolomite-consumption-by-end-use"><span class="header-section-number">2.4.1</span> Step 1 – Obtain limestone and dolomite consumption by end use</h3>
+<p>Annual consumption quantities (metric tons) of limestone and dolomite for each applicable end use are obtained from USGS.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS mineral commodity data: limestone and dolomite consumption by end use</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual consumption by carbonate type and end use</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Filter to applicable end uses; aggregate if needed</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Straightforward read and filter</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/carbonates/01_consumption_data.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-emission-factors-for-limestone-and-dolomite" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="step-2-apply-emission-factors-for-limestone-and-dolomite"><span class="header-section-number">2.4.2</span> Step 2 – Apply emission factors for limestone and dolomite</h3>
+<p>Fixed stoichiometric emission factors are applied:</p>
+<ul>
+<li>Limestone: 0.43971 metric tons CO2 per metric ton carbonate</li>
+<li>Dolomite: 0.47732 metric tons CO2 per metric ton carbonate</li>
+</ul>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Consumption by type (Step 1); fixed emission factors</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions from limestone and dolomite consumption</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply consumption x EF by carbonate type; sum</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Constants stored in params; one mutate + summarise</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/carbonates/02_limestone_dolomite_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-estimate-emissions-from-soda-ash-consumption" class="level3" data-number="2.4.3">
+<h3 data-number="2.4.3" class="anchored" data-anchor-id="step-3-estimate-emissions-from-soda-ash-consumption"><span class="header-section-number">2.4.3</span> Step 3 – Estimate emissions from soda ash consumption</h3>
+<p>Soda ash consumption for non-glass uses is obtained from USGS. A soda ash-specific emission factor is applied, derived from the stoichiometry of Na2CO3 decomposition (consistent with IPCC 2006 Section 2.4.2.1).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS soda ash consumption (non-glass); stoichiometric emission factor for Na2CO3</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions from soda ash consumption</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply consumption x EF</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Can be combined with limestone/dolomite output in a single emissions table</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/carbonates/03_soda_ash_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Open question:</strong> Confirm whether flux stone used in iron and steel production is excluded here (should be captured under 4.18) to avoid double-counting.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-5" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-4-5"><span class="header-section-number">2.5</span> 4.5 Ammonia Production</h2>
+<p><strong>Overview.</strong> CO2 emissions from ammonia production arise from the use of natural gas or petroleum coke as a feedstock (hydrogen source) in steam methane reforming. For 2010-2022, a Tier 3 approach uses process CO2 emissions reported directly to GHGRP Subpart G. For 1990-2009, a Tier 2 approach uses feedstock consumption data multiplied by emission factors.</p>
+<hr>
+<section id="step-1-obtain-process-co2-data-2010-2022" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="step-1-obtain-process-co2-data-2010-2022"><span class="header-section-number">2.5.1</span> Step 1 – Obtain process CO2 data (2010-2022)</h3>
+<p>Facility-level CO2 emissions from ammonia production are obtained from GHGRP Subpart G and aggregated to a national annual total.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart G facility reports (2010-2022)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>National CO2 emissions from ammonia production, 2010-2022</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Aggregate facility-level emissions to national total</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td><code>dplyr::summarise()</code> on GHGRP data filtered to Subpart G and ammonia production</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ammonia/01_ghgrp_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-estimate-emissions-from-feedstock-data-1990-2009" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="step-2-estimate-emissions-from-feedstock-data-1990-2009"><span class="header-section-number">2.5.2</span> Step 2 – Estimate emissions from feedstock data (1990-2009)</h3>
+<p>For years prior to GHGRP, feedstock consumption (natural gas and petroleum coke) used for ammonia production is obtained from EIA and other sources. Emissions are estimated by multiplying feedstock quantities by their carbon content coefficients (consistent with Tier 2 mass balance).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>EIA natural gas and petroleum coke feedstock data for ammonia plants (1990-2009); carbon content coefficients from Annex 2.2</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions from ammonia production, 1990-2009</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Feedstock consumption x carbon content coefficient; convert to CO2</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Share carbon content coefficients with the Energy chapter module for consistency</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ammonia/02_pre2010_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-splice-time-series" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="step-3-splice-time-series"><span class="header-section-number">2.5.3</span> Step 3 – Splice time series</h3>
+<p>The pre-2010 (Tier 2) and post-2010 (Tier 3/GHGRP) estimates are combined into a single consistent time series.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Outputs from Steps 1 and 2</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Complete 1990-2022 CO2 emissions time series for ammonia production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td><code>bind_rows()</code> with year filter to avoid overlap; overlap-year comparison for QC</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ammonia/03_splice_time_series.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Open question:</strong> Feedstock CO2 from ammonia production is excluded from the Energy chapter (Step 2 of Annex 2.1). Confirm the exact adjustment amounts reconcile with the IPPU estimate for consistency.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-6" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="sec-4-6"><span class="header-section-number">2.6</span> 4.6 Urea Consumption for Non-Agricultural Purposes</h2>
+<p><strong>Overview.</strong> When urea is applied or used industrially (non-fertiliser), the CO2 incorporated during its synthesis is released. Emissions are estimated by multiplying non-agricultural urea consumption by a stoichiometric factor (44/60), representing the mass of CO2 relative to urea (CH4N2O, MW = 60; CO2, MW = 44).</p>
+<hr>
+<section id="step-1-obtain-non-agricultural-urea-consumption" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="step-1-obtain-non-agricultural-urea-consumption"><span class="header-section-number">2.6.1</span> Step 1 – Obtain non-agricultural urea consumption</h3>
+<p>Annual urea consumption for non-agricultural purposes (metric tons) is obtained from industry sources and USGS.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Non-agricultural urea consumption data (USGS or industry)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual non-agricultural urea consumption (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/urea/01_consumption.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-stoichiometric-emission-factor" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="step-2-apply-stoichiometric-emission-factor"><span class="header-section-number">2.6.2</span> Step 2 – Apply stoichiometric emission factor</h3>
+<p>Emissions = urea consumption x (44/60)</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Non-agricultural urea consumption (Step 1)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from urea use</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply consumption x 44/60; unit conversion to MMT</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Single constant factor; straightforward mutate</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/urea/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-7" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="sec-4-7"><span class="header-section-number">2.7</span> 4.7 Nitric Acid Production</h2>
+<p><strong>Overview.</strong> N2O is emitted as a byproduct during the catalytic oxidation of ammonia in nitric acid production. For 2010-2022, a Tier 3 approach uses N2O emissions and production data reported directly to GHGRP. For 1990-2009, a Tier 2 approach uses U.S. Census Bureau production data multiplied by IPCC default or abatement-adjusted emission factors.</p>
+<hr>
+<section id="step-1-obtain-n2o-emissions-and-production-data-2010-2022" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="step-1-obtain-n2o-emissions-and-production-data-2010-2022"><span class="header-section-number">2.7.1</span> Step 1 – Obtain N2O emissions and production data (2010-2022)</h3>
+<p>Facility-level N2O emissions and nitric acid production volumes are obtained from GHGRP and aggregated nationally. All U.S. facilities producing weak nitric acid (30-70%) are required to report.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart V facility-level N2O emissions and nitric acid production (2010-2022)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>National N2O emissions and production, 2010-2022</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Aggregate facility reports to national total</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/nitric_acid/01_ghgrp_data.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-estimate-emissions-from-production-data-1990-2009" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="step-2-estimate-emissions-from-production-data-1990-2009"><span class="header-section-number">2.7.2</span> Step 2 – Estimate emissions from production data (1990-2009)</h3>
+<p>Nitric acid production from U.S. Census Bureau data is multiplied by Tier 2 emission factors, accounting for installed abatement technology where applicable.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>U.S. Census Bureau nitric acid production (1990-2009); IPCC default EFs; abatement technology assumptions</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>N2O emissions, 1990-2009</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Production x EF; adjust for abatement where applicable</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/nitric_acid/02_pre2010_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-splice-and-express-as-co2-equivalents" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="step-3-splice-and-express-as-co2-equivalents"><span class="header-section-number">2.7.3</span> Step 3 – Splice and express as CO2 equivalents</h3>
+<p>The two time series are combined and N2O emissions are converted to CO2 equivalents using the applicable GWP.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td><code>bind_rows()</code>; multiply N2O (metric tons) x GWP to get MMT CO2 Eq.</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>GWP value should be stored as a named constant consistent with the GWP set used across all Inventory categories</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/nitric_acid/03_splice_and_gwp.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-8" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="sec-4-8"><span class="header-section-number">2.8</span> 4.8 Adipic Acid Production</h2>
+<p><strong>Overview.</strong> N2O is produced as a byproduct of the catalytic oxidation of cyclohexane or cyclohexanone/cyclohexanol during adipic acid production. The Tier 2 methodology uses production data with IPCC default emission factors, adjusted for abatement where applicable. GHGRP data are used where available.</p>
+<hr>
+<section id="step-1-obtain-adipic-acid-production-data" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="step-1-obtain-adipic-acid-production-data"><span class="header-section-number">2.8.1</span> Step 1 – Obtain adipic acid production data</h3>
+<p>Annual adipic acid production (metric tons) is obtained from U.S. Census Bureau and/or GHGRP data.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>U.S. Census Bureau or GHGRP production data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual adipic acid production (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/adipic_acid/01_production.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-emission-factor-with-abatement-adjustment" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="step-2-apply-emission-factor-with-abatement-adjustment"><span class="header-section-number">2.8.2</span> Step 2 – Apply emission factor with abatement adjustment</h3>
+<p>Unadjusted N2O emissions are estimated using a default emission factor. Where abatement systems (catalytic decomposition or thermal oxidation) are installed, an abatement-adjusted effective emission factor is applied.</p>
+<p>Emissions = production x EF x (1 - abatement efficiency x abatement fraction)</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Production (Step 1); IPCC default EF; plant-level abatement data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>N2O emissions (MMT CO2 Eq.) from adipic acid production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>EF x production; abatement adjustment where applicable; GWP conversion</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/adipic_acid/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-9" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="sec-4-9"><span class="header-section-number">2.9</span> 4.9 Caprolactam, Glyoxal and Glyoxylic Acid Production</h2>
+<p><strong>Overview.</strong> N2O is generated during the high-temperature catalytic oxidation of ammonia in caprolactam production. Emissions are calculated using the IPCC Tier 1 method: caprolactam production is multiplied by a default emission factor. Glyoxal and glyoxylic acid are minor contributors also covered under this section.</p>
+<hr>
+<section id="step-1-obtain-production-data" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="step-1-obtain-production-data"><span class="header-section-number">2.9.1</span> Step 1 – Obtain production data</h3>
+<p>Annual caprolactam, glyoxal, and glyoxylic acid production (metric tons) from U.S. Census Bureau.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>U.S. Census Bureau production data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual production by chemical</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/caprolactam/01_production.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-tier-1-emission-factors" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="step-2-apply-tier-1-emission-factors"><span class="header-section-number">2.9.2</span> Step 2 – Apply Tier 1 emission factors</h3>
+<p>N2O emissions = production x default EF (IPCC 2006 Equation 3.9). Convert to CO2 equivalents using GWP.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Production by chemical; IPCC Tier 1 EFs</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>N2O emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Production x EF x GWP; sum across chemicals</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/caprolactam/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-10" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="sec-4-10"><span class="header-section-number">2.10</span> 4.10 Carbide Production and Consumption</h2>
+<p><strong>Overview.</strong> CO2 and CH4 are emitted during the production of silicon carbide (SiC). CO2 is also emitted from consumption of SiC as a reducing agent. Production emissions use IPCC Tier 1 default factors. Consumption emissions use a country-specific stoichiometric approach (no IPCC guidance exists for SiC consumption).</p>
+<hr>
+<section id="step-1-apply-tier-1-emission-factors-to-sic-production" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="step-1-apply-tier-1-emission-factors-to-sic-production"><span class="header-section-number">2.10.1</span> Step 1 – Apply Tier 1 emission factors to SiC production</h3>
+<p>Annual SiC production (metric tons) x IPCC default EFs:</p>
+<ul>
+<li>CO2: 2.62 metric tons CO2 per metric ton SiC</li>
+<li>CH4: IPCC default CH4 factor</li>
+</ul>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>U.S. Census Bureau SiC production; IPCC default EFs</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 and CH4 emissions from SiC production</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/carbide/01_production_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-estimate-co2-from-sic-consumption" class="level3" data-number="2.10.2">
+<h3 data-number="2.10.2" class="anchored" data-anchor-id="step-2-estimate-co2-from-sic-consumption"><span class="header-section-number">2.10.2</span> Step 2 – Estimate CO2 from SiC consumption</h3>
+<p>SiC consumption data (metric tons) are multiplied by a stoichiometric emission factor derived from the chemistry of SiC use as a reducing agent.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>SiC consumption data; country-specific stoichiometric EF</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions from SiC consumption</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/carbide/02_consumption_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-11" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="sec-4-11"><span class="header-section-number">2.11</span> 4.11 Titanium Dioxide Production</h2>
+<p><strong>Overview.</strong> CO2 is emitted from the chloride process of TiO2 production, where petroleum coke is used as a reducing agent. Emissions are calculated using IPCC Tier 1 methodology: annual TiO2 production multiplied by a chloride-process-specific emission factor. The petroleum coke portion of these emissions is adjusted out of the Energy chapter to avoid double-counting.</p>
+<hr>
+<section id="step-1-obtain-tio2-production-data-and-apply-emission-factor" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="step-1-obtain-tio2-production-data-and-apply-emission-factor"><span class="header-section-number">2.11.1</span> Step 1 – Obtain TiO2 production data and apply emission factor</h3>
+<p>Annual TiO2 production (metric tons) from USGS. Multiply by IPCC chloride process emission factor.</p>
+<p>Emissions = TiO2 production x EF (chloride process)</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS TiO2 production; IPCC Tier 1 EF for chloride process</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from TiO2 production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Single multiply; unit conversion</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Confirm petroleum coke adjustment to Energy chapter is handled in Energy module (Step 2 of Annex 2.1)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/tio2/01_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-12" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="sec-4-12"><span class="header-section-number">2.12</span> 4.12 Soda Ash Production</h2>
+<p><strong>Overview.</strong> CO2 is emitted during the calcination of trona ore to produce soda ash (Solvay-equivalent natural process). The IPCC Tier 1 default emission factor of 0.0974 metric tons CO2 per metric ton of trona ore is applied to annual trona mining/consumption data.</p>
+<hr>
+<section id="step-1-obtain-trona-ore-consumption-and-apply-emission-factor" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="step-1-obtain-trona-ore-consumption-and-apply-emission-factor"><span class="header-section-number">2.12.1</span> Step 1 – Obtain trona ore consumption and apply emission factor</h3>
+<p>Annual trona ore consumed for soda ash production (metric tons) from USGS. Multiply by IPCC Tier 1 EF.</p>
+<p>Emissions = trona consumption x 0.0974</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS trona ore production/consumption data; IPCC Tier 1 EF = 0.0974 t CO2/t trona</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from soda ash production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Single multiply; unit conversion</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/soda_ash/01_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-13" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="sec-4-13"><span class="header-section-number">2.13</span> 4.13 Petrochemical Production</h2>
+<p><strong>Overview.</strong> CO2 and CH4 are emitted during the production of carbon black, ethylene, ethylene dichloride, ethylene oxide, methanol, and acrylonitrile. A Tier 2 total feedstock carbon mass balance approach is used for CO2 from most chemicals (carbon black, ethylene, ethylene dichloride, ethylene oxide, methanol); GHGRP data are used where available. Acrylonitrile uses IPCC Tier 1 defaults. CH4 emissions are estimated separately using IPCC Tier 1 methods.</p>
+<hr>
+<section id="step-1-obtain-production-data-by-chemical" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="step-1-obtain-production-data-by-chemical"><span class="header-section-number">2.13.1</span> Step 1 – Obtain production data by chemical</h3>
+<p>Annual production (metric tons) for each covered petrochemical from U.S. Census Bureau and GHGRP.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>U.S. Census Bureau chemical production data; GHGRP facility-level data where applicable</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual production by chemical (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/petrochemicals/01_production.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-chemical-specific-emission-factors-for-co2" class="level3" data-number="2.13.2">
+<h3 data-number="2.13.2" class="anchored" data-anchor-id="step-2-apply-chemical-specific-emission-factors-for-co2"><span class="header-section-number">2.13.2</span> Step 2 – Apply chemical-specific emission factors for CO2</h3>
+<p>Multiply each chemical’s production by its specific CO2 emission factor:</p>
+<ul>
+<li>Carbon black: 2.59 t CO2/t produced</li>
+<li>Ethylene: 0.79 t CO2/t produced</li>
+<li>Ethylene dichloride: 0.040 t CO2/t produced</li>
+<li>Ethylene oxide: 0.46 t CO2/t produced</li>
+<li>Acrylonitrile: 1.00 t CO2/t produced (Tier 1 default)</li>
+</ul>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Production by chemical (Step 1); chemical-specific EF lookup table</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions by chemical and total</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Join production to EF table; multiply; sum</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>EF lookup keyed on chemical name; <code>left_join()</code> then <code>mutate()</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/petrochemicals/02_co2_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-apply-tier-1-factors-for-ch4" class="level3" data-number="2.13.3">
+<h3 data-number="2.13.3" class="anchored" data-anchor-id="step-3-apply-tier-1-factors-for-ch4"><span class="header-section-number">2.13.3</span> Step 3 – Apply Tier 1 factors for CH4</h3>
+<p>CH4 is estimated using IPCC Tier 1 default factors for acrylonitrile (0.18 kg CH4/t produced) and other applicable chemicals.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Production data; IPCC Tier 1 CH4 EFs</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CH4 emissions (kt); CO2 Eq. after GWP conversion</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/petrochemicals/03_ch4_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-14" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="sec-4-14"><span class="header-section-number">2.14</span> 4.14 HCFC-22 Production</h2>
+<p><strong>Overview.</strong> HFC-23 (a potent GHG) is generated as a byproduct during the synthesis of HCFC-22. Tier 3 methods (facility-specific data) are used for five of the eight plants that have operated since 1990. GHGRP Subpart O provides data for 2010-2022; voluntary industry reporting covers 1990-2009.</p>
+<hr>
+<section id="step-1-obtain-facility-level-hfc-23-emissions-data" class="level3" data-number="2.14.1">
+<h3 data-number="2.14.1" class="anchored" data-anchor-id="step-1-obtain-facility-level-hfc-23-emissions-data"><span class="header-section-number">2.14.1</span> Step 1 – Obtain facility-level HFC-23 emissions data</h3>
+<p>GHGRP Subpart O (2010-2022) and voluntarily reported data from industry (1990-2009) are compiled and aggregated to a national total.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart O; voluntary industry reports (1990-2009)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>National HFC-23 emissions (metric tons) from HCFC-22 production, 1990-2022</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Aggregate facility data; splice voluntary and GHGRP series</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/hcfc22/01_hfc23_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents" class="level3" data-number="2.14.2">
+<h3 data-number="2.14.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents"><span class="header-section-number">2.14.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>HFC-23 emissions (metric tons) x GWP -&gt; MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply by GWP for HFC-23; unit conversion to MMT</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>GWP stored as named constant; confirm correct AR GWP set is used</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/hcfc22/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-15" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="sec-4-15"><span class="header-section-number">2.15</span> 4.15 Production of Fluorochemicals Other Than HCFC-22</h2>
+<p><strong>Overview.</strong> This category covers fluorinated GHG emissions from production of HFCs, PFCs, SF6, NF3, and other fluorinated compounds at U.S. facilities. The Tier 3 method uses facility-specific process vent and fugitive emission data from GHGRP Subpart L (2011-2022). For 1990-2010, a combination of Tier 1/2 methods and voluntary reporting is used.</p>
+<hr>
+<section id="step-1-obtain-facility-level-fluorinated-ghg-emissions" class="level3" data-number="2.15.1">
+<h3 data-number="2.15.1" class="anchored" data-anchor-id="step-1-obtain-facility-level-fluorinated-ghg-emissions"><span class="header-section-number">2.15.1</span> Step 1 – Obtain facility-level fluorinated GHG emissions</h3>
+<p>GHGRP Subpart L data (2011-2022) are aggregated by gas and compound. For prior years, Tier 1 default factors or voluntary data are used.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart L; voluntary/Tier 1 estimates for pre-2011</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Fluorinated GHG emissions by compound (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/fluorochemicals/01_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-1" class="level3" data-number="2.15.2">
+<h3 data-number="2.15.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-1"><span class="header-section-number">2.15.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>Each fluorinated gas x compound-specific GWP -&gt; MMT CO2 Eq. Sum across compounds.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Emissions by compound; GWP lookup table</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Total fluorinated GHG emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>R notes</strong></td>
+<td>GWP table keyed on compound name; join and multiply</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/fluorochemicals/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-16" class="level2" data-number="2.16">
+<h2 data-number="2.16" class="anchored" data-anchor-id="sec-4-16"><span class="header-section-number">2.16</span> 4.16 Carbon Dioxide Consumption</h2>
+<p><strong>Overview.</strong> CO2 extracted from natural reservoirs or captured from industrial processes and used for non-EOR commercial applications (e.g., food and beverage, chemical manufacturing) is eventually released to the atmosphere. Emissions are estimated using GHGRP Subpart PP facility reports (2010-2022); a country-specific Tier 3 approach. Pre-2010 estimates use alternative data sources.</p>
+<hr>
+<section id="step-1-obtain-co2-extraction-and-transfer-data" class="level3" data-number="2.16.1">
+<h3 data-number="2.16.1" class="anchored" data-anchor-id="step-1-obtain-co2-extraction-and-transfer-data"><span class="header-section-number">2.16.1</span> Step 1 – Obtain CO2 extraction and transfer data</h3>
+<p>GHGRP Subpart PP data on CO2 extracted and transferred to non-EOR end uses are aggregated nationally.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart PP facility reports (2010-2022)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>National CO2 consumed for non-EOR purposes (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/co2_consumption/01_ghgrp_data.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-assume-full-atmospheric-release" class="level3" data-number="2.16.2">
+<h3 data-number="2.16.2" class="anchored" data-anchor-id="step-2-assume-full-atmospheric-release"><span class="header-section-number">2.16.2</span> Step 2 – Assume full atmospheric release</h3>
+<p>CO2 consumed for non-EOR purposes is assumed to be fully and immediately released to the atmosphere.</p>
+<p>Emissions = CO2 consumed (metric tons), converted to MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Unit conversion only (metric tons -&gt; MMT); no EF needed</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/co2_consumption/02_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-17" class="level2" data-number="2.17">
+<h2 data-number="2.17" class="anchored" data-anchor-id="sec-4-17"><span class="header-section-number">2.17</span> 4.17 Phosphoric Acid Production</h2>
+<p><strong>Overview.</strong> CO2 is released when inorganic carbon (calcium carbonate) in phosphate rock reacts during wet-process phosphoric acid production. A country-specific methodology (consistent with Tier 1) multiplies the inorganic carbon content of phosphate rock by the quantity consumed, accounting for domestic production and net imports.</p>
+<hr>
+<section id="step-1-obtain-phosphate-rock-consumption-data" class="level3" data-number="2.17.1">
+<h3 data-number="2.17.1" class="anchored" data-anchor-id="step-1-obtain-phosphate-rock-consumption-data"><span class="header-section-number">2.17.1</span> Step 1 – Obtain phosphate rock consumption data</h3>
+<p>Annual phosphate rock used for phosphoric acid production (metric tons) from USGS, accounting for domestic production and net imports.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS phosphate rock data; import/export data for net consumption</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual phosphate rock consumption (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/phosphoric_acid/01_phosphate_rock.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-inorganic-carbon-content-and-calculate-emissions" class="level3" data-number="2.17.2">
+<h3 data-number="2.17.2" class="anchored" data-anchor-id="step-2-apply-inorganic-carbon-content-and-calculate-emissions"><span class="header-section-number">2.17.2</span> Step 2 – Apply inorganic carbon content and calculate emissions</h3>
+<p>Average inorganic carbon content (as CO2 fraction) of U.S. phosphate rock is multiplied by the quantity consumed.</p>
+<p>Emissions = rock consumption x average CaCO3 fraction x EF (CO2/CaCO3)</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Phosphate rock consumption (Step 1); average CaCO3 content of U.S. phosphate rock; stoichiometric EF</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/phosphoric_acid/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-18" class="level2" data-number="2.18">
+<h2 data-number="2.18" class="anchored" data-anchor-id="sec-4-18"><span class="header-section-number">2.18</span> 4.18 Iron and Steel Production</h2>
+<p><strong>Overview.</strong> CO2 is emitted from iron and steel production through: (1) metallurgical coke production, (2) pig iron production in blast furnaces, (3) basic oxygen furnace (BOF) steel production, (4) electric arc furnace (EAF) steel production, and (5) sinter and pellet production. All processes use a country-specific Tier 2 carbon mass balance approach. Carbonaceous inputs (coke, coal, limestone, electrodes, etc.) are tracked; non-CO2 carbon outputs (pig iron, steel, CO in off-gases) are subtracted.</p>
+<hr>
+<section id="step-1-compile-carbonaceous-input-and-output-data" class="level3" data-number="2.18.1">
+<h3 data-number="2.18.1" class="anchored" data-anchor-id="step-1-compile-carbonaceous-input-and-output-data"><span class="header-section-number">2.18.1</span> Step 1 – Compile carbonaceous input and output data</h3>
+<p>Annual quantities of all carbon-containing inputs and outputs for each process stage (coke ovens, blast furnaces, BOF, EAF) from USGS, AISI, and GHGRP.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS iron and steel mineral commodity data; AISI annual statistical reports; GHGRP Subpart Q</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Mass-balance tables of carbon inputs and outputs by process stage and year</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Compile inputs and outputs by process; calculate net carbon released</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>Complex multi-process mass balance – consider one R script per process (coke, blast furnace, BOF, EAF), with a consolidation script</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/iron_steel/01_mass_balance_data.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-calculate-co2-from-each-process-via-mass-balance" class="level3" data-number="2.18.2">
+<h3 data-number="2.18.2" class="anchored" data-anchor-id="step-2-calculate-co2-from-each-process-via-mass-balance"><span class="header-section-number">2.18.2</span> Step 2 – Calculate CO2 from each process via mass balance</h3>
+<p>For each process: CO2 = (total carbon in inputs - carbon retained in products/by-products) x (44/12). Processes where Tier 1 defaults are used (sinter, pellets, DRI) apply IPCC default factors to production volumes instead.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Mass balance tables (Step 1); Tier 1 EFs for sinter/pellet/DRI production</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions by process and total (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Net carbon x (44/12) per process; Tier 1 production x EF for remaining processes; sum</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/iron_steel/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Summary and open questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Open question:</strong> Significant 2020-2022 activity data were not available; these years use 2019 values adjusted with GHGRP emissions data. Flag for update in future iterations.</li>
+<li><strong>Open question:</strong> Coking coal and other fuels used in iron and steel production are adjusted out of the Energy chapter (Step 2, Annex 2.1). Confirm reconciliation between the Energy chapter adjustment and the IPPU mass balance quantities.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-19" class="level2" data-number="2.19">
+<h2 data-number="2.19" class="anchored" data-anchor-id="sec-4-19"><span class="header-section-number">2.19</span> 4.19 Ferroalloy Production</h2>
+<p><strong>Overview.</strong> CO2 and CH4 are emitted during the reduction of metal oxides in electric arc furnaces using carbonaceous reducing agents (coke, coal). The Tier 2 methodology applies a carbon mass balance: carbon inputs to each ferroalloy process minus carbon retained in the product. IPCC Tier 2 methods are used.</p>
+<hr>
+<section id="step-1-obtain-ferroalloy-production-data-and-carbon-inputs" class="level3" data-number="2.19.1">
+<h3 data-number="2.19.1" class="anchored" data-anchor-id="step-1-obtain-ferroalloy-production-data-and-carbon-inputs"><span class="header-section-number">2.19.1</span> Step 1 – Obtain ferroalloy production data and carbon inputs</h3>
+<p>Annual production by ferroalloy type and associated carbonaceous input quantities from USGS.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS ferroalloy production and carbon input data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Production and carbon input by ferroalloy type and year</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ferroalloys/01_production_data.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-carbon-mass-balance" class="level3" data-number="2.19.2">
+<h3 data-number="2.19.2" class="anchored" data-anchor-id="step-2-apply-carbon-mass-balance"><span class="header-section-number">2.19.2</span> Step 2 – Apply carbon mass balance</h3>
+<p>CO2 = (carbon in - carbon retained in alloy) x (44/12). CH4 estimated separately via IPCC default factor.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Carbon inputs/outputs by alloy type; IPCC CH4 default EF</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 and CH4 emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ferroalloys/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-20" class="level2" data-number="2.20">
+<h2 data-number="2.20" class="anchored" data-anchor-id="sec-4-20"><span class="header-section-number">2.20</span> 4.20 Aluminum Production</h2>
+<p><strong>Overview.</strong> CO2 (from anode consumption) and PFCs (CF4 and C2F6, from anode effects) are emitted during primary aluminum smelting. For 2010-2022, GHGRP Subpart F provides facility-specific process emissions. For earlier years, IPCC Tier 2 methods or voluntary industry data are used. The petroleum coke consumed in anode production is excluded from the Energy chapter non-energy use calculations.</p>
+<hr>
+<section id="step-1-obtain-process-emissions-data-2010-2022" class="level3" data-number="2.20.1">
+<h3 data-number="2.20.1" class="anchored" data-anchor-id="step-1-obtain-process-emissions-data-2010-2022"><span class="header-section-number">2.20.1</span> Step 1 – Obtain process emissions data (2010-2022)</h3>
+<p>Aggregate GHGRP Subpart F facility reports: CO2 from anode consumption (prebake and Soderberg cells), CO2 from anode baking, and PFC emissions from anode effects.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart F: CF4, C2F6, and CO2 by facility</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>National CO2 and PFC emissions from primary aluminum, 2010-2022</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/aluminum/01_ghgrp_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-estimate-pre-2010-emissions" class="level3" data-number="2.20.2">
+<h3 data-number="2.20.2" class="anchored" data-anchor-id="step-2-estimate-pre-2010-emissions"><span class="header-section-number">2.20.2</span> Step 2 – Estimate pre-2010 emissions</h3>
+<p>Use IPCC Tier 2 methods (aluminum production x carbon mass balance for CO2; anode effect parameters for PFCs) and voluntary industry reporting where available.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS aluminum production; IPCC Tier 2 EFs; voluntary industry data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 and PFC emissions, 1990-2009</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/aluminum/02_pre2010_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-convert-pfcs-to-co2-equivalents-and-combine" class="level3" data-number="2.20.3">
+<h3 data-number="2.20.3" class="anchored" data-anchor-id="step-3-convert-pfcs-to-co2-equivalents-and-combine"><span class="header-section-number">2.20.3</span> Step 3 – Convert PFCs to CO2 equivalents and combine</h3>
+<p>CF4 and C2F6 emissions x respective GWPs -&gt; MMT CO2 Eq. Add to CO2 emissions and splice time series.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>GWP conversions for CF4 and C2F6; <code>bind_rows()</code> to splice series</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/aluminum/03_gwp_and_splice.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-21" class="level2" data-number="2.21">
+<h2 data-number="2.21" class="anchored" data-anchor-id="sec-4-21"><span class="header-section-number">2.21</span> 4.21 Magnesium Production and Processing</h2>
+<p><strong>Overview.</strong> SF6 (and increasingly SO2 and HFC-134a) is used as a cover gas to prevent oxidation of molten magnesium during primary production, secondary production (recycling), and die casting. SF6 consumption is assumed equivalent to emissions. Data come from EPA’s SF6 Emission Reduction Partnership (1999-2010) and GHGRP Subpart T (2010-2022).</p>
+<hr>
+<section id="step-1-obtain-sf6-consumptionemissions-data" class="level3" data-number="2.21.1">
+<h3 data-number="2.21.1" class="anchored" data-anchor-id="step-1-obtain-sf6-consumptionemissions-data"><span class="header-section-number">2.21.1</span> Step 1 – Obtain SF6 consumption/emissions data</h3>
+<p>Partnership-reported SF6 consumption (1999-2010) and GHGRP Subpart T data (2010-2022) are compiled by production/processing category. Pre-1999 years use modelled or interpolated estimates.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>EPA SF6 Partnership reports; GHGRP Subpart T</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual SF6 emissions (metric tons) by category</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/magnesium/01_sf6_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-2" class="level3" data-number="2.21.2">
+<h3 data-number="2.21.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-2"><span class="header-section-number">2.21.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>SF6 emissions x GWP -&gt; MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Multiply by SF6 GWP; unit conversion</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/magnesium/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-22" class="level2" data-number="2.22">
+<h2 data-number="2.22" class="anchored" data-anchor-id="sec-4-22"><span class="header-section-number">2.22</span> 4.22 Lead Production</h2>
+<p><strong>Overview.</strong> CO2 is emitted during smelting of lead using direct smelting (primary) and secondary (recycled) production routes. The IPCC Tier 1 method applies separate emission factors for each production route and sums the results.</p>
+<p>Emissions = (direct smelting production x EF_DS) + (secondary production x EF_S)</p>
+<hr>
+<section id="step-1-obtain-lead-production-by-route-and-apply-emission-factors" class="level3" data-number="2.22.1">
+<h3 data-number="2.22.1" class="anchored" data-anchor-id="step-1-obtain-lead-production-by-route-and-apply-emission-factors"><span class="header-section-number">2.22.1</span> Step 1 – Obtain lead production by route and apply emission factors</h3>
+<p>Annual lead production by production route (metric tons) from USGS. Apply IPCC Tier 1 EFs.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS lead production by route; IPCC Tier 1 EFs for direct smelting and secondary production</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from lead production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Two-term calculation; join production by route to EF; sum</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/lead/01_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-23" class="level2" data-number="2.23">
+<h2 data-number="2.23" class="anchored" data-anchor-id="sec-4-23"><span class="header-section-number">2.23</span> 4.23 Zinc Production</h2>
+<p><strong>Overview.</strong> CO2 is emitted from zinc production using electrothermic (primary) and Waelz kiln (secondary) processes. The IPCC Tier 1 method applies a single default emission factor (weighted average across process types) to total zinc production.</p>
+<p>Emissions = zinc production x EF_default</p>
+<hr>
+<section id="step-1-obtain-zinc-production-data-and-apply-emission-factor" class="level3" data-number="2.23.1">
+<h3 data-number="2.23.1" class="anchored" data-anchor-id="step-1-obtain-zinc-production-data-and-apply-emission-factor"><span class="header-section-number">2.23.1</span> Step 1 – Obtain zinc production data and apply emission factor</h3>
+<p>Annual zinc production (metric tons) from USGS. Multiply by IPCC Tier 1 default EF.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>USGS zinc production; IPCC Tier 1 default EF</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>CO2 emissions (MMT CO2 Eq.) from zinc production</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Single multiply; unit conversion</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/zinc/01_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-24" class="level2" data-number="2.24">
+<h2 data-number="2.24" class="anchored" data-anchor-id="sec-4-24"><span class="header-section-number">2.24</span> 4.24 Electronics Industry</h2>
+<p><strong>Overview.</strong> Fluorinated GHGs (HFCs, PFCs, SF6, NF3, and others) are used in semiconductor, flat panel display, and photovoltaic manufacturing for plasma etching and chemical vapour deposition chamber cleaning. Emissions are estimated using a combination of GHGRP Subpart I data, EPA Partnership voluntary reports, and the PFC Emissions Vintage Model (PEVM). Methodological approach varies by sub-sector and time period.</p>
+<hr>
+<section id="step-1-obtain-fluorinated-ghg-emissions-by-sub-sector-and-period" class="level3" data-number="2.24.1">
+<h3 data-number="2.24.1" class="anchored" data-anchor-id="step-1-obtain-fluorinated-ghg-emissions-by-sub-sector-and-period"><span class="header-section-number">2.24.1</span> Step 1 – Obtain fluorinated GHG emissions by sub-sector and period</h3>
+<p>GHGRP Subpart I data (semiconductors, flat panels, PVs) are compiled for applicable years. Partnership data and PEVM model outputs supplement or replace GHGRP data for earlier periods or non-reporting companies.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart I; EPA PFC Partnership data; PEVM model outputs; industry activity data (manufactured layer area, capacity)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Fluorinated GHG emissions (metric tons) by compound and sub-sector</td>
+</tr>
+<tr class="odd">
+<td><strong>R notes</strong></td>
+<td>Complex multi-source, multi-period assembly – recommend one ingestion script per data source, then a consolidation/splice script</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/electronics/01_emissions_assembly.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-3" class="level3" data-number="2.24.2">
+<h3 data-number="2.24.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-3"><span class="header-section-number">2.24.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>Each fluorinated compound x compound-specific GWP -&gt; MMT CO2 Eq. Sum across compounds and sub-sectors.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Emissions by compound; GWP lookup table</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Total electronics industry fluorinated GHG emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/electronics/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-25" class="level2" data-number="2.25">
+<h2 data-number="2.25" class="anchored" data-anchor-id="sec-4-25"><span class="header-section-number">2.25</span> 4.25 Substitution of Ozone Depleting Substances</h2>
+<p><strong>Overview.</strong> HFCs, PFCs, and CO2 are used as replacements for ozone depleting substances (ODS) in refrigeration, air conditioning, foam blowing, fire suppression, aerosols, and other applications. Emissions are estimated using EPA’s Vintaging Model, a Tier 2 approach that tracks annual equipment “vintages,” applies equipment-specific charge sizes and leak rates, and models cumulative emissions from the installed base of equipment over its lifetime.</p>
+<hr>
+<section id="step-1-model-equipment-stock-and-annual-emissions-via-vintaging-model" class="level3" data-number="2.25.1">
+<h3 data-number="2.25.1" class="anchored" data-anchor-id="step-1-model-equipment-stock-and-annual-emissions-via-vintaging-model"><span class="header-section-number">2.25.1</span> Step 1 – Model equipment stock and annual emissions via Vintaging Model</h3>
+<p>The Vintaging Model estimates the quantity of new equipment placed into service each year, its ODS-substitute chemical charge, and annual leakage and end-of-life emission rates. Emissions for each equipment vintage and compound are accumulated across years.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Vintaging Model outputs by end-use, compound, and year; market penetration data; equipment population estimates</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Annual emissions by compound and end-use (metric tons)</td>
+</tr>
+<tr class="odd">
+<td><strong>R notes</strong></td>
+<td>If the Vintaging Model output is a fixed dataset (CSV/Excel), ingest and reshape; if rerunnable, wrap in a targets pipeline step</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ods_substitutes/01_vintaging_model_output.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-4" class="level3" data-number="2.25.2">
+<h3 data-number="2.25.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-4"><span class="header-section-number">2.25.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>Each compound x GWP -&gt; MMT CO2 Eq. Sum across end-uses and compounds.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Emissions by compound; GWP lookup</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>Total ODS substitute emissions (MMT CO2 Eq.)</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ods_substitutes/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-26" class="level2" data-number="2.26">
+<h2 data-number="2.26" class="anchored" data-anchor-id="sec-4-26"><span class="header-section-number">2.26</span> 4.26 Electrical Equipment</h2>
+<p><strong>Overview.</strong> SF6 is used as an insulating and arc-quenching gas in high-voltage electrical equipment (circuit breakers, switchgear, transformers). Emissions arise from leakage during operation and at end of life. For 1990-1998, emissions are modelled from 1999 base emissions and a RAND global survey. For 1999-2011, emissions are based on Partnership reporting. For 2011-2022, GHGRP Subpart DD data are used. SF6 from military and scientific applications (e.g., AWACS radar) are estimated separately.</p>
+<hr>
+<section id="step-1-obtain-sf6-emissions-by-source-and-period" class="level3" data-number="2.26.1">
+<h3 data-number="2.26.1" class="anchored" data-anchor-id="step-1-obtain-sf6-emissions-by-source-and-period"><span class="header-section-number">2.26.1</span> Step 1 – Obtain SF6 emissions by source and period</h3>
+<p>Compile data from the three sources (RAND/modelled pre-1999, Partnership 1999-2011, GHGRP 2011-2022). Military applications use FEMP data (2008+) and IPCC Tier 1 defaults (pre-2008). Scientific applications estimated separately.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>GHGRP Subpart DD; EPA SF6 Partnership; RAND survey; FEMP reports; IPCC Tier 1 defaults for military</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>SF6 emissions (metric tons) by source category and year</td>
+</tr>
+<tr class="odd">
+<td><strong>R notes</strong></td>
+<td>Three-period splice with overlap comparison at transition years (1999, 2011)</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/electrical_equipment/01_sf6_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-5" class="level3" data-number="2.26.2">
+<h3 data-number="2.26.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-5"><span class="header-section-number">2.26.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>SF6 x GWP -&gt; MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/electrical_equipment/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-27" class="level2" data-number="2.27">
+<h2 data-number="2.27" class="anchored" data-anchor-id="sec-4-27"><span class="header-section-number">2.27</span> 4.27 SF6 and PFCs from Other Product Uses</h2>
+<p><strong>Overview.</strong> SF6 is used in military applications (AWACS aircraft radar cooling) and scientific research applications (particle accelerators, other lab equipment). PFCs are used in limited other applications. Emissions are estimated using FEMP data and IPCC Tier 1 defaults where FEMP data are unavailable.</p>
+<hr>
+<section id="step-1-estimate-emissions-by-application" class="level3" data-number="2.27.1">
+<h3 data-number="2.27.1" class="anchored" data-anchor-id="step-1-estimate-emissions-by-application"><span class="header-section-number">2.27.1</span> Step 1 – Estimate emissions by application</h3>
+<p>Military SF6: FEMP data (2008+); IPCC Tier 1 default of 740 kg SF6/plane/year for AWACS (pre-2008). Scientific applications estimated from FEMP or IPCC defaults.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>FEMP reports; IPCC Tier 1 AWACS default EF; fleet size data for pre-2008</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>SF6 emissions (metric tons) from military and scientific applications</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/other_sf6/01_emissions.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-convert-to-co2-equivalents-6" class="level3" data-number="2.27.2">
+<h3 data-number="2.27.2" class="anchored" data-anchor-id="step-2-convert-to-co2-equivalents-6"><span class="header-section-number">2.27.2</span> Step 2 – Convert to CO2 equivalents</h3>
+<p>SF6 x GWP -&gt; MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/other_sf6/02_gwp_conversion.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-28" class="level2" data-number="2.28">
+<h2 data-number="2.28" class="anchored" data-anchor-id="sec-4-28"><span class="header-section-number">2.28</span> 4.28 Nitrous Oxide from Product Uses</h2>
+<p><strong>Overview.</strong> N2O is used in medical anaesthesia, food processing (aerosol propellant), and other product applications. Upon use, it is released to the atmosphere. Emissions are estimated from national N2O production data, disaggregated by subcategory application and weighted by application-specific emission rates (fraction of N2O consumed that is immediately released).</p>
+<p>Emissions = Sum_a (N2O production x share_a x emission rate_a)</p>
+<hr>
+<section id="step-1-obtain-n2o-production-and-disaggregate-by-application" class="level3" data-number="2.28.1">
+<h3 data-number="2.28.1" class="anchored" data-anchor-id="step-1-obtain-n2o-production-and-disaggregate-by-application"><span class="header-section-number">2.28.1</span> Step 1 – Obtain N2O production and disaggregate by application</h3>
+<p>Annual U.S. N2O production (metric tons) from Census or industry data. Shares by application (medical, food, other) from industry surveys or IPCC defaults.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>N2O production data; application share data</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>N2O production allocated by application</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/n2o_product_use/01_production_shares.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-2-apply-emission-rates-and-convert-to-co2-equivalents" class="level3" data-number="2.28.2">
+<h3 data-number="2.28.2" class="anchored" data-anchor-id="step-2-apply-emission-rates-and-convert-to-co2-equivalents"><span class="header-section-number">2.28.2</span> Step 2 – Apply emission rates and convert to CO2 equivalents</h3>
+<p>Multiply each application’s allocated production x its emission rate -&gt; total N2O emitted. Sum across applications. N2O x GWP -&gt; MMT CO2 Eq.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Allocated production by application (Step 1); application-specific emission rates</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>N2O emissions (MMT CO2 Eq.) from product uses</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td>Sum of (production x share x emission rate) across applications; GWP conversion</td>
+</tr>
+<tr class="even">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/n2o_product_use/02_emissions_calculation.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-4-29" class="level2" data-number="2.29">
+<h2 data-number="2.29" class="anchored" data-anchor-id="sec-4-29"><span class="header-section-number">2.29</span> 4.29 Industrial Processes and Product Use – Summary</h2>
+<p><strong>Overview.</strong> This section aggregates all IPPU subcategory emission estimates into a single chapter total, ensures time-series consistency across sub-categories, and presents the full IPPU emission trend. No new calculations are performed here; this is a consolidation and QC step.</p>
+<hr>
+<section id="step-1-aggregate-all-ippu-subcategory-estimates" class="level3" data-number="2.29.1">
+<h3 data-number="2.29.1" class="anchored" data-anchor-id="step-1-aggregate-all-ippu-subcategory-estimates"><span class="header-section-number">2.29.1</span> Step 1 – Aggregate all IPPU subcategory estimates</h3>
+<p>Combine emissions from 4.1-4.28 into a single summary table by gas, subcategory, and year.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>[CODING] Coding annotation – Step 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Inputs</strong></td>
+<td>Outputs from all individual subcategory modules (4.1-4.28)</td>
+</tr>
+<tr class="even">
+<td><strong>Outputs</strong></td>
+<td>IPPU summary table: MMT CO2 Eq. by subcategory x gas x year</td>
+</tr>
+<tr class="odd">
+<td><strong>Key operations</strong></td>
+<td><code>bind_rows()</code> across subcategory outputs; aggregate to chapter total</td>
+</tr>
+<tr class="even">
+<td><strong>R notes</strong></td>
+<td>If <code>{targets}</code> is adopted (an open decision), this becomes the terminal target that depends on all upstream subcategory targets</td>
+</tr>
+<tr class="odd">
+<td><strong>Corresponding script</strong></td>
+<td><code>R/ippu_summary/01_aggregate.R</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>[NOTE] Cross-cutting open questions for IPPU
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>GWP consistency:</strong> All GWP values should come from the single shared constants vector (registry dataset <code>DS-GWP-AR5</code>), passed to every subcategory function and referenced by name.</li>
+<li><strong>Energy chapter reconciliation:</strong> Steps that adjust fuel use out of the Energy chapter (coking coal, petroleum coke, natural gas feedstocks for ammonia, etc.) should be reconciled with IPPU module outputs to ensure no double-counting or omission.</li>
+<li><strong>GHGRP data vintage:</strong> Confirm which reporting year of GHGRP data is used for each subcategory – some subcategories transition from USGS/Census to GHGRP at different points.</li>
+<li><strong>Missing 2020-2022 data:</strong> Iron and Steel (4.18) and potentially other subcategories use proxy data for recent years. Flag these for review.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 </main>

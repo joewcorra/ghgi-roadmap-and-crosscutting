@@ -27,6 +27,7 @@ validate_ghgi_schema <- function(schema) {
   ds_ids   <- schema$datasets$dataset_id
 
   dup_nodes    <- node_ids[duplicated(node_ids)]
+  dup_ds       <- ds_ids[duplicated(ds_ids)]
   orphan_nodes <- setdiff(schema$crosswalk$node_id, node_ids)
   orphan_ds    <- setdiff(schema$crosswalk$dataset_id, ds_ids)
   bad_parents  <- schema$categories %>%
@@ -35,6 +36,7 @@ validate_ghgi_schema <- function(schema) {
 
   stopifnot(
     "node_id is not unique"                       = length(dup_nodes)    == 0,
+    "dataset_id is not unique"                    = length(dup_ds)       == 0,
     "crosswalk references unknown node_id"        = length(orphan_nodes) == 0,
     "crosswalk references unknown dataset_id"     = length(orphan_ds)    == 0,
     "category has unknown parent_id"              = length(bad_parents)  == 0

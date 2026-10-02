@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>GHG Inventory Project Hub</title>
+<title>Project Conventions</title>
 <style>
 
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +22,41 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -2167,15 +2202,49 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#ghgi-project-instructions" id="toc-ghgi-project-instructions" class="nav-link active" data-scroll-target="#ghgi-project-instructions">GHGI Project Instructions</a>
+  <ul class="collapse">
+  <li><a href="#what-this-project-is" id="toc-what-this-project-is" class="nav-link" data-scroll-target="#what-this-project-is">What this project is</a></li>
+  <li><a href="#how-to-work-with-me" id="toc-how-to-work-with-me" class="nav-link" data-scroll-target="#how-to-work-with-me">How to work with me</a></li>
+  <li><a href="#repository-structure" id="toc-repository-structure" class="nav-link" data-scroll-target="#repository-structure">Repository structure</a></li>
+  <li><a href="#r-coding-conventions" id="toc-r-coding-conventions" class="nav-link" data-scroll-target="#r-coding-conventions">R coding conventions</a>
+  <ul class="collapse">
+  <li><a href="#functions-and-naming" id="toc-functions-and-naming" class="nav-link" data-scroll-target="#functions-and-naming">Functions and naming</a></li>
+  <li><a href="#organizing-a-category" id="toc-organizing-a-category" class="nav-link" data-scroll-target="#organizing-a-category">Organizing a category</a></li>
+  <li><a href="#style" id="toc-style" class="nav-link" data-scroll-target="#style">Style</a></li>
+  <li><a href="#data-shape-and-columns" id="toc-data-shape-and-columns" class="nav-link" data-scroll-target="#data-shape-and-columns">Data shape and columns</a></li>
+  <li><a href="#joins-grouping-and-output" id="toc-joins-grouping-and-output" class="nav-link" data-scroll-target="#joins-grouping-and-output">Joins, grouping, and output</a></li>
+  <li><a href="#gap-filling-and-period-splits" id="toc-gap-filling-and-period-splits" class="nav-link" data-scroll-target="#gap-filling-and-period-splits">Gap-filling and period splits</a></li>
+  <li><a href="#constants" id="toc-constants" class="nav-link" data-scroll-target="#constants">Constants</a></li>
+  </ul></li>
+  <li><a href="#unit-discipline" id="toc-unit-discipline" class="nav-link" data-scroll-target="#unit-discipline">Unit discipline</a></li>
+  <li><a href="#architecture-principles" id="toc-architecture-principles" class="nav-link" data-scroll-target="#architecture-principles">Architecture principles</a></li>
+  <li><a href="#tools-and-packages" id="toc-tools-and-packages" class="nav-link" data-scroll-target="#tools-and-packages">Tools and packages</a></li>
+  <li><a href="#custom-ai-tools" id="toc-custom-ai-tools" class="nav-link" data-scroll-target="#custom-ai-tools">Custom AI tools</a></li>
+  <li><a href="#project-management" id="toc-project-management" class="nav-link" data-scroll-target="#project-management">Project management</a></li>
+  <li><a href="#decision-authority" id="toc-decision-authority" class="nav-link" data-scroll-target="#decision-authority">Decision authority</a></li>
+  <li><a href="#reference-sources" id="toc-reference-sources" class="nav-link" data-scroll-target="#reference-sources">Reference sources</a></li>
+  <li><a href="#writing-about-this-project" id="toc-writing-about-this-project" class="nav-link" data-scroll-target="#writing-about-this-project">Writing about this project</a></li>
+  <li><a href="#where-to-find-more-detail" id="toc-where-to-find-more-detail" class="nav-link" data-scroll-target="#where-to-find-more-detail">Where to find more detail</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GHG Inventory Project Hub</h1>
+<h1 class="title">Project Conventions</h1>
 </div>
 
 
@@ -2192,39 +2261,234 @@ vertical-align: -.125em;
 </header>
 
 
-<p>This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.</p>
-<p>The documentation follows the <a href="https://diataxis.fr/">Diátaxis</a> framework, which sorts each document by what the reader needs at that moment.</p>
-<section id="how-to-guides" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-guides">How-to guides</h2>
-<p>Task-focused steps for someone who already knows what they want to do.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This page shows <code>AGENTS.md</code> from the repository root. That file is the single source of truth for conventions and is also read by AI coding tools, so edit it there, not here.</p>
+</div>
+</div>
+<section id="ghgi-project-instructions" class="level1">
+<h1>GHGI Project Instructions</h1>
+<p>This file is the source of truth for conventions, tools, and working practices across all GHG inventory work, in this repository and in every source-category repository. When another document disagrees with this file, this file wins. Report the disagreement so the other document can be corrected.</p>
+<section id="what-this-project-is" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-project-is">What this project is</h2>
+<p>This repository is part of a spec-driven R pipeline for the U.S. Greenhouse Gas Inventory (GHGI). “Spec-driven” means that domain experts write plain-language methodology narratives, and those narratives define what the code must do. Code is written to follow a specification, never to guess at one. The goal is auditability and institutional resilience: the methods should be documented and reproducible even if any one person leaves.</p>
+</section>
+<section id="how-to-work-with-me" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-work-with-me">How to work with me</h2>
 <ul>
-<li><a href="how-to/render-the-documents.qmd">Render the documents</a></li>
-<li><a href="how-to/query-the-schema.qmd">Query the schema</a></li>
+<li>I code exclusively in R. I also use HTML and CSS when a document or app needs them. Do not write Python.</li>
+<li>Work incrementally. Prove a pattern on one source category before scaling it to others, and stop at human-review checkpoints instead of pushing ahead.</li>
+<li>Fail loudly, not silently. If an input is missing, a unit is unrecognized, or a methodology step is ambiguous, raise an error or ask me. Do not guess or fill in a plausible value.</li>
+<li>Keep the methodology specification and the code separate. If the code disagrees with the narrative (for example, code that uses an older model version than the narrative cites), report the difference to me. Do not quietly reconcile it, because the difference is useful information.</li>
+<li>I will correct direction mid-conversation. Fold those corrections into everything that follows.</li>
+<li>Write in full sentences. Spell out acronyms the first time they appear, and define technical terms briefly where they are introduced. Avoid symbolic shorthand in prose. Inside code and code comments, normal programming notation is fine.</li>
+<li>Be concise by default, and expand when I ask.</li>
 </ul>
 </section>
-<section id="reference" class="level2">
-<h2 class="anchored" data-anchor-id="reference">Reference</h2>
-<p>Facts to look up while working: rules, definitions, and specifications.</p>
+<section id="repository-structure" class="level2">
+<h2 class="anchored" data-anchor-id="repository-structure">Repository structure</h2>
 <ul>
-<li><a href="reference/conventions.qmd">Project conventions (AGENTS.md)</a>: the source of truth for coding, unit, tooling, and project-management conventions</li>
-<li><a href="reference/schema.qmd">Schema</a>: source categories, the dataset registry, and their crosswalk</li>
-<li><a href="reference/cross-sector-boundaries.qmd">Cross-sector boundary rules</a>: which sector reports each emission</li>
-<li><a href="reference/methodology/ghg-inventory-methodology.qmd">Methodology reference</a>: calculation methodology and coding annotations by source category</li>
-<li><a href="reference/methodology/sample-smn-wastewater.qmd">Example methodology narrative: wastewater</a></li>
-<li><a href="reference/glossary.qmd">Glossary</a></li>
+<li><code>ghgi-roadmap-and-crosscutting</code> (this repository) is the coordination hub. It holds the schema registry, methodology narratives, cross-cutting design decisions, and this file. It does not pull, transform, or calculate emissions data.</li>
+<li>Each sector has its own source-category repository: <code>ghg-energy</code>, <code>ghg-ippu</code>, <code>ghg-agriculture</code>, <code>ghg-lulucf</code>, and <code>ghg-waste</code>. Each one handles data pulling, transformation, aggregation, calculation, and visualization for its sector.</li>
+<li>There is no shared <code>ghg-core</code> repository. The source-category hierarchy, the dataset registry, and their crosswalk live in this repository’s <code>schema/</code> folder.</li>
+<li><code>syrinx</code> is the internal helper package (see Tools and packages).</li>
+</ul>
+<p>Each source-category repository follows this layout:</p>
+<pre><code>ghg-[sector]/
+├── README.md             Sector overview and quick start
+├── METHODOLOGY.md        Methodology documentation
+├── data/
+│   ├── reference/        Emission factors and lookup tables
+│   ├── activity/         Processed activity data
+│   └── calculated/       Results, date-stamped
+├── data-raw/             Original downloads (git-ignored)
+├── R/
+│   ├── 01_download.R     Data acquisition
+│   ├── 02_clean.R        Cleaning and harmonization
+│   ├── 03_calculate.R    Emission calculations
+│   ├── 04_validate.R     Quality assurance and quality control checks
+│   └── functions/        Helper functions
+├── tests/testthat/       Unit tests
+├── outputs/              Generated reports and figures
+├── docs/                 Data dictionaries and changelog
+├── .github/workflows/    GitHub Actions
+├── renv.lock
+└── _targets.R            Optional; see Tools and packages</code></pre>
+<p>Data files follow the file-format rule under Tools and packages.</p>
+</section>
+<section id="r-coding-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="r-coding-conventions">R coding conventions</h2>
+<section id="functions-and-naming" class="level3">
+<h3 class="anchored" data-anchor-id="functions-and-naming">Functions and naming</h3>
+<ul>
+<li>Name data-retrieval functions <code>get_[scope]_[source]_[gas]()</code>. This applies to emissions data retrieval only; schema and metadata functions (for example, loading or validating the category/dataset registry) are named descriptively instead, such as <code>read_ghgi_schema()</code> and <code>validate_ghgi_schema()</code>.</li>
+<li>Function names describe the output, not the process: <code>get_</code>, not <code>calculate_</code>.</li>
+<li>Name intermediate emissions objects with the Common Reporting Table (CRT) row letter, for example <code>f1_ch4_emissions</code>.</li>
+<li>Write one function per logical calculation phase. Each function takes named data-frame arguments plus, where needed, a named constants vector, and returns a single tibble with an explicit <code>return()</code>. The one exception is a category-level function, which returns a list (see Organizing a category).</li>
+<li>Functions have no side effects: they do not write files, print, or modify global state.</li>
+<li>Helpers shared between national-level and state-level compilation live in a common script. Helpers specific to one level stay in that level’s script. Name helpers descriptively in snake_case; an <code>h_</code> prefix is optional and only distinguishes a helper from a <code>get_</code> function.</li>
 </ul>
 </section>
-<section id="explanation" class="level2">
-<h2 class="anchored" data-anchor-id="explanation">Explanation</h2>
-<p>Background and reasoning: why the project is built the way it is.</p>
+<section id="organizing-a-category" class="level3">
+<h3 class="anchored" data-anchor-id="organizing-a-category">Organizing a category</h3>
 <ul>
-<li><a href="explanation/architecture.qmd">Architecture and design principles</a>, including open decisions and review milestones</li>
-<li><a href="explanation/sector-data-notes.qmd">Sector data notes</a>: data-availability risks and recent-year gaps</li>
+<li>Organize each category as a named list built with <code>tibble::lst()</code>, holding one tibble per subcategory. For example, electric power generation holds <code>gas_combustion</code>, <code>coal_combustion</code>, and so on.</li>
+<li>Compute each subcategory in its own function, so the code for one subcategory is easy to find, debug, and change without touching the others.</li>
+<li>The category-level function returns the list with an explicit <code>return()</code>:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>get_[scope]_[category] <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  gas_combustion  <span class="ot">&lt;-</span> get_[scope]_[gas_subcategory]_[gas](...)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  coal_combustion <span class="ot">&lt;-</span> get_[scope]_[coal_subcategory]_[gas](...)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">lst</span>(gas_combustion, coal_combustion))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="style" class="level3">
+<h3 class="anchored" data-anchor-id="style">Style</h3>
+<ul>
+<li>Use the magrittr pipe <code>%&gt;%</code>, not the native pipe <code>|&gt;</code>.</li>
+<li>Use the tidyverse style. Avoid nested <code>if</code>/<code>else</code>. Prefer <code>switch()</code>, named-vector lookups, <code>dplyr::case_when()</code>, guard clauses with early returns, and <code>match.arg()</code>. Vectorized <code>ifelse()</code> and <code>dplyr::if_else()</code> are fine.</li>
+<li>Give every <code>case_when()</code> a <code>.default</code> clause. Use <code>if_else()</code> for binary logic. When a branch depends on a value computed earlier in the same <code>mutate()</code>, split the work into sequential <code>mutate()</code> calls.</li>
+<li>Iterate with <code>{purrr}</code> (<code>map()</code>, <code>map_dfr()</code>, <code>map2()</code>, <code>walk()</code>). Do not use <code>for</code> loops or the <code>apply()</code>, <code>lapply()</code>, and <code>sapply()</code> family.</li>
+<li>Extract columns with <code>pull()</code>, not <code>$</code>.</li>
+<li>Use snake_case for variable names. Character data is lowercase, with no punctuation except hyphens.</li>
 </ul>
 </section>
-<section id="tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
-<p>Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.</p>
+<section id="data-shape-and-columns" class="level3">
+<h3 class="anchored" data-anchor-id="data-shape-and-columns">Data shape and columns</h3>
+<ul>
+<li>Keep time series in long format. Never pivot to wide format inside a calculation function.</li>
+<li>Year columns are factors. Apply <code>forcats::as_factor(year)</code> whenever a year column is created, for example when scaffolding a series with <code>tibble(year = start:end)</code>.</li>
+<li>Do not put unit suffixes in column names (<code>waste_composted</code>, not <code>waste_composted_kt</code>). Unit context belongs in the data dictionary.</li>
+<li>Name emission columns <code>[gas]_emissions</code> (for example <code>co2_emissions</code>) and carbon dioxide equivalent columns <code>[gas]_co2e</code>.</li>
+</ul>
+</section>
+<section id="joins-grouping-and-output" class="level3">
+<h3 class="anchored" data-anchor-id="joins-grouping-and-output">Joins, grouping, and output</h3>
+<ul>
+<li>Attach treatment tables with an inline <code>left_join()</code>, then <code>filter()</code>, then <code>select()</code>.</li>
+<li>Every join specifies <code>by</code> explicitly.</li>
+<li>Follow every <code>group_by()</code> with <code>summarize(..., .groups = &quot;drop&quot;)</code>.</li>
+<li>Build collated results with <code>tibble()</code> followed by <code>pull()</code>.</li>
+<li>End each script with a section headed <code>## Output</code>, which holds the final output block.</li>
+</ul>
+</section>
+<section id="gap-filling-and-period-splits" class="level3">
+<h3 class="anchored" data-anchor-id="gap-filling-and-period-splits">Gap-filling and period splits</h3>
+<p>Fill gaps with <code>lag()</code> and <code>lead()</code> inside sequential <code>mutate()</code> calls. Handle methodology breaks between periods with <code>case_when()</code> on a year threshold:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">if_else</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">is.na</span>(value),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lag</span>(value, <span class="dv">1</span>) <span class="sc">+</span> ((<span class="fu">lead</span>(value, <span class="dv">1</span>) <span class="sc">-</span> <span class="fu">lag</span>(value, <span class="dv">1</span>)) <span class="sc">/</span> <span class="dv">2</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  value))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">&lt;=</span> [threshold_year] <span class="sc">~</span> [method_a_expression],</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">.default =</span> [method_b_expression]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="constants" class="level3">
+<h3 class="anchored" data-anchor-id="constants">Constants</h3>
+<ul>
+<li>Pass emission factors, global warming potentials, and other parameters as a single named numeric vector, and reference values by name (<code>constants[&quot;c_content_rubber&quot;]</code>), never as bare numbers.</li>
+<li>Unit conversions never live in the constants vector or inside a <code>get_</code> function. See Unit discipline.</li>
+</ul>
+</section>
+</section>
+<section id="unit-discipline" class="level2">
+<h2 class="anchored" data-anchor-id="unit-discipline">Unit discipline</h2>
+<ul>
+<li>Convert every input to the project’s canonical units at ingestion.</li>
+<li>Keep all intermediate calculations unitless.</li>
+<li>Convert units only at the final output step, using named constants (for example, gigagrams to teragrams).</li>
+<li>Constants that carry units, such as emission factors, must declare their native unit basis and be converted to canonical units at ingestion.</li>
+<li>Species-conversion ratios, such as 44 divided by 12 for carbon to carbon dioxide, do not change with scale. Treat them differently from emission factors, which do depend on scale.</li>
+<li><code>{units}</code> is an ingestion-layer tool only. It is never used inside a calculation function.</li>
+</ul>
+</section>
+<section id="architecture-principles" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-principles">Architecture principles</h2>
+<ul>
+<li>The meta-module (the layer holding the narratives and the schema) is a control plane. It should produce and constrain the pipeline, not merely accompany it.</li>
+<li>Two decisions must come early: the uncertainty convention must be settled before ingestion is built, and the emissions store schema should be frozen sooner than it feels necessary.</li>
+<li>Data quality is enforced by validation checks at ingestion and at output.</li>
+</ul>
+<p>The reasoning behind these principles is in <code>explanation/architecture.qmd</code>.</p>
+</section>
+<section id="tools-and-packages" class="level2">
+<h2 class="anchored" data-anchor-id="tools-and-packages">Tools and packages</h2>
+<ul>
+<li>Pipeline orchestration: <code>{targets}</code> and <code>{tarchetypes}</code> are optional for now; whether to adopt them is an open decision (see Open decisions in <code>explanation/architecture.qmd</code>). Write every calculation function so it could become a <code>{targets}</code> step without rewriting: inputs passed as arguments, no side effects, and one returned tibble (or, for a category-level function, one list of tibbles).</li>
+<li>Versioned data storage: <code>{pins}</code>.</li>
+<li>File formats: Parquet through <code>{arrow}</code>. Ingestion provenance goes in <code>_metadata.yml</code>.</li>
+<li>Data dictionaries: one <code>data-dict.yaml</code> file per documented table, hand-authored against the tidyverse <code>data-dict.yaml</code> specification. Each column gets its type, constraints, and a <code>range</code>, <code>examples</code>, or <code>values</code> entry verified against the real data. Files are checked by hand with <code>{yaml}</code>; do not install the specification’s companion command-line tool.</li>
+<li>Validation: <code>{pointblank}</code> for data checks at ingestion and output, and <code>{testthat}</code> for unit tests of calculation functions.</li>
+<li>Internal helper package: <code>{syrinx}</code> (from <code>joewcorra/syrinx</code>). It provides <code>pre_clean()</code>, <code>use_dictionary()</code>, <code>apply_metadata_labels()</code>, <code>to_canonical()</code>, <code>to_canonical_all()</code>, and the <code>canonical_units</code> tibble. Use these instead of writing new cleaning or unit-conversion code. Call <code>pre_clean()</code> at the end of a function’s pipeline whenever its output will be passed downstream or stored. Install it as needed with <code>remotes::install_github(&quot;joewcorra/syrinx&quot;)</code>, adding <code>auth_token = Sys.getenv(&quot;GITHUB_PAT&quot;)</code> if the repository is private.</li>
+<li>Data manipulation: the tidyverse (<code>{dplyr}</code>, <code>{tidyr}</code>, <code>{purrr}</code>, <code>{readr}</code>, <code>{stringr}</code>, <code>{forcats}</code>, <code>{lubridate}</code>, <code>{tibble}</code>), <code>{janitor}</code> (many of its functions are wrapped in <code>{syrinx}</code>), <code>{labelled}</code>, <code>{readxl}</code> and <code>{openxlsx}</code> for Excel files, <code>{jsonlite}</code>, <code>{httr2}</code> for APIs, <code>{rvest}</code> for scraping, <code>{here}</code> for paths, and <code>{furrr}</code> for parallel iteration.</li>
+<li>Spatial data (mainly LULUCF): <code>{sf}</code>, <code>{terra}</code>, and <code>{mapview}</code>.</li>
+<li>Reporting: <code>{gt}</code> (with <code>{gtExtras}</code>) for tables and <code>{ggplot2}</code> (with <code>{patchwork}</code>, <code>{scales}</code>, and <code>{showtext}</code>) for figures. <code>{visNetwork}</code> can diagram pipeline dependencies. Documentation is written in Quarto and rendered to HTML; diagrams use Mermaid. Whether and where to publish the documentation is not yet decided.</li>
+<li>Documentation assistance through direct large language model API calls: <code>{ellmer}</code>.</li>
+<li>Package reproducibility: <code>{renv}</code>. Each repository has its own <code>renv.lock</code>; run <code>renv::restore()</code> to reproduce it.</li>
+</ul>
+</section>
+<section id="custom-ai-tools" class="level2">
+<h2 class="anchored" data-anchor-id="custom-ai-tools">Custom AI tools</h2>
+<ul>
+<li>Custom skills for this project live in <code>~/.claude/skills/</code>, outside this repository. Use them when they apply: <code>ghg-methodology-parser</code>, <code>r-ghg-coder</code>, <code>r-methodology-narrator</code>, and <code>r-data-dict-builder</code>.</li>
+<li>The typical flow for one source category: the parser turns chapter text into an implementation framework, the coder turns the framework into an R script, and the narrator turns the script back into a plain-language narrative for review by the source lead. The data-dictionary builder runs independently against any table, most usefully once a function’s output is stable.</li>
+<li>Each skill’s <code>SKILL.md</code> must agree with this file. When a convention changes, update this file first, then the affected <code>SKILL.md</code>.</li>
+</ul>
+</section>
+<section id="project-management" class="level2">
+<h2 class="anchored" data-anchor-id="project-management">Project management</h2>
+<ul>
+<li>Cross-cutting issues and the roadmap live in the <code>ghgi-roadmap-and-crosscutting</code> repository. Source-category repositories hold category-specific issues. Work across all repositories is tracked on the single GitHub Project board named “ghgi”.</li>
+<li>Board columns: Backlog, Ready, In Progress, Review, Done, and Blocked.</li>
+<li>Cross-repository issue labels: <code>sector:</code> (for example <code>sector:energy</code>), <code>priority:</code> (high, medium, low), <code>type:</code> (bug, feature, documentation), and <code>status:</code> (blocked, ready-for-review).</li>
+<li>GitHub Actions run <code>{testthat}</code> on push.</li>
+</ul>
+</section>
+<section id="decision-authority" class="level2">
+<h2 class="anchored" data-anchor-id="decision-authority">Decision authority</h2>
+<p>Ask the owner of a decision rather than making it:</p>
+<ul>
+<li>The data system developer decides R package choices, code organization, Git workflow details, and development tools.</li>
+<li>Collaborative decisions: data storage and databases, major workflow changes, data access and sharing policies, and public-facing features.</li>
+<li>Sector leads decide sector-specific methodology, data source selection, quality assurance and quality control thresholds, and reporting priorities.</li>
+</ul>
+</section>
+<section id="reference-sources" class="level2">
+<h2 class="anchored" data-anchor-id="reference-sources">Reference sources</h2>
+<ul>
+<li>The GHGIA Full Report 2026 (University of Maryland Center for Global Sustainability) is the canonical source for units and methodology.</li>
+<li>Use the Intergovernmental Panel on Climate Change Fifth Assessment Report (AR5) global warming potentials.</li>
+<li>Secondary references: the <a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/">2006 IPCC Guidelines for National Greenhouse Gas Inventories</a> for emission factor tiers and calculation approaches, the <a href="https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks">EPA inventory reports and annexes</a>, and the United Nations Framework Convention on Climate Change reporting requirements for the Common Reporting Tables.</li>
+</ul>
+</section>
+<section id="writing-about-this-project" class="level2">
+<h2 class="anchored" data-anchor-id="writing-about-this-project">Writing about this project</h2>
+<ul>
+<li>Avoid wording that implies criticism of colleagues or of earlier workflows. For example, say a legacy Excel process is “less efficient,” not “clunky.”</li>
+<li>For general audiences, say “custom AI tools” rather than “Claude Skills,” and emphasize that the tools follow a human-designed specification.</li>
+</ul>
+</section>
+<section id="where-to-find-more-detail" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-find-more-detail">Where to find more detail</h2>
+<p>Documentation is organized by the Diátaxis framework into tutorials, how-to guides, reference, and explanation. See <code>index.qmd</code> for the map.</p>
+<ul>
+<li>Design rationale, open decisions, review milestones, and criteria for adding complexity: <code>explanation/architecture.qmd</code>.</li>
+<li>Data-availability risks and recent-year gaps by sector: <code>explanation/sector-data-notes.qmd</code>.</li>
+<li>Terms and abbreviations: <code>reference/glossary.qmd</code>.</li>
+<li>Which sector reports each emission: <code>reference/cross-sector-boundaries.qmd</code>.</li>
+<li>Source categories, datasets, and their crosswalk: <code>schema/</code>, loaded and validated by <code>R/ghgi_schema.R</code>; described in <code>reference/schema.qmd</code>.</li>
+<li>Methodology narratives: <code>reference/methodology/</code>.</li>
+</ul>
+</section>
 </section>
 
 </main>

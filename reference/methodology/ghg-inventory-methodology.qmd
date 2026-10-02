@@ -1,0 +1,1438 @@
+---
+title: "National GHG Inventory -- Methodology Reference"
+subtitle: "Source Category Methodologies: Narrative, Coding Roadmap, and Documentation"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    theme: cosmo
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    geometry: margin=1in
+    fontsize: 11pt
+execute:
+  echo: false
+  warning: false
+---
+
+# Introduction {.unnumbered}
+
+This document serves three purposes:
+
+1. **Methodology narrative** -- a plain-language description of the calculation methodology for each source category, suitable for review by domain experts and auditors.
+2. **Coding roadmap** -- technical annotations identifying the inputs, outputs, and key operations required for each step, to guide development of the corresponding R scripts.
+3. **Inventory documentation** -- a reference record of the methodological approach taken in the national GHG Inventory.
+
+Each source category is organised by its category code. Technical annotations appear as callout boxes beneath each step.
+
+---
+
+# Energy
+
+## Annex 2.1 -- CO2 Emissions from Fossil Fuel Combustion {#sec-annex2-1}
+
+**Overview.** CO2 emissions from fossil fuel combustion are estimated using a bottom-up, sector-based approach aligned with the IPCC 2006 Guidelines Tier 2 method. The methodology begins with raw fuel consumption data from the Energy Information Administration (EIA), applies a series of adjustments to arrive at energy consumed for combustion purposes, and then converts adjusted consumption to CO2 emissions using fuel-specific carbon content coefficients. The primary inputs are EIA fuel consumption statistics; the primary output is CO2 emissions in MMT CO2 Eq. by fuel type and end-use sector.
+
+---
+
+### Step 1 -- Determine total fuel consumption by fuel type and sector
+
+Fuel consumption data are obtained from the EIA in physical units and converted to energy equivalents (TBtu, using higher heating values). Data are aggregated by end-use sector (residential, commercial, industrial, transportation, electric power, and U.S. Territories) and by primary and secondary fuel type. Electricity use is allocated to sectors based on EIA retail sales to ultimate customers. For years 2010 onward, electricity consumption by electric vehicles is estimated separately and reallocated from residential and commercial sectors to transportation.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | EIA Monthly Energy Review; EIA fuel consumption surveys by sector and fuel type; EIA electricity retail sales data; Browning (2018) EV electricity methodology |
+| **Outputs** | Table of unadjusted fuel consumption (TBtu) by fuel type x sector x year |
+| **Key operations** | Unit conversion (physical -> TBtu); aggregation by sector and fuel type; EV electricity reallocation from residential/commercial to transportation |
+| **R notes** | `dplyr::summarise()` for aggregation; conversion factors stored as named constants or lookup table; EV reallocation applied conditionally for years >= 2010 |
+| **Corresponding script** | `R/01_fuel_consumption_raw.R` |
+:::
+
+---
+
+### Step 2 -- Subtract uses accounted for in the IPPU chapter
+
+Portions of seven fuel types (coking coal, distillate fuel, industrial other coal, petroleum coke, natural gas, residual fuel oil, and other oil >401 degreesF) are reallocated to the Industrial Processes and Product Use (IPPU) chapter because they are consumed as raw materials rather than as combustion fuels. These amounts are removed from Energy chapter totals to avoid double-counting with IPPU. The adjustment quantities are derived from activity data used in the relevant IPPU calculations (e.g., iron and steel production, aluminum production, ammonia production, carbon black, silicon carbide, titanium dioxide, ferroalloys).
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | IPPU activity data for iron & steel, aluminum, ammonia, carbon black, SiC, TiO2, ferroalloys; EIA reported coking coal consumption |
+| **Outputs** | Adjustment table (TBtu) by fuel type to be subtracted from industrial sector totals |
+| **Key operations** | Join IPPU-derived fuel quantities to energy consumption table; subtract adjustment amounts by fuel type |
+| **R notes** | Left join on fuel type; negative values possible where IPPU consumption exceeds EIA-reported totals -- handle with `pmax()` or explicit flag |
+| **Corresponding script** | `R/02_ippu_adjustments.R` |
+:::
+
+---
+
+### Step 3 -- Adjust for conversion of fossil fuels and exports
+
+Three adjustments are applied. First, ethanol blended into motor gasoline is removed (biogenic carbon tracked in LULUCF, not Energy). Second, biodiesel and renewable diesel blended into distillate fuel oil are removed for the same reason (from 2009 onward). Third, industrial other coal used to produce synthetic natural gas at the Dakota Gasification Plant is adjusted: the energy content associated with CO2 exported to Canada by pipeline is subtracted from industrial other coal consumption, as that CO2 is not emitted to the U.S. atmosphere.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | EIA ethanol blending volumes; EIA biodiesel/renewable diesel volumes (2009+); Dakota Gasification Plant CO2 export volumes |
+| **Outputs** | Further-adjusted consumption table with biofuel fractions and exported CO2 energy removed |
+| **Key operations** | Conditional subtraction by year and fuel type; motor gasoline and distillate fuel oil adjusted separately |
+| **R notes** | Year-conditional logic (`if_else()` or `case_when()`) for biodiesel adjustment start year; Dakota adjustment is a single small annual subtraction from industrial other coal |
+| **Corresponding script** | `R/03_biofuel_and_conversion_adjustments.R` |
+:::
+
+---
+
+### Step 4 -- Adjust sectoral allocation of distillate fuel oil and motor gasoline
+
+EPA conducts an independent bottom-up analysis of transportation fuel consumption using Federal Highway Administration (FHWA) data. Where FHWA estimates differ from EIA's sectoral allocation, the transportation sector's distillate and motor gasoline consumption is adjusted to match the FHWA-derived figure. Because EIA national totals are considered accurate, the difference is redistributed proportionally across the residential, commercial, and industrial sectors.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 4
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | FHWA Highway Statistics (annual); EIA sectoral distillate and motor gasoline consumption |
+| **Outputs** | Revised distillate and motor gasoline consumption by sector, with transportation adjusted to FHWA estimate |
+| **Key operations** | Calculate difference between FHWA and EIA transportation figures; redistribute difference proportionally across residential, commercial, and industrial sectors |
+| **R notes** | Proportional redistribution: non-transport sector shares calculated from unadjusted values, then applied to the adjustment delta |
+| **Corresponding script** | `R/04_fhwa_sectoral_adjustment.R` |
+:::
+
+---
+
+### Step 5 -- Subtract consumption for non-energy use
+
+Fossil fuels consumed for non-energy purposes (e.g., asphalt, lubricants, plastics feedstocks) are subtracted from total fuel consumption. These fuels sequester varying fractions of their carbon content in products rather than releasing it to the atmosphere during combustion. Their emissions are estimated separately in the Carbon Emitted from Non-Energy Uses of Fossil Fuels section.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 5
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | EIA non-energy use estimates by fuel type and sector (Table A-18) |
+| **Outputs** | Consumption table with non-energy fuel quantities removed |
+| **Key operations** | Subtract non-energy use volumes by fuel type from total consumption |
+| **R notes** | Non-energy use table joined by fuel type and year; subtraction produces the combustion-only consumption figures |
+| **Corresponding script** | `R/05_non_energy_use_adjustment.R` |
+:::
+
+---
+
+### Step 6 -- Subtract consumption of international bunker fuels
+
+Emissions from international transport (aviation jet fuel, marine residual and distillate fuel oil used in international shipping) are excluded from national totals per IPCC and UNFCCC guidelines. The estimated bunker fuel volumes are subtracted from EIA transportation sector consumption figures. Bunker fuel emissions are reported separately.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 6
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | International bunker fuel estimates by fuel type (Table A-19); see also Annex 3.3 for aviation methodology |
+| **Outputs** | Final adjusted consumption table (TBtu), equivalent to Tables A-5 through A-17 in the Annex |
+| **Key operations** | Subtract bunker volumes from transportation sector jet fuel, residual fuel, and distillate fuel entries |
+| **R notes** | Straightforward subtraction; bunker fuel table joined by fuel type and year |
+| **Corresponding script** | `R/06_bunker_fuel_adjustment.R` |
+:::
+
+---
+
+### Step 7 -- Determine the carbon content of all fuels
+
+Adjusted energy consumption (TBtu) for each fuel type is multiplied by a fuel-specific carbon content coefficient (MMT C/QBtu) to yield the carbon content of combusted fuels. Coefficients are sourced from EIA and EPA and largely reflect U.S.-specific fuel qualities rather than IPCC defaults. For several fuels (motor gasoline, distillate, HGL, natural gas, crude oil, motor gasoline blending components), coefficients vary annually to reflect changes in fuel composition. For geothermal electricity generation, carbon content is estimated from net generation by geotype (flash steam, dry steam, binary) multiplied by geotype-specific coefficients.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 7
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Adjusted fuel consumption by fuel type and sector (Steps 1-6 output); carbon content coefficient table (Table A-20), annually variable for select fuels |
+| **Outputs** | Carbon content (MMT C) by fuel type and sector |
+| **Key operations** | Join adjusted consumption to carbon content coefficients by fuel type and year; multiply consumption x coefficient; geothermal handled separately by geotype |
+| **R notes** | Annual variability in coefficients means the join must be on both `fuel_type` and `year`; fixed coefficients can be stored as a lookup; variable ones require a time-series table |
+| **Corresponding script** | `R/07_carbon_content.R` |
+:::
+
+---
+
+### Step 8 -- Estimate CO2 emissions
+
+Carbon content values are converted to CO2 emissions by applying a 100 percent oxidation fraction (per IPCC 2006 guidance). Emissions are expressed in MMT CO2 Eq. and summarised by major fuel type and consuming sector. To report emissions by final end-use sector, electric power sector emissions are distributed to residential, commercial, industrial, and transportation sectors in proportion to each sector's share of aggregate electricity consumption. Transportation emissions are further disaggregated by vehicle type and mode using fuel consumption data by vehicle type (see Annex 3.1).
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 8
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Carbon content by fuel type and sector (Step 7); electricity consumption by end-use sector (Table A-22); transportation fuel consumption by vehicle type (Annex 3.1) |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) by fuel type x sector; also by final end-use sector with electric power distributed; transportation sub-allocated by vehicle/mode |
+| **Key operations** | Multiply C content x (44/12) to convert C to CO2; allocate electric power emissions to end-use sectors by electricity share; join transport mode allocation factors |
+| **R notes** | C-to-CO2 conversion factor is 44.01/12.011 ~ 3.664; electric power allocation is a weighted redistribution; final output table structure should mirror Annex Tables A-5 through A-17 |
+| **Corresponding script** | `R/08_co2_emissions.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+This is a Tier 2 bottom-up methodology using EIA aggregate fuel consumption as its foundation. Key assumptions include: 100% oxidation of carbon during combustion; HHV (not LHV) energy basis throughout; use of No. 2 distillate as representative of all distillate grades; and U.S.-specific carbon content coefficients that vary annually for several fuel types.
+
+- **Open question:** EV electricity reallocation methodology (Browning 2018) -- confirm the current implementation aligns with the most recent technical memo.
+- **Open question:** IPPU adjustment quantities (Step 2) need to be sourced consistently from the same IPPU module outputs to ensure cross-chapter consistency.
+- **Open question:** Confirm treatment of geothermal in Step 7 -- binary/flash hybrids may require special handling.
+:::
+
+---
+
+# Industrial Processes and Product Use (IPPU)
+
+## 4.1 Cement Production {#sec-4-1}
+
+**Overview.** CO2 emissions from cement production arise from the calcination of calcium carbonate (limestone) during clinker production. The methodology applies a Tier 2 approach: national clinker production data are multiplied by a fixed emission factor (0.510 metric tons CO2 per metric ton clinker), with a 2% correction factor applied to account for cement kiln dust (CKD) not returned to the kiln. Data source transitions from USGS (1990-2013) to GHGRP (2014-2022).
+
+---
+
+### Step 1 -- Obtain clinker production data
+
+National clinker production (metric tons) is compiled. For 1990-2013, data come from USGS mineral commodity surveys. From 2014 onward, GHGRP Subpart H facility-level reports are aggregated to a national total. An overlap comparison is performed to check consistency between the two sources at the transition year.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS clinker production data (1990-2013); EPA GHGRP Subpart H (2014-2022) |
+| **Outputs** | Annual clinker production time series (metric tons), 1990-2022 |
+| **Key operations** | Aggregate GHGRP facility-level data to national; splice USGS and GHGRP series at 2013/2014; overlap check |
+| **R notes** | GHGRP data likely imported from CSV/API; `dplyr::summarise()` for national rollup; splice with `bind_rows()` after filtering by year range |
+| **Corresponding script** | `R/cement/01_clinker_production.R` |
+:::
+
+---
+
+### Step 2 -- Apply clinker emission factor and CKD correction
+
+Clinker production is multiplied by the IPCC Tier 2 emission factor of 0.510 metric tons CO2 per metric ton clinker. A CKD correction factor of 1.02 is then applied to account for CO2 emissions from calcinated CKD that is not returned to the kiln.
+
+Emissions = clinker production x 0.510 x 1.02
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Clinker production time series (Step 1); fixed emission factor = 0.510 t CO2/t clinker; CKD correction factor = 1.02 |
+| **Outputs** | Annual CO2 emissions from cement production (MMT CO2 Eq.) |
+| **Key operations** | Multiply production x EF x CKD correction; unit conversion to MMT |
+| **R notes** | Both factors are constants -- store in a `params` list or header section for transparency; one-liner mutate |
+| **Corresponding script** | `R/cement/02_emissions_calculation.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+This is a straightforward Tier 2 calculation with two fixed parameters. The main sources of uncertainty are the assumed 65% lime fraction in clinker and the default CKD correction factor.
+
+- **Open question:** Confirm that the GHGRP Subpart H data used does not include fuel combustion CO2 (only process CO2); some facilities report combined totals via CEMS.
+:::
+
+---
+
+## 4.2 Lime Production {#sec-4-2}
+
+**Overview.** CO2 emissions from lime production result from the calcination of calcium and magnesium carbonates. The Tier 2 methodology multiplies high-calcium and dolomitic lime production separately by their respective stoichiometric emission factors, derived from the CaO and MgO content of lime (assumed 95% for both types).
+
+---
+
+### Step 1 -- Obtain lime production data by type
+
+Annual production of high-calcium lime and dolomitic lime (metric tons) is obtained from USGS mineral commodity data for 1990-2021, and from GHGRP Subpart S for more recent years where applicable.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS lime production by type; GHGRP Subpart S facility data (where used) |
+| **Outputs** | Annual production of high-calcium and dolomitic lime (metric tons) by year |
+| **Key operations** | Separate production into high-calcium vs. dolomitic categories; aggregate to national |
+| **R notes** | Two-row output per year (one per lime type); or wide format with two columns |
+| **Corresponding script** | `R/lime/01_lime_production.R` |
+:::
+
+---
+
+### Step 2 -- Apply type-specific emission factors
+
+Each lime type is multiplied by its stoichiometric emission factor:
+
+- High-calcium lime: EF = 0.95 x (44.01/56.08) = 0.7454 metric tons CO2/metric ton lime
+- Dolomitic lime: EF = 0.95 x [(44.01/56.08) + (44.01/84.31)] x 0.5 ~ 0.8364 metric tons CO2/metric ton lime
+
+Total emissions are the sum across lime types.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Lime production by type (Step 1); type-specific emission factors (derived from stoichiometry) |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) by lime type and total |
+| **Key operations** | Multiply production x EF by lime type; sum to total |
+| **R notes** | Emission factors are constants derived from molecular weights -- document derivation clearly; `group_by(lime_type)` then `summarise()` |
+| **Corresponding script** | `R/lime/02_emissions_calculation.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+- **Open question:** Confirm current data source for lime production -- USGS coverage vs. GHGRP Subpart S and transition year if applicable.
+:::
+
+---
+
+## 4.3 Glass Production {#sec-4-3}
+
+**Overview.** CO2 emissions from glass production arise from the calcination of carbonate inputs (limestone, dolomite, soda ash, and other carbonates). A Tier 3 approach is used: quantities of each carbonate input are multiplied by carbonate-specific emission factors and mass fractions. For 2010-2022, GHGRP data provide carbonate input quantities; USGS data on soda ash supplement this. Pre-2010 data use a different source blend.
+
+---
+
+### Step 1 -- Obtain carbonate input quantities by type
+
+For 2010-2022: quantities of limestone, dolomite, soda ash, barium carbonate, potassium carbonate, lithium carbonate, and strontium carbonate used in glass production are obtained from GHGRP and USGS. For earlier years, alternative data sources are used.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP facility-level carbonate inputs (2010-2022); USGS soda ash consumption for glass; pre-2010 sources |
+| **Outputs** | Annual carbonate input quantities (metric tons) by carbonate type |
+| **Key operations** | Aggregate GHGRP facility data by carbonate type; supplement with USGS soda ash; handle pre-2010 differently |
+| **R notes** | Year-conditional data sourcing -- consider using a `targets` pipeline with separate data ingestion targets per source/period |
+| **Corresponding script** | `R/glass/01_carbonate_inputs.R` |
+:::
+
+---
+
+### Step 2 -- Apply carbonate-specific emission factors
+
+Each carbonate is multiplied by its stoichiometric CO2 emission factor (metric tons CO2 per metric ton carbonate) and its average mineral mass fraction. Total emissions are summed across all carbonate types.
+
+Emissions = Sum (carbonate quantity x emission factor x mass fraction)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Carbonate quantities by type (Step 1); IPCC-derived emission factors and mass fractions by carbonate type |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from glass production |
+| **Key operations** | Join carbonate quantities to EF lookup; multiply and sum |
+| **R notes** | EF lookup table keyed on carbonate type; `left_join()` then `mutate()` and `summarise()` |
+| **Corresponding script** | `R/glass/02_emissions_calculation.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+- **Open question:** Clarify which specific carbonate types are covered by GHGRP Subpart H (glass) versus those requiring USGS supplementation. Confirm whether "other carbonates" in GHGRP align with the Inventory categorisation.
+:::
+
+---
+
+## 4.4 Other Process Uses of Carbonates {#sec-4-4}
+
+**Overview.** This category covers CO2 emissions from limestone and dolomite consumed in non-glass, non-cement applications -- flux stone, flue gas desulfurization (FGD), chemical stone, mine dusting, acid water treatment, and acid neutralization. It also covers soda ash consumption not associated with glass manufacturing. A Tier 2 approach is used for limestone and dolomite; a separate approach is used for soda ash.
+
+---
+
+### Step 1 -- Obtain limestone and dolomite consumption by end use
+
+Annual consumption quantities (metric tons) of limestone and dolomite for each applicable end use are obtained from USGS.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS mineral commodity data: limestone and dolomite consumption by end use |
+| **Outputs** | Annual consumption by carbonate type and end use |
+| **Key operations** | Filter to applicable end uses; aggregate if needed |
+| **R notes** | Straightforward read and filter |
+| **Corresponding script** | `R/carbonates/01_consumption_data.R` |
+:::
+
+---
+
+### Step 2 -- Apply emission factors for limestone and dolomite
+
+Fixed stoichiometric emission factors are applied:
+
+- Limestone: 0.43971 metric tons CO2 per metric ton carbonate
+- Dolomite: 0.47732 metric tons CO2 per metric ton carbonate
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Consumption by type (Step 1); fixed emission factors |
+| **Outputs** | CO2 emissions from limestone and dolomite consumption |
+| **Key operations** | Multiply consumption x EF by carbonate type; sum |
+| **R notes** | Constants stored in params; one mutate + summarise |
+| **Corresponding script** | `R/carbonates/02_limestone_dolomite_emissions.R` |
+:::
+
+---
+
+### Step 3 -- Estimate emissions from soda ash consumption
+
+Soda ash consumption for non-glass uses is obtained from USGS. A soda ash-specific emission factor is applied, derived from the stoichiometry of Na2CO3 decomposition (consistent with IPCC 2006 Section 2.4.2.1).
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS soda ash consumption (non-glass); stoichiometric emission factor for Na2CO3 |
+| **Outputs** | CO2 emissions from soda ash consumption |
+| **Key operations** | Multiply consumption x EF |
+| **R notes** | Can be combined with limestone/dolomite output in a single emissions table |
+| **Corresponding script** | `R/carbonates/03_soda_ash_emissions.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+- **Open question:** Confirm whether flux stone used in iron and steel production is excluded here (should be captured under 4.18) to avoid double-counting.
+:::
+
+---
+
+## 4.5 Ammonia Production {#sec-4-5}
+
+**Overview.** CO2 emissions from ammonia production arise from the use of natural gas or petroleum coke as a feedstock (hydrogen source) in steam methane reforming. For 2010-2022, a Tier 3 approach uses process CO2 emissions reported directly to GHGRP Subpart G. For 1990-2009, a Tier 2 approach uses feedstock consumption data multiplied by emission factors.
+
+---
+
+### Step 1 -- Obtain process CO2 data (2010-2022)
+
+Facility-level CO2 emissions from ammonia production are obtained from GHGRP Subpart G and aggregated to a national annual total.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart G facility reports (2010-2022) |
+| **Outputs** | National CO2 emissions from ammonia production, 2010-2022 |
+| **Key operations** | Aggregate facility-level emissions to national total |
+| **R notes** | `dplyr::summarise()` on GHGRP data filtered to Subpart G and ammonia production |
+| **Corresponding script** | `R/ammonia/01_ghgrp_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Estimate emissions from feedstock data (1990-2009)
+
+For years prior to GHGRP, feedstock consumption (natural gas and petroleum coke) used for ammonia production is obtained from EIA and other sources. Emissions are estimated by multiplying feedstock quantities by their carbon content coefficients (consistent with Tier 2 mass balance).
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | EIA natural gas and petroleum coke feedstock data for ammonia plants (1990-2009); carbon content coefficients from Annex 2.2 |
+| **Outputs** | CO2 emissions from ammonia production, 1990-2009 |
+| **Key operations** | Feedstock consumption x carbon content coefficient; convert to CO2 |
+| **R notes** | Share carbon content coefficients with the Energy chapter module for consistency |
+| **Corresponding script** | `R/ammonia/02_pre2010_emissions.R` |
+:::
+
+---
+
+### Step 3 -- Splice time series
+
+The pre-2010 (Tier 2) and post-2010 (Tier 3/GHGRP) estimates are combined into a single consistent time series.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Outputs from Steps 1 and 2 |
+| **Outputs** | Complete 1990-2022 CO2 emissions time series for ammonia production |
+| **Key operations** | `bind_rows()` with year filter to avoid overlap; overlap-year comparison for QC |
+| **Corresponding script** | `R/ammonia/03_splice_time_series.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+- **Open question:** Feedstock CO2 from ammonia production is excluded from the Energy chapter (Step 2 of Annex 2.1). Confirm the exact adjustment amounts reconcile with the IPPU estimate for consistency.
+:::
+
+---
+
+## 4.6 Urea Consumption for Non-Agricultural Purposes {#sec-4-6}
+
+**Overview.** When urea is applied or used industrially (non-fertiliser), the CO2 incorporated during its synthesis is released. Emissions are estimated by multiplying non-agricultural urea consumption by a stoichiometric factor (44/60), representing the mass of CO2 relative to urea (CH4N2O, MW = 60; CO2, MW = 44).
+
+---
+
+### Step 1 -- Obtain non-agricultural urea consumption
+
+Annual urea consumption for non-agricultural purposes (metric tons) is obtained from industry sources and USGS.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Non-agricultural urea consumption data (USGS or industry) |
+| **Outputs** | Annual non-agricultural urea consumption (metric tons) |
+| **Corresponding script** | `R/urea/01_consumption.R` |
+:::
+
+---
+
+### Step 2 -- Apply stoichiometric emission factor
+
+Emissions = urea consumption x (44/60)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Non-agricultural urea consumption (Step 1) |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from urea use |
+| **Key operations** | Multiply consumption x 44/60; unit conversion to MMT |
+| **R notes** | Single constant factor; straightforward mutate |
+| **Corresponding script** | `R/urea/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.7 Nitric Acid Production {#sec-4-7}
+
+**Overview.** N2O is emitted as a byproduct during the catalytic oxidation of ammonia in nitric acid production. For 2010-2022, a Tier 3 approach uses N2O emissions and production data reported directly to GHGRP. For 1990-2009, a Tier 2 approach uses U.S. Census Bureau production data multiplied by IPCC default or abatement-adjusted emission factors.
+
+---
+
+### Step 1 -- Obtain N2O emissions and production data (2010-2022)
+
+Facility-level N2O emissions and nitric acid production volumes are obtained from GHGRP and aggregated nationally. All U.S. facilities producing weak nitric acid (30-70%) are required to report.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart V facility-level N2O emissions and nitric acid production (2010-2022) |
+| **Outputs** | National N2O emissions and production, 2010-2022 |
+| **Key operations** | Aggregate facility reports to national total |
+| **Corresponding script** | `R/nitric_acid/01_ghgrp_data.R` |
+:::
+
+---
+
+### Step 2 -- Estimate emissions from production data (1990-2009)
+
+Nitric acid production from U.S. Census Bureau data is multiplied by Tier 2 emission factors, accounting for installed abatement technology where applicable.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | U.S. Census Bureau nitric acid production (1990-2009); IPCC default EFs; abatement technology assumptions |
+| **Outputs** | N2O emissions, 1990-2009 |
+| **Key operations** | Production x EF; adjust for abatement where applicable |
+| **Corresponding script** | `R/nitric_acid/02_pre2010_emissions.R` |
+:::
+
+---
+
+### Step 3 -- Splice and express as CO2 equivalents
+
+The two time series are combined and N2O emissions are converted to CO2 equivalents using the applicable GWP.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Key operations** | `bind_rows()`; multiply N2O (metric tons) x GWP to get MMT CO2 Eq. |
+| **R notes** | GWP value should be stored as a named constant consistent with the GWP set used across all Inventory categories |
+| **Corresponding script** | `R/nitric_acid/03_splice_and_gwp.R` |
+:::
+
+---
+
+## 4.8 Adipic Acid Production {#sec-4-8}
+
+**Overview.** N2O is produced as a byproduct of the catalytic oxidation of cyclohexane or cyclohexanone/cyclohexanol during adipic acid production. The Tier 2 methodology uses production data with IPCC default emission factors, adjusted for abatement where applicable. GHGRP data are used where available.
+
+---
+
+### Step 1 -- Obtain adipic acid production data
+
+Annual adipic acid production (metric tons) is obtained from U.S. Census Bureau and/or GHGRP data.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | U.S. Census Bureau or GHGRP production data |
+| **Outputs** | Annual adipic acid production (metric tons) |
+| **Corresponding script** | `R/adipic_acid/01_production.R` |
+:::
+
+---
+
+### Step 2 -- Apply emission factor with abatement adjustment
+
+Unadjusted N2O emissions are estimated using a default emission factor. Where abatement systems (catalytic decomposition or thermal oxidation) are installed, an abatement-adjusted effective emission factor is applied.
+
+Emissions = production x EF x (1 - abatement efficiency x abatement fraction)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Production (Step 1); IPCC default EF; plant-level abatement data |
+| **Outputs** | N2O emissions (MMT CO2 Eq.) from adipic acid production |
+| **Key operations** | EF x production; abatement adjustment where applicable; GWP conversion |
+| **Corresponding script** | `R/adipic_acid/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.9 Caprolactam, Glyoxal and Glyoxylic Acid Production {#sec-4-9}
+
+**Overview.** N2O is generated during the high-temperature catalytic oxidation of ammonia in caprolactam production. Emissions are calculated using the IPCC Tier 1 method: caprolactam production is multiplied by a default emission factor. Glyoxal and glyoxylic acid are minor contributors also covered under this section.
+
+---
+
+### Step 1 -- Obtain production data
+
+Annual caprolactam, glyoxal, and glyoxylic acid production (metric tons) from U.S. Census Bureau.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | U.S. Census Bureau production data |
+| **Outputs** | Annual production by chemical |
+| **Corresponding script** | `R/caprolactam/01_production.R` |
+:::
+
+---
+
+### Step 2 -- Apply Tier 1 emission factors
+
+N2O emissions = production x default EF (IPCC 2006 Equation 3.9). Convert to CO2 equivalents using GWP.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Production by chemical; IPCC Tier 1 EFs |
+| **Outputs** | N2O emissions (MMT CO2 Eq.) |
+| **Key operations** | Production x EF x GWP; sum across chemicals |
+| **Corresponding script** | `R/caprolactam/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.10 Carbide Production and Consumption {#sec-4-10}
+
+**Overview.** CO2 and CH4 are emitted during the production of silicon carbide (SiC). CO2 is also emitted from consumption of SiC as a reducing agent. Production emissions use IPCC Tier 1 default factors. Consumption emissions use a country-specific stoichiometric approach (no IPCC guidance exists for SiC consumption).
+
+---
+
+### Step 1 -- Apply Tier 1 emission factors to SiC production
+
+Annual SiC production (metric tons) x IPCC default EFs:
+
+- CO2: 2.62 metric tons CO2 per metric ton SiC
+- CH4: IPCC default CH4 factor
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | U.S. Census Bureau SiC production; IPCC default EFs |
+| **Outputs** | CO2 and CH4 emissions from SiC production |
+| **Corresponding script** | `R/carbide/01_production_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Estimate CO2 from SiC consumption
+
+SiC consumption data (metric tons) are multiplied by a stoichiometric emission factor derived from the chemistry of SiC use as a reducing agent.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | SiC consumption data; country-specific stoichiometric EF |
+| **Outputs** | CO2 emissions from SiC consumption |
+| **Corresponding script** | `R/carbide/02_consumption_emissions.R` |
+:::
+
+---
+
+## 4.11 Titanium Dioxide Production {#sec-4-11}
+
+**Overview.** CO2 is emitted from the chloride process of TiO2 production, where petroleum coke is used as a reducing agent. Emissions are calculated using IPCC Tier 1 methodology: annual TiO2 production multiplied by a chloride-process-specific emission factor. The petroleum coke portion of these emissions is adjusted out of the Energy chapter to avoid double-counting.
+
+---
+
+### Step 1 -- Obtain TiO2 production data and apply emission factor
+
+Annual TiO2 production (metric tons) from USGS. Multiply by IPCC chloride process emission factor.
+
+Emissions = TiO2 production x EF (chloride process)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS TiO2 production; IPCC Tier 1 EF for chloride process |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from TiO2 production |
+| **Key operations** | Single multiply; unit conversion |
+| **R notes** | Confirm petroleum coke adjustment to Energy chapter is handled in Energy module (Step 2 of Annex 2.1) |
+| **Corresponding script** | `R/tio2/01_emissions_calculation.R` |
+:::
+
+---
+
+## 4.12 Soda Ash Production {#sec-4-12}
+
+**Overview.** CO2 is emitted during the calcination of trona ore to produce soda ash (Solvay-equivalent natural process). The IPCC Tier 1 default emission factor of 0.0974 metric tons CO2 per metric ton of trona ore is applied to annual trona mining/consumption data.
+
+---
+
+### Step 1 -- Obtain trona ore consumption and apply emission factor
+
+Annual trona ore consumed for soda ash production (metric tons) from USGS. Multiply by IPCC Tier 1 EF.
+
+Emissions = trona consumption x 0.0974
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS trona ore production/consumption data; IPCC Tier 1 EF = 0.0974 t CO2/t trona |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from soda ash production |
+| **Key operations** | Single multiply; unit conversion |
+| **Corresponding script** | `R/soda_ash/01_emissions_calculation.R` |
+:::
+
+---
+
+## 4.13 Petrochemical Production {#sec-4-13}
+
+**Overview.** CO2 and CH4 are emitted during the production of carbon black, ethylene, ethylene dichloride, ethylene oxide, methanol, and acrylonitrile. A Tier 2 total feedstock carbon mass balance approach is used for CO2 from most chemicals (carbon black, ethylene, ethylene dichloride, ethylene oxide, methanol); GHGRP data are used where available. Acrylonitrile uses IPCC Tier 1 defaults. CH4 emissions are estimated separately using IPCC Tier 1 methods.
+
+---
+
+### Step 1 -- Obtain production data by chemical
+
+Annual production (metric tons) for each covered petrochemical from U.S. Census Bureau and GHGRP.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | U.S. Census Bureau chemical production data; GHGRP facility-level data where applicable |
+| **Outputs** | Annual production by chemical (metric tons) |
+| **Corresponding script** | `R/petrochemicals/01_production.R` |
+:::
+
+---
+
+### Step 2 -- Apply chemical-specific emission factors for CO2
+
+Multiply each chemical's production by its specific CO2 emission factor:
+
+- Carbon black: 2.59 t CO2/t produced
+- Ethylene: 0.79 t CO2/t produced
+- Ethylene dichloride: 0.040 t CO2/t produced
+- Ethylene oxide: 0.46 t CO2/t produced
+- Acrylonitrile: 1.00 t CO2/t produced (Tier 1 default)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Production by chemical (Step 1); chemical-specific EF lookup table |
+| **Outputs** | CO2 emissions by chemical and total |
+| **Key operations** | Join production to EF table; multiply; sum |
+| **R notes** | EF lookup keyed on chemical name; `left_join()` then `mutate()` |
+| **Corresponding script** | `R/petrochemicals/02_co2_emissions.R` |
+:::
+
+---
+
+### Step 3 -- Apply Tier 1 factors for CH4
+
+CH4 is estimated using IPCC Tier 1 default factors for acrylonitrile (0.18 kg CH4/t produced) and other applicable chemicals.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Production data; IPCC Tier 1 CH4 EFs |
+| **Outputs** | CH4 emissions (kt); CO2 Eq. after GWP conversion |
+| **Corresponding script** | `R/petrochemicals/03_ch4_emissions.R` |
+:::
+
+---
+
+## 4.14 HCFC-22 Production {#sec-4-14}
+
+**Overview.** HFC-23 (a potent GHG) is generated as a byproduct during the synthesis of HCFC-22. Tier 3 methods (facility-specific data) are used for five of the eight plants that have operated since 1990. GHGRP Subpart O provides data for 2010-2022; voluntary industry reporting covers 1990-2009.
+
+---
+
+### Step 1 -- Obtain facility-level HFC-23 emissions data
+
+GHGRP Subpart O (2010-2022) and voluntarily reported data from industry (1990-2009) are compiled and aggregated to a national total.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart O; voluntary industry reports (1990-2009) |
+| **Outputs** | National HFC-23 emissions (metric tons) from HCFC-22 production, 1990-2022 |
+| **Key operations** | Aggregate facility data; splice voluntary and GHGRP series |
+| **Corresponding script** | `R/hcfc22/01_hfc23_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+HFC-23 emissions (metric tons) x GWP -> MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Key operations** | Multiply by GWP for HFC-23; unit conversion to MMT |
+| **R notes** | GWP stored as named constant; confirm correct AR GWP set is used |
+| **Corresponding script** | `R/hcfc22/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.15 Production of Fluorochemicals Other Than HCFC-22 {#sec-4-15}
+
+**Overview.** This category covers fluorinated GHG emissions from production of HFCs, PFCs, SF6, NF3, and other fluorinated compounds at U.S. facilities. The Tier 3 method uses facility-specific process vent and fugitive emission data from GHGRP Subpart L (2011-2022). For 1990-2010, a combination of Tier 1/2 methods and voluntary reporting is used.
+
+---
+
+### Step 1 -- Obtain facility-level fluorinated GHG emissions
+
+GHGRP Subpart L data (2011-2022) are aggregated by gas and compound. For prior years, Tier 1 default factors or voluntary data are used.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart L; voluntary/Tier 1 estimates for pre-2011 |
+| **Outputs** | Fluorinated GHG emissions by compound (metric tons) |
+| **Corresponding script** | `R/fluorochemicals/01_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+Each fluorinated gas x compound-specific GWP -> MMT CO2 Eq. Sum across compounds.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Emissions by compound; GWP lookup table |
+| **Outputs** | Total fluorinated GHG emissions (MMT CO2 Eq.) |
+| **R notes** | GWP table keyed on compound name; join and multiply |
+| **Corresponding script** | `R/fluorochemicals/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.16 Carbon Dioxide Consumption {#sec-4-16}
+
+**Overview.** CO2 extracted from natural reservoirs or captured from industrial processes and used for non-EOR commercial applications (e.g., food and beverage, chemical manufacturing) is eventually released to the atmosphere. Emissions are estimated using GHGRP Subpart PP facility reports (2010-2022); a country-specific Tier 3 approach. Pre-2010 estimates use alternative data sources.
+
+---
+
+### Step 1 -- Obtain CO2 extraction and transfer data
+
+GHGRP Subpart PP data on CO2 extracted and transferred to non-EOR end uses are aggregated nationally.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart PP facility reports (2010-2022) |
+| **Outputs** | National CO2 consumed for non-EOR purposes (metric tons) |
+| **Corresponding script** | `R/co2_consumption/01_ghgrp_data.R` |
+:::
+
+---
+
+### Step 2 -- Assume full atmospheric release
+
+CO2 consumed for non-EOR purposes is assumed to be fully and immediately released to the atmosphere.
+
+Emissions = CO2 consumed (metric tons), converted to MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Key operations** | Unit conversion only (metric tons -> MMT); no EF needed |
+| **Corresponding script** | `R/co2_consumption/02_emissions.R` |
+:::
+
+---
+
+## 4.17 Phosphoric Acid Production {#sec-4-17}
+
+**Overview.** CO2 is released when inorganic carbon (calcium carbonate) in phosphate rock reacts during wet-process phosphoric acid production. A country-specific methodology (consistent with Tier 1) multiplies the inorganic carbon content of phosphate rock by the quantity consumed, accounting for domestic production and net imports.
+
+---
+
+### Step 1 -- Obtain phosphate rock consumption data
+
+Annual phosphate rock used for phosphoric acid production (metric tons) from USGS, accounting for domestic production and net imports.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS phosphate rock data; import/export data for net consumption |
+| **Outputs** | Annual phosphate rock consumption (metric tons) |
+| **Corresponding script** | `R/phosphoric_acid/01_phosphate_rock.R` |
+:::
+
+---
+
+### Step 2 -- Apply inorganic carbon content and calculate emissions
+
+Average inorganic carbon content (as CO2 fraction) of U.S. phosphate rock is multiplied by the quantity consumed.
+
+Emissions = rock consumption x average CaCO3 fraction x EF (CO2/CaCO3)
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Phosphate rock consumption (Step 1); average CaCO3 content of U.S. phosphate rock; stoichiometric EF |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) |
+| **Corresponding script** | `R/phosphoric_acid/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.18 Iron and Steel Production {#sec-4-18}
+
+**Overview.** CO2 is emitted from iron and steel production through: (1) metallurgical coke production, (2) pig iron production in blast furnaces, (3) basic oxygen furnace (BOF) steel production, (4) electric arc furnace (EAF) steel production, and (5) sinter and pellet production. All processes use a country-specific Tier 2 carbon mass balance approach. Carbonaceous inputs (coke, coal, limestone, electrodes, etc.) are tracked; non-CO2 carbon outputs (pig iron, steel, CO in off-gases) are subtracted.
+
+---
+
+### Step 1 -- Compile carbonaceous input and output data
+
+Annual quantities of all carbon-containing inputs and outputs for each process stage (coke ovens, blast furnaces, BOF, EAF) from USGS, AISI, and GHGRP.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS iron and steel mineral commodity data; AISI annual statistical reports; GHGRP Subpart Q |
+| **Outputs** | Mass-balance tables of carbon inputs and outputs by process stage and year |
+| **Key operations** | Compile inputs and outputs by process; calculate net carbon released |
+| **R notes** | Complex multi-process mass balance -- consider one R script per process (coke, blast furnace, BOF, EAF), with a consolidation script |
+| **Corresponding script** | `R/iron_steel/01_mass_balance_data.R` |
+:::
+
+---
+
+### Step 2 -- Calculate CO2 from each process via mass balance
+
+For each process: CO2 = (total carbon in inputs - carbon retained in products/by-products) x (44/12). Processes where Tier 1 defaults are used (sinter, pellets, DRI) apply IPCC default factors to production volumes instead.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Mass balance tables (Step 1); Tier 1 EFs for sinter/pellet/DRI production |
+| **Outputs** | CO2 emissions by process and total (MMT CO2 Eq.) |
+| **Key operations** | Net carbon x (44/12) per process; Tier 1 production x EF for remaining processes; sum |
+| **Corresponding script** | `R/iron_steel/02_emissions_calculation.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Summary and open questions
+
+- **Open question:** Significant 2020-2022 activity data were not available; these years use 2019 values adjusted with GHGRP emissions data. Flag for update in future iterations.
+- **Open question:** Coking coal and other fuels used in iron and steel production are adjusted out of the Energy chapter (Step 2, Annex 2.1). Confirm reconciliation between the Energy chapter adjustment and the IPPU mass balance quantities.
+:::
+
+---
+
+## 4.19 Ferroalloy Production {#sec-4-19}
+
+**Overview.** CO2 and CH4 are emitted during the reduction of metal oxides in electric arc furnaces using carbonaceous reducing agents (coke, coal). The Tier 2 methodology applies a carbon mass balance: carbon inputs to each ferroalloy process minus carbon retained in the product. IPCC Tier 2 methods are used.
+
+---
+
+### Step 1 -- Obtain ferroalloy production data and carbon inputs
+
+Annual production by ferroalloy type and associated carbonaceous input quantities from USGS.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS ferroalloy production and carbon input data |
+| **Outputs** | Production and carbon input by ferroalloy type and year |
+| **Corresponding script** | `R/ferroalloys/01_production_data.R` |
+:::
+
+---
+
+### Step 2 -- Apply carbon mass balance
+
+CO2 = (carbon in - carbon retained in alloy) x (44/12). CH4 estimated separately via IPCC default factor.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Carbon inputs/outputs by alloy type; IPCC CH4 default EF |
+| **Outputs** | CO2 and CH4 emissions (MMT CO2 Eq.) |
+| **Corresponding script** | `R/ferroalloys/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.20 Aluminum Production {#sec-4-20}
+
+**Overview.** CO2 (from anode consumption) and PFCs (CF4 and C2F6, from anode effects) are emitted during primary aluminum smelting. For 2010-2022, GHGRP Subpart F provides facility-specific process emissions. For earlier years, IPCC Tier 2 methods or voluntary industry data are used. The petroleum coke consumed in anode production is excluded from the Energy chapter non-energy use calculations.
+
+---
+
+### Step 1 -- Obtain process emissions data (2010-2022)
+
+Aggregate GHGRP Subpart F facility reports: CO2 from anode consumption (prebake and Soderberg cells), CO2 from anode baking, and PFC emissions from anode effects.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart F: CF4, C2F6, and CO2 by facility |
+| **Outputs** | National CO2 and PFC emissions from primary aluminum, 2010-2022 |
+| **Corresponding script** | `R/aluminum/01_ghgrp_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Estimate pre-2010 emissions
+
+Use IPCC Tier 2 methods (aluminum production x carbon mass balance for CO2; anode effect parameters for PFCs) and voluntary industry reporting where available.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS aluminum production; IPCC Tier 2 EFs; voluntary industry data |
+| **Outputs** | CO2 and PFC emissions, 1990-2009 |
+| **Corresponding script** | `R/aluminum/02_pre2010_emissions.R` |
+:::
+
+---
+
+### Step 3 -- Convert PFCs to CO2 equivalents and combine
+
+CF4 and C2F6 emissions x respective GWPs -> MMT CO2 Eq. Add to CO2 emissions and splice time series.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 3
+
+| Item | Detail |
+|------|--------|
+| **Key operations** | GWP conversions for CF4 and C2F6; `bind_rows()` to splice series |
+| **Corresponding script** | `R/aluminum/03_gwp_and_splice.R` |
+:::
+
+---
+
+## 4.21 Magnesium Production and Processing {#sec-4-21}
+
+**Overview.** SF6 (and increasingly SO2 and HFC-134a) is used as a cover gas to prevent oxidation of molten magnesium during primary production, secondary production (recycling), and die casting. SF6 consumption is assumed equivalent to emissions. Data come from EPA's SF6 Emission Reduction Partnership (1999-2010) and GHGRP Subpart T (2010-2022).
+
+---
+
+### Step 1 -- Obtain SF6 consumption/emissions data
+
+Partnership-reported SF6 consumption (1999-2010) and GHGRP Subpart T data (2010-2022) are compiled by production/processing category. Pre-1999 years use modelled or interpolated estimates.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | EPA SF6 Partnership reports; GHGRP Subpart T |
+| **Outputs** | Annual SF6 emissions (metric tons) by category |
+| **Corresponding script** | `R/magnesium/01_sf6_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+SF6 emissions x GWP -> MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Key operations** | Multiply by SF6 GWP; unit conversion |
+| **Corresponding script** | `R/magnesium/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.22 Lead Production {#sec-4-22}
+
+**Overview.** CO2 is emitted during smelting of lead using direct smelting (primary) and secondary (recycled) production routes. The IPCC Tier 1 method applies separate emission factors for each production route and sums the results.
+
+Emissions = (direct smelting production x EF_DS) + (secondary production x EF_S)
+
+---
+
+### Step 1 -- Obtain lead production by route and apply emission factors
+
+Annual lead production by production route (metric tons) from USGS. Apply IPCC Tier 1 EFs.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS lead production by route; IPCC Tier 1 EFs for direct smelting and secondary production |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from lead production |
+| **Key operations** | Two-term calculation; join production by route to EF; sum |
+| **Corresponding script** | `R/lead/01_emissions_calculation.R` |
+:::
+
+---
+
+## 4.23 Zinc Production {#sec-4-23}
+
+**Overview.** CO2 is emitted from zinc production using electrothermic (primary) and Waelz kiln (secondary) processes. The IPCC Tier 1 method applies a single default emission factor (weighted average across process types) to total zinc production.
+
+Emissions = zinc production x EF_default
+
+---
+
+### Step 1 -- Obtain zinc production data and apply emission factor
+
+Annual zinc production (metric tons) from USGS. Multiply by IPCC Tier 1 default EF.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | USGS zinc production; IPCC Tier 1 default EF |
+| **Outputs** | CO2 emissions (MMT CO2 Eq.) from zinc production |
+| **Key operations** | Single multiply; unit conversion |
+| **Corresponding script** | `R/zinc/01_emissions_calculation.R` |
+:::
+
+---
+
+## 4.24 Electronics Industry {#sec-4-24}
+
+**Overview.** Fluorinated GHGs (HFCs, PFCs, SF6, NF3, and others) are used in semiconductor, flat panel display, and photovoltaic manufacturing for plasma etching and chemical vapour deposition chamber cleaning. Emissions are estimated using a combination of GHGRP Subpart I data, EPA Partnership voluntary reports, and the PFC Emissions Vintage Model (PEVM). Methodological approach varies by sub-sector and time period.
+
+---
+
+### Step 1 -- Obtain fluorinated GHG emissions by sub-sector and period
+
+GHGRP Subpart I data (semiconductors, flat panels, PVs) are compiled for applicable years. Partnership data and PEVM model outputs supplement or replace GHGRP data for earlier periods or non-reporting companies.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart I; EPA PFC Partnership data; PEVM model outputs; industry activity data (manufactured layer area, capacity) |
+| **Outputs** | Fluorinated GHG emissions (metric tons) by compound and sub-sector |
+| **R notes** | Complex multi-source, multi-period assembly -- recommend one ingestion script per data source, then a consolidation/splice script |
+| **Corresponding script** | `R/electronics/01_emissions_assembly.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+Each fluorinated compound x compound-specific GWP -> MMT CO2 Eq. Sum across compounds and sub-sectors.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Emissions by compound; GWP lookup table |
+| **Outputs** | Total electronics industry fluorinated GHG emissions (MMT CO2 Eq.) |
+| **Corresponding script** | `R/electronics/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.25 Substitution of Ozone Depleting Substances {#sec-4-25}
+
+**Overview.** HFCs, PFCs, and CO2 are used as replacements for ozone depleting substances (ODS) in refrigeration, air conditioning, foam blowing, fire suppression, aerosols, and other applications. Emissions are estimated using EPA's Vintaging Model, a Tier 2 approach that tracks annual equipment "vintages," applies equipment-specific charge sizes and leak rates, and models cumulative emissions from the installed base of equipment over its lifetime.
+
+---
+
+### Step 1 -- Model equipment stock and annual emissions via Vintaging Model
+
+The Vintaging Model estimates the quantity of new equipment placed into service each year, its ODS-substitute chemical charge, and annual leakage and end-of-life emission rates. Emissions for each equipment vintage and compound are accumulated across years.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Vintaging Model outputs by end-use, compound, and year; market penetration data; equipment population estimates |
+| **Outputs** | Annual emissions by compound and end-use (metric tons) |
+| **R notes** | If the Vintaging Model output is a fixed dataset (CSV/Excel), ingest and reshape; if rerunnable, wrap in a targets pipeline step |
+| **Corresponding script** | `R/ods_substitutes/01_vintaging_model_output.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+Each compound x GWP -> MMT CO2 Eq. Sum across end-uses and compounds.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Emissions by compound; GWP lookup |
+| **Outputs** | Total ODS substitute emissions (MMT CO2 Eq.) |
+| **Corresponding script** | `R/ods_substitutes/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.26 Electrical Equipment {#sec-4-26}
+
+**Overview.** SF6 is used as an insulating and arc-quenching gas in high-voltage electrical equipment (circuit breakers, switchgear, transformers). Emissions arise from leakage during operation and at end of life. For 1990-1998, emissions are modelled from 1999 base emissions and a RAND global survey. For 1999-2011, emissions are based on Partnership reporting. For 2011-2022, GHGRP Subpart DD data are used. SF6 from military and scientific applications (e.g., AWACS radar) are estimated separately.
+
+---
+
+### Step 1 -- Obtain SF6 emissions by source and period
+
+Compile data from the three sources (RAND/modelled pre-1999, Partnership 1999-2011, GHGRP 2011-2022). Military applications use FEMP data (2008+) and IPCC Tier 1 defaults (pre-2008). Scientific applications estimated separately.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | GHGRP Subpart DD; EPA SF6 Partnership; RAND survey; FEMP reports; IPCC Tier 1 defaults for military |
+| **Outputs** | SF6 emissions (metric tons) by source category and year |
+| **R notes** | Three-period splice with overlap comparison at transition years (1999, 2011) |
+| **Corresponding script** | `R/electrical_equipment/01_sf6_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+SF6 x GWP -> MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Corresponding script** | `R/electrical_equipment/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.27 SF6 and PFCs from Other Product Uses {#sec-4-27}
+
+**Overview.** SF6 is used in military applications (AWACS aircraft radar cooling) and scientific research applications (particle accelerators, other lab equipment). PFCs are used in limited other applications. Emissions are estimated using FEMP data and IPCC Tier 1 defaults where FEMP data are unavailable.
+
+---
+
+### Step 1 -- Estimate emissions by application
+
+Military SF6: FEMP data (2008+); IPCC Tier 1 default of 740 kg SF6/plane/year for AWACS (pre-2008). Scientific applications estimated from FEMP or IPCC defaults.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | FEMP reports; IPCC Tier 1 AWACS default EF; fleet size data for pre-2008 |
+| **Outputs** | SF6 emissions (metric tons) from military and scientific applications |
+| **Corresponding script** | `R/other_sf6/01_emissions.R` |
+:::
+
+---
+
+### Step 2 -- Convert to CO2 equivalents
+
+SF6 x GWP -> MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Corresponding script** | `R/other_sf6/02_gwp_conversion.R` |
+:::
+
+---
+
+## 4.28 Nitrous Oxide from Product Uses {#sec-4-28}
+
+**Overview.** N2O is used in medical anaesthesia, food processing (aerosol propellant), and other product applications. Upon use, it is released to the atmosphere. Emissions are estimated from national N2O production data, disaggregated by subcategory application and weighted by application-specific emission rates (fraction of N2O consumed that is immediately released).
+
+Emissions = Sum_a (N2O production x share_a x emission rate_a)
+
+---
+
+### Step 1 -- Obtain N2O production and disaggregate by application
+
+Annual U.S. N2O production (metric tons) from Census or industry data. Shares by application (medical, food, other) from industry surveys or IPCC defaults.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | N2O production data; application share data |
+| **Outputs** | N2O production allocated by application |
+| **Corresponding script** | `R/n2o_product_use/01_production_shares.R` |
+:::
+
+---
+
+### Step 2 -- Apply emission rates and convert to CO2 equivalents
+
+Multiply each application's allocated production x its emission rate -> total N2O emitted. Sum across applications. N2O x GWP -> MMT CO2 Eq.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 2
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Allocated production by application (Step 1); application-specific emission rates |
+| **Outputs** | N2O emissions (MMT CO2 Eq.) from product uses |
+| **Key operations** | Sum of (production x share x emission rate) across applications; GWP conversion |
+| **Corresponding script** | `R/n2o_product_use/02_emissions_calculation.R` |
+:::
+
+---
+
+## 4.29 Industrial Processes and Product Use -- Summary {#sec-4-29}
+
+**Overview.** This section aggregates all IPPU subcategory emission estimates into a single chapter total, ensures time-series consistency across sub-categories, and presents the full IPPU emission trend. No new calculations are performed here; this is a consolidation and QC step.
+
+---
+
+### Step 1 -- Aggregate all IPPU subcategory estimates
+
+Combine emissions from 4.1-4.28 into a single summary table by gas, subcategory, and year.
+
+::: {.callout-tip icon="false"}
+## [CODING] Coding annotation -- Step 1
+
+| Item | Detail |
+|------|--------|
+| **Inputs** | Outputs from all individual subcategory modules (4.1-4.28) |
+| **Outputs** | IPPU summary table: MMT CO2 Eq. by subcategory x gas x year |
+| **Key operations** | `bind_rows()` across subcategory outputs; aggregate to chapter total |
+| **R notes** | If `{targets}` is adopted (an open decision), this becomes the terminal target that depends on all upstream subcategory targets |
+| **Corresponding script** | `R/ippu_summary/01_aggregate.R` |
+:::
+
+---
+
+::: {.callout-warning icon="false"}
+## [NOTE] Cross-cutting open questions for IPPU
+
+- **GWP consistency:** All GWP values should come from the single shared constants vector (registry dataset `DS-GWP-AR5`), passed to every subcategory function and referenced by name.
+- **Energy chapter reconciliation:** Steps that adjust fuel use out of the Energy chapter (coking coal, petroleum coke, natural gas feedstocks for ammonia, etc.) should be reconciled with IPPU module outputs to ensure no double-counting or omission.
+- **GHGRP data vintage:** Confirm which reporting year of GHGRP data is used for each subcategory -- some subcategories transition from USGS/Census to GHGRP at different points.
+- **Missing 2020-2022 data:** Iron and Steel (4.18) and potentially other subcategories use proxy data for recent years. Flag these for review.
+:::

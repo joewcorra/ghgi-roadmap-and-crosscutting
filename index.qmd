@@ -1,0 +1,37 @@
+---
+title: "GHG Inventory Project Hub"
+toc: false
+---
+
+This repository is the coordination hub for the U.S. Greenhouse Gas Inventory (GHGI) pipeline. It holds the schema registry, methodology narratives, cross-cutting rules, and project conventions that every source-category repository depends on. It does not pull, transform, or calculate emissions data; that work happens in the source-category repositories.
+
+The documentation follows the [Diátaxis](https://diataxis.fr/) framework, which sorts each document by what the reader needs at that moment.
+
+## How-to guides
+
+Task-focused steps for someone who already knows what they want to do.
+
+- [Render the documents](how-to/render-the-documents.qmd)
+- [Query the schema](how-to/query-the-schema.qmd)
+
+## Reference
+
+Facts to look up while working: rules, definitions, and specifications.
+
+- [Project conventions (AGENTS.md)](reference/conventions.qmd): the source of truth for coding, unit, tooling, and project-management conventions
+- [Schema](reference/schema.qmd): source categories, the dataset registry, and their crosswalk
+- [Cross-sector boundary rules](reference/cross-sector-boundaries.qmd): which sector reports each emission
+- [Methodology reference](reference/methodology/ghg-inventory-methodology.qmd): calculation methodology and coding annotations by source category
+- [Example methodology narrative: wastewater](reference/methodology/sample-smn-wastewater.qmd)
+- [Glossary](reference/glossary.qmd)
+
+## Explanation
+
+Background and reasoning: why the project is built the way it is.
+
+- [Architecture and design principles](explanation/architecture.qmd), including open decisions and review milestones
+- [Sector data notes](explanation/sector-data-notes.qmd): data-availability risks and recent-year gaps
+
+## Tutorials
+
+Learning-oriented lessons for newcomers. None yet; a natural first tutorial would walk a new contributor through one source category from narrative to validated output.

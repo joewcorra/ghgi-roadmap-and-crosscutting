@@ -1,0 +1,51 @@
+---
+title: "Schema"
+---
+
+The schema is three related CSV files in `schema/`. They record what the inventory estimates, what data each estimate needs, and how that data is obtained. To load and query them, see [Query the schema](../how-to/query-the-schema.qmd).
+
+## `ghgi_categories.csv`: source categories
+
+One row per node in the category hierarchy.
+
+| Column | Meaning |
+|---|---|
+| `node_id` | Unique key |
+| `level` | One of `sector`, `source`, `category`, `subsource`, `method`, or `memo` |
+| `parent_id` | `node_id` of the parent node; empty for sectors |
+| `crt_code` | Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a) |
+| `source_name` | Display name |
+| `gases` | Gases estimated, separated by semicolons (for example `CO2;CH4;N2O`) |
+| `chapter` | GHGIA 2026 chapter: 3 Energy, 4 IPPU, 5 Agriculture, 6 LULUCF, 7 Waste |
+| `needs_validation` | `TRUE` when the treatment awaits confirmation against the GHGIA chapter text |
+
+## `ghgi_datasets.csv`: dataset registry
+
+One row per dataset.
+
+| Column | Meaning |
+|---|---|
+| `dataset_id` | Unique key, prefixed `DS-` |
+| `dataset_name`, `provider` | Description and publishing organization |
+| `role_default` | Usual role: `activity_data`, `emission_factor`, or `parameter` |
+| `shared` | Hand-maintained flag for datasets used by more than one source category. It can lag the crosswalk; `shared_dataset_usage()` computes actual usage |
+| `access_method` | `api`, `bulk_download`, `csv_download`, `scrape`, `manual`, or `static` |
+| `endpoint`, `format` | Where the data is retrieved and in what format |
+| `auth` | `none`, `api_key_optional`, `api_key`, `account`, `membership`, `license`, or `restricted` |
+| `update_frequency` | How often the provider publishes |
+| `source_status` | `available`, `uncertain`, `restricted`, or `historical` |
+| `access_verified` | `TRUE` once the endpoint has been confirmed to work |
+| `notes` | Free text |
+
+## `ghgi_category_datasets.csv`: crosswalk
+
+One row per dataset used by a category.
+
+| Column | Meaning |
+|---|---|
+| `node_id` | Category, from `ghgi_categories.csv` |
+| `dataset_id` | Dataset, from `ghgi_datasets.csv` |
+| `role` | Role in this category: `activity_data`, `emission_factor`, or `parameter` |
+| `required` | `FALSE` when the dataset is a cross-check or optional input |
+| `provenance` | Where the mapping comes from, usually a GHGIA chapter section |
+| `notes` | Free text |
