@@ -12,6 +12,7 @@ The documentation follows the [Diátaxis](https://diataxis.fr/) framework, which
 Task-focused steps for someone who already knows what they want to do.
 
 - [Render the documents](how-to/render-the-documents.qmd)
+- [Maintain the schema](how-to/maintain-the-schema.qmd): which files to edit, and how to rebuild and validate
 - [Query the schema](how-to/query-the-schema.qmd)
 
 ## Reference

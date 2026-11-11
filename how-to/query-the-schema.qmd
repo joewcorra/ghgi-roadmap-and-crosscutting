@@ -2,16 +2,16 @@
 title: "Query the Schema"
 ---
 
-The functions in `R/ghgi_schema.R` load, validate, and query the three schema files in `schema/`. The file layouts are described in the [schema reference](../reference/schema.qmd).
+The functions in `R/ghgi_schema.R` load and query the schema tables. They read the Parquet files, so after editing a CSV file, rebuild first; see [Maintain the schema](maintain-the-schema.qmd). The table layouts are described in the [schema reference](../reference/schema.qmd).
 
-## Load and validate
+## Load
 
 ```r
-source("R/ghgi_schema.R")
-schema <- read_ghgi_schema() %>% validate_ghgi_schema()
+source(here::here("R", "ghgi_schema.R"))
+schema <- read_ghgi_schema()
 ```
 
-`read_ghgi_schema()` reads from `schema/` by default; pass `dir` to read from elsewhere. `validate_ghgi_schema()` stops with an error if a `node_id` or `dataset_id` is duplicated, if the crosswalk references an unknown category or dataset, or if a category has an unknown parent.
+`read_ghgi_schema()` reads from `schema/parquet/` by default; pass `dir` to read from elsewhere.
 
 ## Common questions
 
@@ -19,6 +19,8 @@ schema <- read_ghgi_schema() %>% validate_ghgi_schema()
 |---|---|
 | Every dataset one source category needs, with full metadata | `datasets_for(schema, "composting")` |
 | Datasets shared across sources, ranked by how many depend on them | `shared_dataset_usage(schema)` |
+| Which repository holds each dataset's single copy (one sector, or `shared`) | `dataset_home(schema)` |
+| The sector each category belongs to | `node_sector(schema)` |
 | Categories with no datasets mapped yet (the worklist for the methodology parser) | `unmapped_sources(schema)` |
 | Categories that depend on a dataset whose status is not `available` | `at_risk_sources(schema)` |
 | Datasets grouped by access method, for building one retrieval function per method | `retrieval_plan(schema)` |

@@ -2,7 +2,9 @@
 title: "Schema"
 ---
 
-The schema is three related CSV files in `schema/`. They record what the inventory estimates, what data each estimate needs, and how that data is obtained. To load and query them, see [Query the schema](../how-to/query-the-schema.qmd).
+The schema is five related tables in `schema/`. They record what the inventory estimates, what data each estimate needs, how that data is obtained, which data dictionary governs each dataset, and where the pipeline has drifted from the methodology. The CSV files are edited by hand. `R/build_schema_parquet.R` converts them to Parquet in `schema/parquet/` and validates the Parquet against `schema/data-dict.yaml` with the `data-dict` command-line tool. That dictionary is the full column-level reference, including allowed values and the rules each table must satisfy; the tables below summarize it. Columns marked as lists hold semicolon-separated values in the CSV file. To load and query the schema, see [Query the schema](../how-to/query-the-schema.qmd).
+
+For a browsable version of the dictionary, with a diagram of how the tables relate, a searchable list of every column, and summaries of the current data, open the [schema data dictionary page](../schema-dictionary.html). It is a single file that works offline, so it can also be copied to a shared drive or attached to an email.
 
 ## `ghgi_categories.csv`: source categories
 
@@ -13,11 +15,12 @@ One row per node in the category hierarchy.
 | `node_id` | Unique key |
 | `level` | One of `sector`, `source`, `category`, `subsource`, `method`, or `memo` |
 | `parent_id` | `node_id` of the parent node; empty for sectors |
-| `crt_code` | Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a) |
+| `crt_code` | List. Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a) |
 | `source_name` | Display name |
-| `gases` | Gases estimated, separated by semicolons (for example `CO2;CH4;N2O`) |
+| `gases` | List. Gases estimated (for example `CO2;CH4;N2O`); empty for method nodes |
 | `chapter` | GHGIA 2026 chapter: 3 Energy, 4 IPPU, 5 Agriculture, 6 LULUCF, 7 Waste |
 | `needs_validation` | `TRUE` when the treatment awaits confirmation against the GHGIA chapter text |
+| `canonical_dict_id` | Dictionary for the category's canonical intermediate table; empty until the Fossil Fuel Combustion pilot settles that convention |
 
 ## `ghgi_datasets.csv`: dataset registry
 
@@ -28,18 +31,22 @@ One row per dataset.
 | `dataset_id` | Unique key, prefixed `DS-` |
 | `dataset_name`, `provider` | Description and publishing organization |
 | `role_default` | Usual role: `activity_data`, `emission_factor`, or `parameter` |
-| `shared` | Hand-maintained flag for datasets used by more than one source category. It can lag the crosswalk; `shared_dataset_usage()` computes actual usage |
 | `access_method` | `api`, `bulk_download`, `csv_download`, `scrape`, `manual`, or `static` |
-| `endpoint`, `format` | Where the data is retrieved and in what format |
+| `endpoint` | Where the data is retrieved. Required unless `access_method` is `manual` or `static` |
+| `format` | List. Format or formats the data is published in |
 | `auth` | `none`, `api_key_optional`, `api_key`, `account`, `membership`, `license`, or `restricted` |
 | `update_frequency` | How often the provider publishes |
 | `source_status` | `available`, `uncertain`, `restricted`, or `historical` |
 | `access_verified` | `TRUE` once the endpoint has been confirmed to work |
 | `notes` | Free text |
+| `dict_id` | Dictionary the cleaned dataset is validated against, from `ghgi_dictionaries.csv` |
+| `pin_stem` | Base name for the dataset's pins (`{pin_stem}_cleaned`, `{pin_stem}_canonical`) |
+
+Which repository holds a dataset is not stored: `dataset_home()` derives it from the crosswalk.
 
 ## `ghgi_category_datasets.csv`: crosswalk
 
-One row per dataset used by a category.
+One row per category, dataset, and role. Those three columns together are the key, so one dataset can play two roles for the same category.
 
 | Column | Meaning |
 |---|---|
@@ -49,3 +56,27 @@ One row per dataset used by a category.
 | `required` | `FALSE` when the dataset is a cross-check or optional input |
 | `provenance` | Where the mapping comes from, usually a GHGIA chapter section |
 | `notes` | Free text |
+
+## `ghgi_dictionaries.csv`: data dictionary registry
+
+One row per `data-dict.yaml` file used by the pipeline. It is the worklist for dictionary coverage.
+
+| Column | Meaning |
+|---|---|
+| `dict_id` | Unique key |
+| `dict_path` | Path to the dictionary file, relative to the repository root |
+| `tier` | `cleaned` (cleaned source data) or `canonical` (a category's canonical intermediate table) |
+| `dict_status` | `not_started`, `drafted`, `reviewed`, or `validated` |
+| `description` | Free text |
+
+## `validation_log.csv`: methodology drift log
+
+One row per dataset, recording where the evidence for it came from and whether the pipeline has drifted from the current methodology. It does not hold `data-dict` validation results.
+
+| Column | Meaning |
+|---|---|
+| `dataset_id` | Dataset, from `ghgi_datasets.csv` |
+| `source_layer` | `chapter`, `code`, or `both` |
+| `pipeline_target` | List. Pipeline steps that use the dataset |
+| `drift_status` | `current`, `method_drift`, `version_drift`, or `out_of_scope` |
+| `note` | Required unless `drift_status` is `current` |

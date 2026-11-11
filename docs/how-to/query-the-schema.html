@@ -2210,7 +2210,7 @@ vertical-align: -.125em;
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#load-and-validate" id="toc-load-and-validate" class="nav-link active" data-scroll-target="#load-and-validate">Load and validate</a></li>
+  <li><a href="#load" id="toc-load" class="nav-link active" data-scroll-target="#load">Load</a></li>
   <li><a href="#common-questions" id="toc-common-questions" class="nav-link" data-scroll-target="#common-questions">Common questions</a></li>
   </ul>
 </nav>
@@ -2238,12 +2238,12 @@ vertical-align: -.125em;
 </header>
 
 
-<p>The functions in <code>R/ghgi_schema.R</code> load, validate, and query the three schema files in <code>schema/</code>. The file layouts are described in the <a href="../reference/schema.qmd">schema reference</a>.</p>
-<section id="load-and-validate" class="level2">
-<h2 class="anchored" data-anchor-id="load-and-validate">Load and validate</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/ghgi_schema.R&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>schema <span class="ot">&lt;-</span> <span class="fu">read_ghgi_schema</span>() <span class="sc">%&gt;%</span> <span class="fu">validate_ghgi_schema</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>read_ghgi_schema()</code> reads from <code>schema/</code> by default; pass <code>dir</code> to read from elsewhere. <code>validate_ghgi_schema()</code> stops with an error if a <code>node_id</code> or <code>dataset_id</code> is duplicated, if the crosswalk references an unknown category or dataset, or if a category has an unknown parent.</p>
+<p>The functions in <code>R/ghgi_schema.R</code> load and query the schema tables. They read the Parquet files, so after editing a CSV file, rebuild first; see <a href="maintain-the-schema.qmd">Maintain the schema</a>. The table layouts are described in the <a href="../reference/schema.qmd">schema reference</a>.</p>
+<section id="load" class="level2">
+<h2 class="anchored" data-anchor-id="load">Load</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;ghgi_schema.R&quot;</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>schema <span class="ot">&lt;-</span> <span class="fu">read_ghgi_schema</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>read_ghgi_schema()</code> reads from <code>schema/parquet/</code> by default; pass <code>dir</code> to read from elsewhere.</p>
 </section>
 <section id="common-questions" class="level2">
 <h2 class="anchored" data-anchor-id="common-questions">Common questions</h2>
@@ -2266,6 +2266,14 @@ vertical-align: -.125em;
 <tr class="even">
 <td>Datasets shared across sources, ranked by how many depend on them</td>
 <td><code>shared_dataset_usage(schema)</code></td>
+</tr>
+<tr class="odd">
+<td>Which repository holds each dataset’s single copy (one sector, or <code>shared</code>)</td>
+<td><code>dataset_home(schema)</code></td>
+</tr>
+<tr class="even">
+<td>The sector each category belongs to</td>
+<td><code>node_sector(schema)</code></td>
 </tr>
 <tr class="odd">
 <td>Categories with no datasets mapped yet (the worklist for the methodology parser)</td>

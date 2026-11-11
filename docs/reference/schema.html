@@ -2178,6 +2178,8 @@ vertical-align: -.125em;
   <li><a href="#ghgi_categories.csv-source-categories" id="toc-ghgi_categories.csv-source-categories" class="nav-link active" data-scroll-target="#ghgi_categories.csv-source-categories"><code>ghgi_categories.csv</code>: source categories</a></li>
   <li><a href="#ghgi_datasets.csv-dataset-registry" id="toc-ghgi_datasets.csv-dataset-registry" class="nav-link" data-scroll-target="#ghgi_datasets.csv-dataset-registry"><code>ghgi_datasets.csv</code>: dataset registry</a></li>
   <li><a href="#ghgi_category_datasets.csv-crosswalk" id="toc-ghgi_category_datasets.csv-crosswalk" class="nav-link" data-scroll-target="#ghgi_category_datasets.csv-crosswalk"><code>ghgi_category_datasets.csv</code>: crosswalk</a></li>
+  <li><a href="#ghgi_dictionaries.csv-data-dictionary-registry" id="toc-ghgi_dictionaries.csv-data-dictionary-registry" class="nav-link" data-scroll-target="#ghgi_dictionaries.csv-data-dictionary-registry"><code>ghgi_dictionaries.csv</code>: data dictionary registry</a></li>
+  <li><a href="#validation_log.csv-methodology-drift-log" id="toc-validation_log.csv-methodology-drift-log" class="nav-link" data-scroll-target="#validation_log.csv-methodology-drift-log"><code>validation_log.csv</code>: methodology drift log</a></li>
   </ul>
 </nav>
 </div>
@@ -2204,7 +2206,8 @@ vertical-align: -.125em;
 </header>
 
 
-<p>The schema is three related CSV files in <code>schema/</code>. They record what the inventory estimates, what data each estimate needs, and how that data is obtained. To load and query them, see <a href="../how-to/query-the-schema.qmd">Query the schema</a>.</p>
+<p>The schema is five related tables in <code>schema/</code>. They record what the inventory estimates, what data each estimate needs, how that data is obtained, which data dictionary governs each dataset, and where the pipeline has drifted from the methodology. The CSV files are edited by hand. <code>R/build_schema_parquet.R</code> converts them to Parquet in <code>schema/parquet/</code> and validates the Parquet against <code>schema/data-dict.yaml</code> with the <code>data-dict</code> command-line tool. That dictionary is the full column-level reference, including allowed values and the rules each table must satisfy; the tables below summarize it. Columns marked as lists hold semicolon-separated values in the CSV file. To load and query the schema, see <a href="../how-to/query-the-schema.qmd">Query the schema</a>.</p>
+<p>For a browsable version of the dictionary, with a diagram of how the tables relate, a searchable list of every column, and summaries of the current data, open the <a href="../schema-dictionary.html">schema data dictionary page</a>. It is a single file that works offline, so it can also be copied to a shared drive or attached to an email.</p>
 <section id="ghgi_categories.csv-source-categories" class="level2">
 <h2 class="anchored" data-anchor-id="ghgi_categories.csv-source-categories"><code>ghgi_categories.csv</code>: source categories</h2>
 <p>One row per node in the category hierarchy.</p>
@@ -2234,7 +2237,7 @@ vertical-align: -.125em;
 </tr>
 <tr class="even">
 <td><code>crt_code</code></td>
-<td>Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a)</td>
+<td>List. Common Reporting Tables code. Not unique: two nodes can share a code (for example, coal mining and abandoned coal mines share 1B1a)</td>
 </tr>
 <tr class="odd">
 <td><code>source_name</code></td>
@@ -2242,7 +2245,7 @@ vertical-align: -.125em;
 </tr>
 <tr class="even">
 <td><code>gases</code></td>
-<td>Gases estimated, separated by semicolons (for example <code>CO2;CH4;N2O</code>)</td>
+<td>List. Gases estimated (for example <code>CO2;CH4;N2O</code>); empty for method nodes</td>
 </tr>
 <tr class="odd">
 <td><code>chapter</code></td>
@@ -2251,6 +2254,10 @@ vertical-align: -.125em;
 <tr class="even">
 <td><code>needs_validation</code></td>
 <td><code>TRUE</code> when the treatment awaits confirmation against the GHGIA chapter text</td>
+</tr>
+<tr class="odd">
+<td><code>canonical_dict_id</code></td>
+<td>Dictionary for the category’s canonical intermediate table; empty until the Fossil Fuel Combustion pilot settles that convention</td>
 </tr>
 </tbody>
 </table>
@@ -2283,16 +2290,16 @@ vertical-align: -.125em;
 <td>Usual role: <code>activity_data</code>, <code>emission_factor</code>, or <code>parameter</code></td>
 </tr>
 <tr class="even">
-<td><code>shared</code></td>
-<td>Hand-maintained flag for datasets used by more than one source category. It can lag the crosswalk; <code>shared_dataset_usage()</code> computes actual usage</td>
-</tr>
-<tr class="odd">
 <td><code>access_method</code></td>
 <td><code>api</code>, <code>bulk_download</code>, <code>csv_download</code>, <code>scrape</code>, <code>manual</code>, or <code>static</code></td>
 </tr>
+<tr class="odd">
+<td><code>endpoint</code></td>
+<td>Where the data is retrieved. Required unless <code>access_method</code> is <code>manual</code> or <code>static</code></td>
+</tr>
 <tr class="even">
-<td><code>endpoint</code>, <code>format</code></td>
-<td>Where the data is retrieved and in what format</td>
+<td><code>format</code></td>
+<td>List. Format or formats the data is published in</td>
 </tr>
 <tr class="odd">
 <td><code>auth</code></td>
@@ -2314,12 +2321,21 @@ vertical-align: -.125em;
 <td><code>notes</code></td>
 <td>Free text</td>
 </tr>
+<tr class="even">
+<td><code>dict_id</code></td>
+<td>Dictionary the cleaned dataset is validated against, from <code>ghgi_dictionaries.csv</code></td>
+</tr>
+<tr class="odd">
+<td><code>pin_stem</code></td>
+<td>Base name for the dataset’s pins (<code>{pin_stem}_cleaned</code>, <code>{pin_stem}_canonical</code>)</td>
+</tr>
 </tbody>
 </table>
+<p>Which repository holds a dataset is not stored: <code>dataset_home()</code> derives it from the crosswalk.</p>
 </section>
 <section id="ghgi_category_datasets.csv-crosswalk" class="level2">
 <h2 class="anchored" data-anchor-id="ghgi_category_datasets.csv-crosswalk"><code>ghgi_category_datasets.csv</code>: crosswalk</h2>
-<p>One row per dataset used by a category.</p>
+<p>One row per category, dataset, and role. Those three columns together are the key, so one dataset can play two roles for the same category.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -2355,6 +2371,82 @@ vertical-align: -.125em;
 <tr class="even">
 <td><code>notes</code></td>
 <td>Free text</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ghgi_dictionaries.csv-data-dictionary-registry" class="level2">
+<h2 class="anchored" data-anchor-id="ghgi_dictionaries.csv-data-dictionary-registry"><code>ghgi_dictionaries.csv</code>: data dictionary registry</h2>
+<p>One row per <code>data-dict.yaml</code> file used by the pipeline. It is the worklist for dictionary coverage.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dict_id</code></td>
+<td>Unique key</td>
+</tr>
+<tr class="even">
+<td><code>dict_path</code></td>
+<td>Path to the dictionary file, relative to the repository root</td>
+</tr>
+<tr class="odd">
+<td><code>tier</code></td>
+<td><code>cleaned</code> (cleaned source data) or <code>canonical</code> (a category’s canonical intermediate table)</td>
+</tr>
+<tr class="even">
+<td><code>dict_status</code></td>
+<td><code>not_started</code>, <code>drafted</code>, <code>reviewed</code>, or <code>validated</code></td>
+</tr>
+<tr class="odd">
+<td><code>description</code></td>
+<td>Free text</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="validation_log.csv-methodology-drift-log" class="level2">
+<h2 class="anchored" data-anchor-id="validation_log.csv-methodology-drift-log"><code>validation_log.csv</code>: methodology drift log</h2>
+<p>One row per dataset, recording where the evidence for it came from and whether the pipeline has drifted from the current methodology. It does not hold <code>data-dict</code> validation results.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>dataset_id</code></td>
+<td>Dataset, from <code>ghgi_datasets.csv</code></td>
+</tr>
+<tr class="even">
+<td><code>source_layer</code></td>
+<td><code>chapter</code>, <code>code</code>, or <code>both</code></td>
+</tr>
+<tr class="odd">
+<td><code>pipeline_target</code></td>
+<td>List. Pipeline steps that use the dataset</td>
+</tr>
+<tr class="even">
+<td><code>drift_status</code></td>
+<td><code>current</code>, <code>method_drift</code>, <code>version_drift</code>, or <code>out_of_scope</code></td>
+</tr>
+<tr class="odd">
+<td><code>note</code></td>
+<td>Required unless <code>drift_status</code> is <code>current</code></td>
 </tr>
 </tbody>
 </table>

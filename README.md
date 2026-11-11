@@ -15,11 +15,12 @@ index.qmd          Map of the documentation
 
 how-to/
   render-the-documents.qmd            Render the Quarto documents to HTML
-  query-the-schema.qmd                Load, validate, and query the schema in R
+  maintain-the-schema.qmd             Edit the schema, then rebuild and validate it with data-dict
+  query-the-schema.qmd                Load and query the schema in R
 
 reference/
   conventions.qmd                     Displays AGENTS.md
-  schema.qmd                          Column-by-column description of the three schema files
+  schema.qmd                          Column-by-column description of the five schema tables
   cross-sector-boundaries.qmd         Cross-sector boundary rules: which sector reports each emission
   glossary.qmd                        Project terms and abbreviations
   methodology/
@@ -34,9 +35,14 @@ schema/
   ghgi_categories.csv                 Inventory source categories (node hierarchy, CRT codes, gases)
   ghgi_datasets.csv                   Dataset registry (provider, access method, endpoint, status)
   ghgi_category_datasets.csv          Category–dataset crosswalk (which datasets each source needs)
+  ghgi_dictionaries.csv               Registry of data dictionaries and their status
+  validation_log.csv                  Methodology drift log
+  data-dict.yaml                      Data dictionary for the five schema tables
+  parquet/                            Generated from the CSVs; do not edit by hand
 
 R/
-  ghgi_schema.R                       Load, validate, and query the schema files
+  build_schema_parquet.R              Build the Parquet files and validate them with data-dict
+  ghgi_schema.R                       Load and query the schema
 
 _quarto.yml        Quarto configuration
 docs/              Rendered HTML output (generated; do not edit by hand)
@@ -44,7 +50,7 @@ docs/              Rendered HTML output (generated; do not edit by hand)
 
 ## Schema and boundary rules
 
-The three CSV files in `schema/` form a relational schema: categories and datasets are linked through the crosswalk. `R/ghgi_schema.R` loads and validates them and provides functions for common queries, such as the datasets a source needs, datasets shared across sources, and a retrieval plan grouped by access method. `read_ghgi_schema()` expects the CSVs in `schema/` by default.
+The CSV files in `schema/` form a relational schema: categories and datasets are linked through the crosswalk, and the dictionary registry and drift log hang off the datasets. The CSV files are the copy you edit. `R/build_schema_parquet.R` converts them to Parquet and validates the result against `schema/data-dict.yaml` using the `data-dict` command-line tool (v0.0.3). `R/ghgi_schema.R` loads the Parquet files and provides functions for common queries, such as the datasets a source needs, datasets shared across sources, where each dataset lives, and a retrieval plan grouped by access method.
 
 `reference/cross-sector-boundaries.qmd` states once, for each activity or emission that could fall in more than one sector, which sector reports it, so that no activity is counted twice.
 

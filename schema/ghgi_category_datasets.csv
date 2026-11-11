@@ -1,8 +1,4 @@
 node_id,dataset_id,role,required,provenance,notes
-lime_production,DS-USGS-LIME,activity_data,TRUE,GHGIA Ch4.1,Lime production by type drives process CO2
-lime_production,DS-NLA-LIME-EF,emission_factor,TRUE,GHGIA Ch4.1,Stoichiometric EFs for high-calcium/dolomitic lime
-lime_production,DS-GHGRP,activity_data,FALSE,GHGIA Ch4.1,Facility cross-check; availability uncertain
-lime_production,DS-GWP-AR5,parameter,TRUE,GHGIA Ch1,CO2 Eq conversion
 msw_landfills,DS-GHGRP,activity_data,TRUE,GHGIA Ch7.1; Annex 5,Reported net CH4 2010-2024; 2024 held at 2023
 msw_landfills,DS-BIOCYCLE-SOG,activity_data,TRUE,GHGIA Ch7.1,Waste accepted 1990-2009 (FOD years)
 msw_landfills,DS-CENSUS-POP,activity_data,TRUE,GHGIA Ch7.1,Interpolates waste disposed where survey gaps exist

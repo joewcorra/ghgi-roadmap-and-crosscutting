@@ -1,47 +1,74 @@
 ## ghgi_schema.R
-## Load and validate the GHGIA (UMD/CGS, 1990-2024) category/dataset schema.
+## Load and query the GHGIA (UMD/CGS, 1990-2024) category/dataset schema.
 ## System of record: Greenhouse Gas Inventory and Analysis for the United States.
 ## Designed to slot into a {targets} pipeline; tidyverse-first.
+##
+## Reads the parquet files built by R/build_schema_parquet.R. Validation
+## (unique keys, links between tables, allowed values) is done by the
+## data-dict command-line tool against schema/data-dict.yaml during that build,
+## so these functions assume a validated schema.
 
 library(tidyverse)
+library(arrow)
+library(here)
 
 # ---- Load -------------------------------------------------------------------
+# mmap = FALSE reads each file fully into memory. Without it, Windows keeps the
+# file locked and the build script cannot overwrite it in the same session.
 
-read_ghgi_schema <- function(dir = "schema") {
-  list(
-    categories = read_csv(file.path(dir, "ghgi_categories.csv"),
-                          show_col_types = FALSE),
-    datasets   = read_csv(file.path(dir, "ghgi_datasets.csv"),
-                          show_col_types = FALSE),
-    crosswalk  = read_csv(file.path(dir, "ghgi_category_datasets.csv"),
-                          show_col_types = FALSE)
+read_ghgi_schema <- function(dir = here("schema", "parquet")) {
+  read_table <- function(name) {
+    read_parquet(file.path(dir, str_glue("{name}.parquet")), mmap = FALSE)
+  }
+
+  schema <- list(
+    categories     = read_table("ghgi_categories"),
+    datasets       = read_table("ghgi_datasets"),
+    crosswalk      = read_table("ghgi_category_datasets"),
+    dictionaries   = read_table("ghgi_dictionaries"),
+    validation_log = read_table("validation_log")
   )
+  return(schema)
 }
 
-# ---- Referential integrity --------------------------------------------------
-# node_id is the unique key; crt_code is the official reporting code and is
-# intentionally NON-unique (e.g. coal_mining and abandoned_coal_mines share 1B1a).
+# ---- Tree and placement -----------------------------------------------------
 
-validate_ghgi_schema <- function(schema) {
-  node_ids <- schema$categories$node_id
-  ds_ids   <- schema$datasets$dataset_id
+# The sector (root node) of every node, found by walking parent_id upward.
+node_sector <- function(schema) {
+  links <- schema$categories %>% select(node_id, parent_id)
 
-  dup_nodes    <- node_ids[duplicated(node_ids)]
-  dup_ds       <- ds_ids[duplicated(ds_ids)]
-  orphan_nodes <- setdiff(schema$crosswalk$node_id, node_ids)
-  orphan_ds    <- setdiff(schema$crosswalk$dataset_id, ds_ids)
-  bad_parents  <- schema$categories %>%
-    filter(!is.na(parent_id), !parent_id %in% node_ids) %>%
-    pull(node_id)
+  find_root <- function(ids) {
+    parents <- tibble(node_id = ids) %>%
+      left_join(links, by = "node_id") %>%
+      pull(parent_id)
+    if (all(is.na(parents))) return(ids)
+    find_root(coalesce(parents, ids))
+  }
 
-  stopifnot(
-    "node_id is not unique"                       = length(dup_nodes)    == 0,
-    "dataset_id is not unique"                    = length(dup_ds)       == 0,
-    "crosswalk references unknown node_id"        = length(orphan_nodes) == 0,
-    "crosswalk references unknown dataset_id"     = length(orphan_ds)    == 0,
-    "category has unknown parent_id"              = length(bad_parents)  == 0
-  )
-  invisible(schema)
+  sectors <- schema$categories %>%
+    select(node_id) %>%
+    mutate(sector = find_root(node_id))
+  return(sectors)
+}
+
+# Where each dataset's single copy lives, derived from the crosswalk: the one
+# sector that uses it, or "shared" when two or more sectors do. Datasets with
+# no crosswalk rows get NA, because their home cannot be known yet.
+dataset_home <- function(schema) {
+  homes <- schema$crosswalk %>%
+    left_join(node_sector(schema), by = "node_id") %>%
+    group_by(dataset_id) %>%
+    summarize(
+      n_sectors = n_distinct(sector),
+      sectors = str_flatten(sort(unique(sector)), collapse = ";"),
+      .groups = "drop"
+    ) %>%
+    mutate(home = if_else(n_sectors == 1, sectors, "shared"))
+
+  placement <- schema$datasets %>%
+    select(dataset_id, dataset_name) %>%
+    left_join(homes, by = "dataset_id")
+  return(placement)
 }
 
 # ---- Convenience views ------------------------------------------------------
@@ -83,14 +110,17 @@ at_risk_sources <- function(schema) {
 # flags endpoints to confirm before relying on them.
 retrieval_plan <- function(schema) {
   schema$datasets %>%
-    arrange(access_method, desc(shared), dataset_id) %>%
-    select(access_method, dataset_id, dataset_name, provider,
+    left_join(select(dataset_home(schema), dataset_id, home), by = "dataset_id") %>%
+    arrange(access_method, home != "shared", dataset_id) %>%
+    select(access_method, dataset_id, dataset_name, provider, home,
            endpoint, format, auth, access_verified, source_status)
 }
 
 # ---- Example usage ----------------------------------------------------------
-# schema <- read_ghgi_schema() %>% validate_ghgi_schema()
+# Rebuild and validate first: source(here::here("R", "build_schema_parquet.R"))
+# schema <- read_ghgi_schema()
 # datasets_for(schema, "composting")
 # shared_dataset_usage(schema)
+# dataset_home(schema)       # which repository holds each dataset's one copy
 # unmapped_sources(schema)   # gap list to fill via ghg-methodology-parser
 # at_risk_sources(schema)    # categories leaning on now-uncertain federal data

@@ -1,0 +1,346 @@
+$version: "0.1.0"
+$learn_more: https://data-dict.tidyverse.org/
+
+name: GHGI schema
+description: >
+  The data-retrieval map for the U.S. Greenhouse Gas Inventory (GHGI). It
+  holds the category tree, the registry of input datasets, the crosswalk that
+  links categories to the datasets they need, the registry of data
+  dictionaries that govern each dataset, and the drift log that compares the
+  published methodology against the working pipeline. This dictionary
+  describes the schema itself, not the inventory data. The CSV files in
+  this folder are the hand-edited copy; the parquet files are generated
+  from them and are what this dictionary validates.
+origin: ../R/build_schema_parquet.R
+
+tables:
+
+  # ---- categories ----------------------------------------------------------
+  - name: categories
+    label: Inventory category tree
+    description: >
+      One row per node in the sector, category, and source tree. A node is
+      something the inventory estimates or groups. The table records what is
+      estimated, not how it is calculated.
+    source:
+      parquet: parquet/ghgi_categories.parquet
+    constraints:
+      - assert: (level = 'sector') = (parent_id IS NULL)
+        description: Sectors are the roots of the tree; every other node has a parent.
+    columns:
+      - name: node_id
+        type: string
+        constraints: [primary_key]
+        description: Unique snake_case key for the node. This is the join key used everywhere else.
+        examples: [fossil_fuel_combustion, lime_production, composting]
+      - name: level
+        type: enum
+        constraints: [required]
+        values:
+          sector: A top-level inventory sector, such as Energy.
+          category: A grouping of related sources, such as Mineral Industry.
+          source: An emitting source or sink that is estimated directly.
+          subsource: A part of a source that is estimated separately, such as municipal solid waste landfills within landfills.
+          method: A shared methodological component that is not itself an emitting source, such as the U.S. land representation.
+          memo: A memo item reported but not counted in national totals.
+      - name: parent_id
+        type: string
+        constraints: [foreign_key]
+        description: The node_id of this node's parent. Empty for sectors.
+        examples: [energy, mineral_industry, chemical_industry]
+      - name: crt_code
+        type: list(string)
+        constraints: [required]
+        description: >
+          Code or codes from the Common Reporting Tables (CRT), the United
+          Nations reporting format. Not unique: several nodes can share one
+          code, and one node can map to more than one code. Stored as
+          semicolon-separated text in the CSV file and split into a list
+          when the parquet file is written.
+        examples: ["1", "1A", "1B2a", "2A2", "1-memo"]
+      - name: source_name
+        type: string
+        constraints: [required]
+        description: The node's name as it appears in the inventory report.
+        examples: [Fossil Fuel Combustion, Lime Production, Abandoned Oil and Gas Wells]
+      - name: gases
+        type: list(string)
+        constraints: [required]
+        description: >
+          Gases estimated for this node, such as CO2, CH4, N2O, HFCs, PFCs,
+          SF6, and NF3. Semicolon-separated in the CSV file. Empty for method
+          nodes, which estimate no gases directly.
+        examples: [CO2, CH4, N2O, HFCs]
+      - name: chapter
+        type: number(id)
+        constraints: [required]
+        description: Chapter number of the inventory report that documents the node.
+        examples: [3, 4, 7]
+      - name: canonical_dict_id
+        type: string
+        constraints: [foreign_key]
+        todo: Pending the Fossil Fuel Combustion pilot, which will settle the canonical-dictionary convention.
+        description: >
+          The dictionary that defines this category's canonical intermediate
+          table, which every mapped source dataset must satisfy. Empty until
+          that dictionary exists.
+        examples: [dd-ffc-canonical]
+      - name: needs_validation
+        type: boolean
+        constraints: [required]
+        description: True when the node's placement or scope still needs checking against the current report.
+
+  # ---- datasets ------------------------------------------------------------
+  - name: datasets
+    label: Input dataset registry
+    description: >
+      One row per distinct external input dataset. A dataset appears here
+      once even when many categories use it. This table is the methodology
+      specification and the retrieval manifest that the pipeline maps over.
+    source:
+      parquet: parquet/ghgi_datasets.parquet
+    constraints:
+      - assert: dataset_id LIKE 'DS-%'
+        description: Dataset keys start with "DS-".
+      - assert: access_method IN ('manual', 'static') OR endpoint IS NOT NULL
+        description: Every dataset that is fetched programmatically needs an endpoint.
+    columns:
+      - name: dataset_id
+        type: string
+        constraints: [primary_key]
+        examples: [DS-EIA-MER, DS-MOVES, DS-GHGRP]
+      - name: dataset_name
+        type: string
+        constraints: [required]
+        examples: [Monthly Energy Review, Highway Statistics]
+      - name: provider
+        type: string
+        constraints: [required]
+        description: Organization that publishes the dataset.
+        examples: [EIA, USDA NASS, EPA]
+      - name: role_default
+        type: enum
+        constraints: [required]
+        description: >
+          The role this dataset usually plays. The crosswalk's role column is
+          authoritative for any one category; this is a convenience default.
+        values: [activity_data, emission_factor, parameter]
+      - name: access_method
+        type: enum
+        constraints: [required]
+        values:
+          api: Retrieved through an application programming interface.
+          csv_download: A single delimited file downloaded from a fixed address.
+          bulk_download: A large archive or multi-file download.
+          scrape: Values read from a web page.
+          manual: Entered or transcribed by hand, such as from a report table.
+          static: A fixed published value that does not change between years.
+      - name: endpoint
+        type: string
+        description: Address or access point for the dataset. Empty for manual and static datasets.
+        examples: ["https://api.eia.gov/v2/", "https://quickstats.nass.usda.gov/api"]
+      - name: format
+        type: list(enum)
+        constraints: [required]
+        description: >
+          File or response format. A dataset published in more than one
+          format lists each one; semicolon-separated in the CSV file.
+        todo: Values are the set observed in November 2026. Confirm the vocabulary and add labels.
+        values: [constant, csv, database, geodatabase, geotiff, html, json, mixed, pdf, raster, restricted, series, table, xlsx, bil]
+      - name: auth
+        type: enum
+        constraints: [required]
+        description: Authentication needed to retrieve the dataset.
+        todo: Values are the set observed in November 2026. Confirm the vocabulary and add labels.
+        values: [none, api_key_optional, api_key, account, membership, license, restricted]
+      - name: update_frequency
+        type: enum
+        constraints: [required]
+        description: How often the provider publishes new data.
+        todo: Values are the set observed in November 2026. Confirm the vocabulary; "discontinued" and "historical" overlap with source_status.
+        values: [monthly, annual, biennial, 2-3 yearly, 5-yearly, periodic, static, historical, discontinued]
+      - name: source_status
+        type: enum
+        constraints: [required]
+        description: Whether the source is still published and available.
+        todo: Values are the set observed in November 2026. Confirm the vocabulary and add labels.
+        values: [available, uncertain, restricted, historical]
+      - name: access_verified
+        type: boolean
+        constraints: [required]
+        description: True once someone has confirmed the endpoint actually returns the expected data.
+      - name: dict_id
+        type: string
+        constraints: [foreign_key]
+        description: >
+          The data dictionary that the cleaned version of this dataset is
+          validated against. Several related datasets can share one
+          dictionary. Empty until a dictionary has been drafted.
+        examples: [dd-eia-energy, dd-gwp]
+      - name: pin_stem
+        type: string
+        constraints: [unique]
+        description: >
+          Base name for this dataset's pins. By convention the cleaned pin is
+          "{pin_stem}_cleaned" and the canonical pin is "{pin_stem}_canonical".
+          The board is not stored here: dataset_home() in R/ghgi_schema.R
+          derives it from the crosswalk (one sector's board, or the shared
+          board when two or more sectors use the dataset).
+        examples: [eia_mer, fhwa_highway]
+      - name: notes
+        type: string
+        examples: ["Lime by type", "CaO/MgO CO2 EFs", "PEP + International Data Base (territories)"]
+
+  # ---- category_datasets ---------------------------------------------------
+  - name: category_datasets
+    label: Category-to-dataset crosswalk
+    description: >
+      One row for each pairing of a category node, a dataset, and the role
+      the dataset plays for that node. Answers "which datasets does this
+      source need?" and "which sources use this dataset?"
+    source:
+      parquet: parquet/ghgi_category_datasets.parquet
+    columns:
+      # node_id, dataset_id, and role together form the primary key, so one
+      # dataset can play two different roles for the same node.
+      - name: node_id
+        type: string
+        constraints: [primary_key, foreign_key]
+        examples: [fossil_fuel_combustion, composting]
+      - name: dataset_id
+        type: string
+        constraints: [primary_key, foreign_key]
+        examples: [DS-EIA-MER, DS-COMPOST-EF]
+      - name: role
+        type: enum
+        constraints: [primary_key]
+        todo: Check whether "adjustment" (for example, bunker fuel subtraction) should be its own role.
+        values:
+          activity_data: A measure of the activity that causes emissions, such as fuel consumed.
+          emission_factor: Emissions per unit of activity.
+          parameter: Any other input to the calculation, such as a conversion or allocation share.
+      - name: required
+        type: boolean
+        constraints: [required]
+        description: True when the category cannot be estimated without this dataset.
+      - name: provenance
+        type: string
+        constraints: [required]
+        description: Where the link was identified, usually a report chapter and section.
+        examples: ["GHGIA Ch1", "GHGIA Ch4.2", "GHGIA Ch7.1; Annex 5"]
+      - name: notes
+        type: string
+        examples: ["CO2 Eq conversion", "Waste accepted 1990-2009 (FOD years)"]
+
+  # ---- dictionaries --------------------------------------------------------
+  - name: dictionaries
+    label: Data dictionary registry
+    description: >
+      One row per data-dict.yaml file used by the pipeline. Datasets point
+      here for their cleaned-data dictionary, and categories point here for
+      their canonical intermediate dictionary.
+    source:
+      parquet: parquet/ghgi_dictionaries.parquet
+    columns:
+      - name: dict_id
+        type: string
+        constraints: [primary_key]
+        examples: [dd-eia-energy, dd-gwp]
+      - name: dict_path
+        type: string
+        constraints: [required, unique]
+        description: Path to the data-dict.yaml file, relative to the repository root.
+        examples: [dictionaries/eia_energy.yaml]
+      - name: tier
+        type: enum
+        constraints: [required]
+        values:
+          cleaned: Describes cleaned source data, grouped by related datasets.
+          canonical: Describes a category's canonical intermediate table.
+      - name: dict_status
+        type: enum
+        constraints: [required]
+        values:
+          not_started: No dictionary file yet.
+          drafted: Generated or written, not yet reviewed.
+          reviewed: Reviewed by a domain expert.
+          validated: The data passes validation against it.
+      - name: description
+        type: string
+        examples: [EIA energy consumption tables]
+
+  # ---- validation_log ------------------------------------------------------
+  - name: validation_log
+    label: Methodology drift log
+    description: >
+      One row per dataset recording where the evidence for it came from (the
+      report chapter, the working pipeline code, or both) and whether the
+      pipeline has drifted from the current methodology. This is the audit
+      layer; it does not hold data-dict validation results.
+    source:
+      parquet: parquet/validation_log.parquet
+    constraints:
+      - assert: drift_status = 'current' OR note IS NOT NULL
+        description: Every drifted or out-of-scope dataset needs an explanatory note.
+    columns:
+      - name: dataset_id
+        type: string
+        constraints: [primary_key, foreign_key]
+        examples: [DS-MOVES, DS-FOKS]
+      - name: source_layer
+        type: enum
+        constraints: [required]
+        values:
+          chapter: Identified only from the published report text.
+          code: Identified only from the working pipeline code.
+          both: Identified from both, and the two agree.
+      - name: pipeline_target
+        type: list(string)
+        description: Names of the targets pipeline steps that use the dataset. Semicolon-separated in the CSV file.
+        examples: [msn_eia, us_consumption, fhwa_data]
+      - name: drift_status
+        type: enum
+        constraints: [required]
+        values:
+          current: The code matches the current methodology.
+          method_drift: The code uses a method or input the current methodology has retired.
+          version_drift: The code uses an older version of a model or dataset.
+          out_of_scope: The code covers something the national report does not, such as state estimates.
+      - name: note
+        type: string
+        examples: ["Code uses MOVES3; GHGIA 2026 references MOVES5"]
+
+relationships:
+  - join: child.parent_id = parent.node_id
+    cardinality: many-to-one
+    aliases:
+      child: categories
+      parent: categories
+    description: Each node points to its parent node in the same table.
+  - join: category_datasets.node_id = categories.node_id
+    cardinality: many-to-one
+  - join: category_datasets.dataset_id = datasets.dataset_id
+    cardinality: many-to-one
+  - join: validation_log.dataset_id = datasets.dataset_id
+    cardinality: one-to-one
+  - join: datasets.dict_id = dictionaries.dict_id
+    cardinality: many-to-one
+  - join: categories.canonical_dict_id = dictionaries.dict_id
+    cardinality: many-to-one
+
+glossary:
+  CRT: >
+    Common Reporting Tables, the United Nations Framework Convention on
+    Climate Change format that countries use to report inventory results.
+  node: >
+    One row in the category tree: a sector, a category, a source, or a memo item.
+  drift: >
+    A difference between what the published methodology describes and what
+    the working pipeline code does. Drift is recorded as information, not
+    treated as an error to be hidden.
+  cleaned data: >
+    Source data after standardizing names, types, units, and layout, but
+    before mapping onto a category's canonical structure.
+  canonical data: >
+    Source data mapped onto the shared intermediate structure a category's
+    calculations expect.
