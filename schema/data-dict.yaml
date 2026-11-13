@@ -181,8 +181,8 @@ tables:
         type: string
         constraints: [unique]
         description: >
-          Base name for this dataset's pins. By convention the cleaned pin is
-          "{pin_stem}_cleaned" and the canonical pin is "{pin_stem}_canonical".
+          Base name for this dataset's pins. By convention the raw pin is
+          "{pin_stem}_raw" and the cleaned pin is "{pin_stem}_cleaned".
           The board is not stored here: dataset_home() in R/ghgi_schema.R
           derives it from the crosswalk (one sector's board, or the shared
           board when two or more sectors use the dataset).

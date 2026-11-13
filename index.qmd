@@ -31,6 +31,7 @@ Facts to look up while working: rules, definitions, and specifications.
 Background and reasoning: why the project is built the way it is.
 
 - [Architecture and design principles](explanation/architecture.qmd), including open decisions and review milestones
+- [Component build checklist](explanation/build-checklist.qmd): every component of the production system, ordered by dependency, with current status
 - [Sector data notes](explanation/sector-data-notes.qmd): data-availability risks and recent-year gaps
 
 ## Tutorials

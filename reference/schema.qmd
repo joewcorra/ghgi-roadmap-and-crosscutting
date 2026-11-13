@@ -40,7 +40,7 @@ One row per dataset.
 | `access_verified` | `TRUE` once the endpoint has been confirmed to work |
 | `notes` | Free text |
 | `dict_id` | Dictionary the cleaned dataset is validated against, from `ghgi_dictionaries.csv` |
-| `pin_stem` | Base name for the dataset's pins (`{pin_stem}_cleaned`, `{pin_stem}_canonical`) |
+| `pin_stem` | Base name for the dataset's pins (`{pin_stem}_raw`, `{pin_stem}_cleaned`) |
 
 Which repository holds a dataset is not stored: `dataset_home()` derives it from the crosswalk.
 

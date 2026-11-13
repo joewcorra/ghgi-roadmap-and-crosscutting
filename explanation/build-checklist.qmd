@@ -1,0 +1,219 @@
+---
+title: "Component Build Checklist"
+subtitle: "Version 0.3 (draft)"
+date: 2026-11-13
+---
+
+## Purpose
+
+This document lists every component required to build and operate a complete Greenhouse Gas Inventory (GHGI) production system, ordered by dependency. It is a planning and scoping document: it shows what must exist, what blocks what, and where work can be done in parallel or handed to additional developers.
+
+It deliberately says nothing about *who* builds each component.
+
+### Keeping this document current
+
+Review this checklist whenever a component changes status or a design decision is made, and at each review milestone in [Architecture and design principles](architecture.qmd). On each revision, update the version and date above, adjust the status marks, and add an entry under Revision notes at the end. Earlier versions are kept in the Git history, so the file name does not carry a version number.
+
+## Architectural premise
+
+Three layers, each keyed differently, connected by explicit link tables rather than by nesting:
+
+| Layer | Keyed by | Count (2026-11-13) |
+|---|---|---|
+| Retrieval | `dataset_id` | 109 datasets |
+| Computation | category | 91 nodes in the category tree |
+| Outputs | report, table, or Common Reporting Table (CRT) row | varies |
+
+The crosswalk between retrieval and computation is many-to-many: 278 links, connecting 87 of the 109 datasets to categories, or about 3.2 categories per linked dataset. The other 22 datasets are not yet linked to any category. Counts come from `schema/parquet/`. **Retrieval therefore cannot live inside a category slice.** Datasets are shared across categories, and duplicating ingestion per category guarantees drift between copies. The project rule is that every dataset has exactly one copy, whose home is derived from the crosswalk by `dataset_home()`.
+
+The unit of completable work is the **vertical slice**: one category's computation, its methodology narrative, and its outputs, sitting on top of shared, horizontal retrieval and reference infrastructure.
+
+## Status legend
+
+| Mark | Meaning |
+|---|---|
+| `[x]` | Built or substantially built |
+| `[~]` | Partial, or proven at small scale but not demonstrated across sectors |
+| `[ ]` | Not started |
+
+---
+
+## Tier 0: Foundations
+
+*These block everything downstream. Errors here propagate everywhere.*
+
+- **1. `[x]` Canonical units layer**
+  Canonical unit registry and conversion at ingestion (`to_canonical()` and `canonical_units` in `{syrinx}`); all downstream calculation unitless; conversion only at output.
+  *Blocks: all ingestion.*
+
+- **2. `[~]` Reference and vocabulary store**
+  CRT codes, gas list, global warming potential (GWP) sets (AR5 and successors), and the category hierarchy. The hub schema now has five tables (categories, datasets, the category-to-dataset crosswalk, the dictionary registry, and the drift log), edited as CSV files, built to Parquet by `R/build_schema_parquet.R`, and validated against `schema/data-dict.yaml`. Still to do: add gases and GWP sets, and make the store a **versioned, pinned artifact** rather than files in the repository.
+  *Blocks: computation, outputs, quality assurance.*
+
+- **3. `[~]` Methodology Narrative Standard**
+  Rules governing dataset citation, unit-handling discipline, uncertainty declaration, and dimensioned constants. Version 0.4 complete; version 0.5 pending (attribution boundary for emissions computed in one category but reported under another).
+  *Blocks: every narrative, and therefore every category.*
+
+- **4. `[~]` Dataset dictionaries**
+  Target schema declared for each dataset, as `data-dict.yaml` files written against the tidyverse data-dict specification (version 0.1.0) and validated with the `data-dict` command-line tool, pinned to v0.0.3 and installed as a prebuilt binary. Each file describes a group of related tables: columns, types, constraints, relationships, and allowed values. The format is proven on the hub schema. No dataset dictionaries exist yet (0 of 109).
+  *Decisions made:*
+  - **Grouping.** One dictionary per group of related tables: one for the hub schema, one per source-category repository, and one for shared data.
+  - **Scope.** Dictionaries describe cleaned Parquet files only, never raw downloads.
+  - **Link to retrieval.** Each dataset's `dict_id` in `schema/ghgi_datasets.csv` names its dictionary, and `schema/ghgi_dictionaries.csv` registers each dictionary's path and status. Ingestion provenance stays in each dataset's `_metadata.yml`, so the two do not declare the same facts.
+  *Pilot questions, answered on the hub schema:*
+  - Dictionaries are drafted from the cleaned table with the `r-data-dict-builder` custom AI tool, then reviewed by hand against the real data.
+  - A failed check makes the tool exit with status 1, so a script or build can stop automatically. `R/build_schema_parquet.R` already does this.
+  - Relationships cannot span dictionary files. Checks that a key exists in another repository's data stay in R.
+  *Still open:* the vocabularies for `format`, `auth`, `update_frequency`, and `source_status` are the observed values and need confirmation; 11 datasets fetched by API or scraping have no endpoint, so the schema build fails until they are filled in.
+  *Blocked by: 1, 2. Blocks: all ingestion. A sector pilot (probably waste) should finish before bulk ingestion begins.*
+
+- **5. `[ ]` Uncertainty parameter convention**
+  How a probability distribution is declared and attached to an input or a constant. **Convention only, not the engine.** Whether it relies on the Environmental Protection Agency's (EPA's) published uncertainty ranges or on propagated distributions is part of the decision.
+  *Blocked by: 1. Blocks: ingestion (see Trap 1).*
+
+## Tier 1: Retrieval (keyed by dataset)
+
+**Retrieval flow, applied to every dataset:**
+
+1. Pull the data from the source, programmatically wherever possible.
+2. Write the untouched result to the **raw pin** (item 8) before any cleaning.
+3. Clean, harmonize, and standardize the data programmatically, converting to canonical units (item 1) and attaching any uncertainty parameters (item 5).
+4. Write the cleaned table to Parquet in a disposable staging folder that also holds the relevant `data-dict.yaml` (item 4).
+5. **Validate against the data dictionary. This is a gate: if validation fails, nothing is written to the cleaned pin.**
+6. Write the validated data to the **cleaned pin**, with provenance metadata (item 8).
+7. Downstream computation reads only from the cleaned pins.
+
+The staging folder is rebuilt on every run and is never a permanent record; the pins board is the only permanent store.
+
+Each dataset has two pins, `{pin_stem}_raw` and `{pin_stem}_cleaned`. Cleaned data keeps the source's shape, with names, types, units, and layout standardized. Reshaping it into the intermediate table a category's calculations expect (its *canonical* table) is a computation step, not a retrieval step; see item 12.
+
+- **6. `[~]` Ingestion scripts and paired metadata** (×109)
+  Paired `_ingest.R` and `_metadata.yml` per dataset, carrying out steps 1 to 4 and 6 of the retrieval flow and emitting canonicalized Parquet. The `_metadata.yml` records the dataset's source and retrieval details.
+  *Blocked by: 4, 5.*
+
+- **7. `[~]` Validation** (×109)
+  The division of labor is settled: the `data-dict` tool owns structural checks (types, required values, keys, links between tables in one dictionary, allowed values, and row-level assertions); `{pointblank}` owns quality thresholds at ingestion and output; checks against another repository's data stay in R; `{testthat}` covers calculation functions.
+  *Blocked by: 4. Develop alongside 6.*
+
+- **8. `[~]` Pins boards and raw-vintage capture**
+  Two kinds of pin per dataset:
+  - **Raw pin:** an immutable, dated snapshot of source data exactly as retrieved. If a cleaning rule changes later, the cleaning can be rerun from this pin without downloading again, and the original source content can be shown.
+  - **Cleaned pin:** the validated, canonicalized output, written only after the dictionary gate passes.
+  Every pin write carries provenance metadata: the source address, the retrieval date, and the version of the cleaning code. Pin names derive from each dataset's `pin_stem`. The board is derived by `dataset_home()`: a dataset used by one sector lives on that sector's board, and the 7 datasets used by two or more sectors live in a shared-data repository. Still open: where the shared board is hosted, and whether raw and cleaned pins share a board.
+  *Blocked by: nothing for the raw pin. **Do early**: this data is unrecoverable if not captured at retrieval time. Writes to the cleaned pin are gated by items 4 and 7.*
+
+- **9. `[ ]` Prior-published-vintage store**
+  Every prior published release, held as a queryable input dataset rather than as an archive.
+  *Blocked by: 2. Blocks: recalculation.*
+
+- **10. `[x]` Constants store**
+  Emission factors, GWPs, and dimensionless parameters, each declaring its native unit basis and canonicalized at ingestion. Extend to carry distributions per item 5.
+
+## Tier 2: Computation (keyed by category)
+
+- **11. `[~]` Methodology narrative per category** (×91)
+  The authoritative specification. Precise about inputs, outputs, transformations, and decision rules; implementation-agnostic.
+  *Blocked by: 3.*
+
+- **12. `[~]` Computation pipeline per category** (×91)
+  Reads inputs only from cleaned pins. Each pipeline first maps its cleaned inputs onto the category's canonical intermediate table, which has its own dictionary (the `canonical` tier in `schema/ghgi_dictionaries.csv`, linked by `canonical_dict_id` in the category table). Canonical tables belong to the category, not to a dataset, because one dataset feeds about three categories. They can be pinned per category later if that proves useful. The convention is pending the Fossil Fuel Combustion pilot.
+  *Blocked by: 6, 10, 11.*
+
+- **13. `[ ]` Splice and time-series-consistency operations**
+  Documented, coded, reusable methods for overlap, surrogate, interpolation, and extrapolation. A first-class operation, not a patch applied when a source is discontinued.
+  *Blocked by: 6. Needed now for at least one discontinued source.*
+
+- **14. `[ ]` Emissions store schema**
+  The canonical long-format result table that all categories write into. **This is the freeze point** (see Trap 2). It should also have a data dictionary (item 4), so results are validated by the same mechanism as inputs.
+  *Blocked by: 2. Blocks: 15 to 20.*
+
+## Tier 3: Cross-cutting analytics
+
+*These read the whole emissions store. None of them fit inside a per-category slice.*
+
+- **15. `[ ]` Quality assurance reconciliation**
+  Category totals, then CRT rollups, then the national total; cross-category consistency checks.
+  *Blocked by: 14.*
+
+- **16. `[ ]` Uncertainty propagation engine**
+  Monte Carlo simulation over the computation graph, returning quantiles. Distinct from the *parameters* (item 5), which are a domain-expert product.
+  *Blocked by: 5, 14.*
+
+- **17. `[ ]` Key category analysis**
+  Approach 1 and Approach 2 (the latter requires 16).
+  *Blocked by: 14, 16.*
+
+- **18. `[ ]` Recalculation and vintage comparison**
+  Current versus prior published estimates for the same historical year, with each difference attributed to its cause. This is an annual reporting obligation, not an optional analysis.
+  *Blocked by: 9, 14.*
+
+## Tier 4: Outputs
+
+- **19. `[ ]` Figure and table suite**
+  Standard figures and tables against a fixed style guide.
+  *Blocked by: 14.*
+
+- **20. `[~]` Inventory database and CRT export**
+  Terminal output block; final unit conversion (for example, gigagrams to teragrams) occurs only at this step.
+  *Blocked by: 14, 15.*
+
+- **21. `[~]` Quarto report and website**
+  Site configuration and publishing through continuous integration. Whether and where to publish is not yet decided.
+  *Blocked by: 19; content blocked by 11.*
+
+## Tier 5: Governance
+
+*Runs alongside the build, not after it.*
+
+- **22. `[~]` Drift detection as a build target**
+  Automated comparison of narrative and code that **fails the build** rather than silently reconciling. A difference is a meaningful signal, not a contradiction to suppress. The drift log table (`validation_log`) is defined in the hub schema but empty. A failed dictionary validation already stops the hub schema build, since the tool exits with an error status.
+  *Blocked by: 3, 12.*
+
+- **23. `[ ]` Release definition**
+  A precise answer to "what object *is* the annual submission": hashed, immutable, pinned, and reproducible from a dependency lockfile plus the raw vintage. The release should record the dictionary files and the `data-dict` tool version, so it can be re-validated exactly as it was.
+  *Blocked by: 8, 14.*
+
+- **24. `[x]` Custom AI tool chain**
+  Narrative to structured framework to code to plain-language documentation, plus the data-dictionary builder. Must track versions of the Narrative Standard and of `AGENTS.md`.
+  *Blocked by: 3.*
+
+- **25. `[~]` Repository and continuous integration infrastructure**
+  Dependency pinning, pipeline orchestration, continuous integration, and coordination across repositories. The `data-dict` tool is a standalone binary, so `renv.lock` does not record it; its version is pinned in `AGENTS.md`, and continuous integration must download that exact release. `renv.lock` also does not yet record `{arrow}` and `{here}`. A GitHub Actions workflow for the schema build is planned.
+
+---
+
+## Ordering traps
+
+**Trap 1: Uncertainty reaches backward into ingestion.**
+Item 5 sits in Tier 0 deliberately. The propagation *engine* (16) may be years away, but the *convention* for declaring distributions must exist before ingestion is written. Ingesting 109 datasets with no place to attach a distribution means reopening 109 ingestion scripts later.
+
+**Trap 2: The schema freeze (item 14) is earlier than it feels.**
+Everything in Tiers 3 and 4 blocks on the emissions store schema. The instinct is to defer it until enough categories exist to "see the shape." Resist this: the schema is derivable from CRT and inventory-database output requirements, which are already fixed and externally specified.
+
+**Trap 3: The dictionary tool is pre-1.0, and every ingestion script depends on it.**
+The `data-dict` tool is at v0.0.3, so its behavior may change between releases. The hub schema pilot settled the main questions (how failure is reported, whether relationships can span files), but it covered metadata tables, not sector data. Run the sector pilot before writing ingestion in bulk, and check each new release before upgrading the pinned version.
+
+**A note on quality assurance.**
+Quality assurance is not a module. It is a property of every boundary: data-contract validation at ingestion, unit tests on functions, reconciliation at output. It appears in this list only where it takes the form of a discrete deliverable.
+
+---
+
+## Revision notes
+
+### Version 0.3 (2026-11-13)
+
+- Moved from `docs/ghgi-build-checklist-v0.2.md` to `explanation/build-checklist.qmd`, so it is tracked, rendered with the other documents, and not overwritten by a render into `docs/`. Dropped the version from the file name.
+- Corrected the data-dict tool description: it is the tidyverse specification (version 0.1.0) with the `data-dict` command-line tool pinned to v0.0.3, not an R package.
+- Item 4 moved from `[ ]` to `[~]`: grouping, scope, and the dataset-to-dictionary link are decided, and the pilot questions are answered on the hub schema.
+- Item 22 moved from `[ ]` to `[~]`: the drift log table exists and dictionary failures stop the build.
+- Items 2, 7, 8, 25, and Trap 3 updated to match the decisions recorded in `AGENTS.md`.
+- Settled the pins for each dataset as raw and cleaned (`{pin_stem}_raw`, `{pin_stem}_cleaned`). The schema previously named them cleaned and canonical; `schema/data-dict.yaml` and `reference/schema.qmd` now match. Added the canonical stage to item 12 as a computation step owned by each category.
+- Counts updated from the schema: 109 datasets (was 110) and 278 crosswalk links (was 282, after duplicate lime production rows were removed).
+
+### Version 0.2 (2026-10-23)
+
+- Added the retrieval flow at the top of Tier 1, with dictionary validation as a gate before the cleaned pin is written.
+- Item 4: specified the data-dict tool, the grouping decision, the link from `dataset_id` to dictionary group, Parquet staging, and four open questions for a pilot.
+- Items 6, 7, 8: aligned with the retrieval flow; item 8 now distinguishes raw pins from cleaned pins.
+- Items 2, 12, 14, 22, 23, 25: small additions reflecting the dictionary gate.
+- Added Trap 3.
