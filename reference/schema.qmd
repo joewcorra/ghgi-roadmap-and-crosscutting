@@ -4,7 +4,7 @@ title: "Schema"
 
 The schema is five related tables in `schema/`. They record what the inventory estimates, what data each estimate needs, how that data is obtained, which data dictionary governs each dataset, and where the pipeline has drifted from the methodology. The CSV files are edited by hand. `R/build_schema_parquet.R` converts them to Parquet in `schema/parquet/` and validates the Parquet against `schema/data-dict.yaml` with the `data-dict` command-line tool. That dictionary is the full column-level reference, including allowed values and the rules each table must satisfy; the tables below summarize it. Columns marked as lists hold semicolon-separated values in the CSV file. To load and query the schema, see [Query the schema](../how-to/query-the-schema.qmd).
 
-For a browsable version of the dictionary, with a diagram of how the tables relate, a searchable list of every column, and summaries of the current data, open the [schema data dictionary page](../schema-dictionary.html). It is a single file that works offline, so it can also be copied to a shared drive or attached to an email.
+For a browsable version of the dictionary, with a diagram of how the tables relate, a searchable list of every column, and summaries of the current data, open the [schema data dictionary page](../schema/schema-dictionary.html). It is a single file that works offline, so it can also be copied to a shared drive or attached to an email.
 
 ## `ghgi_categories.csv`: source categories
 

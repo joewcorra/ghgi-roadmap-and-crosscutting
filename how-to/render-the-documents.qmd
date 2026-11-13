@@ -11,6 +11,8 @@ title: "Render the Documents"
 
    To render a single document, pass its path, for example `quarto render reference/glossary.qmd`.
 
+   The [Schema explorer](../reference/schema-explorer.qmd) page is generated from `schema/parquet/` at render time, so rebuild the schema first if you have edited it (see [Maintain the schema](maintain-the-schema.qmd)).
+
 3. HTML output goes to `docs/`. Commit the regenerated files with your source changes.
 
 The documents that are rendered are listed in `_quarto.yml`. When you add a document, place it in the Diátaxis folder that matches its purpose (`how-to/`, `reference/`, or `explanation/`), then add it to the map in `index.qmd` and to the layout in `README.md`.

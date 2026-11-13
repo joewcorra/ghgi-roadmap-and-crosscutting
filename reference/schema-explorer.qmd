@@ -1,0 +1,219 @@
+---
+title: "Schema Explorer"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+source(here::here("R", "ghgi_schema.R"))
+library(htmltools)
+
+schema <- read_ghgi_schema()
+
+# Flatten list columns (stored as semicolon-separated text in the CSV files)
+# into display strings.
+flatten_list <- function(x) map_chr(x, ~ str_flatten(.x, collapse = ", "))
+
+categories <- schema %>%
+  pluck("categories") %>%
+  mutate(
+    crt_display   = flatten_list(crt_code),
+    gases_display = flatten_list(gases)
+  )
+
+datasets <- schema %>%
+  pluck("datasets") %>%
+  mutate(format_display = flatten_list(format)) %>%
+  left_join(select(dataset_home(schema), dataset_id, home), by = "dataset_id")
+
+crosswalk <- schema %>%
+  pluck("crosswalk") %>%
+  left_join(select(datasets, dataset_id, dataset_name), by = "dataset_id") %>%
+  left_join(select(categories, node_id, source_name), by = "node_id")
+
+n_linked <- crosswalk %>% distinct(dataset_id) %>% nrow()
+```
+
+This page shows the contents of the schema: the category tree, the datasets each category uses, and where each dataset lives. It is generated from `schema/parquet/` every time the site is rendered, so it always matches the last schema build. For the structure of the tables themselves (their columns, types, and rules), see the [schema data dictionary page](../schema/schema-dictionary.html) and the [Schema](schema.qmd) reference.
+
+The schema currently holds `r nrow(categories)` nodes in the category tree, `r nrow(datasets)` datasets, and `r nrow(crosswalk)` links between them. `r n_linked` datasets are linked to at least one category; the other `r nrow(datasets) - n_linked` are not linked yet.
+
+Click a row to open it. Names of datasets and categories are links that jump to the matching entry elsewhere on the page. Your browser's find command (Ctrl+F) also searches closed rows.
+
+<div class="explorer-controls">
+<button type="button" onclick="document.querySelectorAll('.explorer details').forEach(d => d.open = true)">Expand all</button>
+<button type="button" onclick="document.querySelectorAll('.explorer details').forEach(d => d.open = false)">Collapse all</button>
+</div>
+
+## Category tree
+
+Each row shows the node's name, its level, its Common Reporting Table (CRT) code, and the gases it estimates. Inside are the datasets it uses, with each dataset's role. A role marked "optional" is not required for the estimate.
+
+```{r}
+#| label: category-tree
+dataset_items <- function(id) {
+  links <- crosswalk %>% filter(node_id == id)
+  if (nrow(links) == 0) return(NULL)
+
+  items <- pmap(
+    select(links, dataset_id, dataset_name, role, required),
+    function(dataset_id, dataset_name, role, required) {
+      tags$li(
+        tags$a(href = str_glue("#ds-{dataset_id}"), dataset_name),
+        tags$span(class = "meta", str_glue(
+          " ({role}{if_else(required, '', ', optional')})"
+        ))
+      )
+    }
+  )
+  return(tags$ul(class = "dataset-list", items))
+}
+
+node_tag <- function(id) {
+  node <- categories %>% filter(node_id == id)
+  children <- categories %>%
+    filter(parent_id == id) %>%
+    pull(node_id)
+  meta <- str_glue(
+    "{pull(node, level)} · CRT {pull(node, crt_display)}",
+    "{if_else(pull(node, gases_display) == '', '', str_c(' · ', pull(node, gases_display)))}"
+  )
+
+  tag <- tags$details(
+    id = str_glue("node-{id}"),
+    tags$summary(
+      tags$span(class = "name", pull(node, source_name)),
+      tags$span(class = "meta", meta)
+    ),
+    dataset_items(id),
+    map(children, node_tag)
+  )
+  return(tag)
+}
+
+sector_ids <- categories %>%
+  filter(level == "sector") %>%
+  pull(node_id)
+
+div(class = "explorer", map(sector_ids, node_tag))
+```
+
+## Datasets by home
+
+Each dataset has exactly one copy. Its home is derived from the crosswalk by `dataset_home()`: the one sector that uses it, or the shared-data repository when two or more sectors do. Datasets not linked to any category have no home yet. Inside each row are its access details and the categories that use it.
+
+```{r}
+#| label: datasets
+sector_names <- categories %>%
+  filter(level == "sector") %>%
+  select(node_id, source_name)
+
+home_order <- c(sector_ids, "shared", "not linked")
+
+home_label <- function(home) {
+  label <- switch(home,
+    shared = "Shared (two or more sectors)",
+    `not linked` = "Not linked to any category yet",
+    sector_names %>%
+      filter(node_id == home) %>%
+      pull(source_name)
+  )
+  return(label)
+}
+
+detail_row <- function(label, value) {
+  tags$tr(tags$th(label), tags$td(value))
+}
+
+dataset_tag <- function(id) {
+  ds <- datasets %>% filter(dataset_id == id)
+  users <- crosswalk %>% filter(dataset_id == id)
+  endpoint <- pull(ds, endpoint)
+
+  used_by <- pmap(
+    select(users, node_id, source_name, role),
+    function(node_id, source_name, role) {
+      tags$li(
+        tags$a(href = str_glue("#node-{node_id}"), source_name),
+        tags$span(class = "meta", str_glue(" ({role})"))
+      )
+    }
+  )
+
+  tag <- tags$details(
+    id = str_glue("ds-{id}"),
+    tags$summary(
+      tags$span(class = "name", pull(ds, dataset_name)),
+      tags$span(class = "meta", str_glue("{id} · {pull(ds, provider)}"))
+    ),
+    tags$table(
+      class = "dataset-detail",
+      detail_row("Access method", pull(ds, access_method)),
+      detail_row("Endpoint", if_else(is.na(endpoint), "none recorded", endpoint)),
+      detail_row("Format", pull(ds, format_display)),
+      detail_row("Authentication", pull(ds, auth)),
+      detail_row("Update frequency", pull(ds, update_frequency)),
+      detail_row("Source status", pull(ds, source_status)),
+      detail_row("Access verified", if_else(pull(ds, access_verified), "yes", "no")),
+      detail_row("Dictionary", coalesce(pull(ds, dict_id), "none yet")),
+      detail_row("Notes", coalesce(pull(ds, notes), ""))
+    ),
+    tags$p(class = "used-by-label", str_glue("Categories that use it ({nrow(users)}):")),
+    tags$ul(class = "dataset-list", used_by)
+  )
+  return(tag)
+}
+
+home_section <- function(home) {
+  ids <- datasets %>%
+    mutate(home = coalesce(home, "not linked")) %>%
+    filter(home == !!home) %>%
+    arrange(dataset_name) %>%
+    pull(dataset_id)
+  if (length(ids) == 0) return(NULL)
+
+  section <- tagList(
+    tags$h3(str_glue("{home_label(home)} ({length(ids)})")),
+    map(ids, dataset_tag)
+  )
+  return(section)
+}
+
+div(class = "explorer", map(home_order, home_section))
+```
+
+```{=html}
+<script>
+// Open every closed row around the target of a link, so jumping to a
+// dataset or category shows it.
+function openTarget() {
+  const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (!target) return;
+  let el = target;
+  while (el) {
+    if (el.tagName === "DETAILS") el.open = true;
+    el = el.parentElement;
+  }
+  target.scrollIntoView();
+}
+window.addEventListener("hashchange", openTarget);
+window.addEventListener("load", openTarget);
+</script>
+
+<style>
+.explorer details { margin: 0.15rem 0 0.15rem 1.1rem; }
+.explorer > details { margin-left: 0; }
+.explorer summary { cursor: pointer; padding: 0.1rem 0; }
+.explorer .name { font-weight: 600; }
+.explorer .meta { color: #6c757d; font-size: 0.9em; margin-left: 0.5rem; }
+.explorer .dataset-list { margin: 0.2rem 0 0.4rem 0.5rem; font-size: 0.95em; }
+.explorer .dataset-detail { margin: 0.3rem 0 0.3rem 1.1rem; font-size: 0.9em; }
+.explorer .dataset-detail th { padding-right: 1rem; font-weight: 600; vertical-align: top; white-space: nowrap; }
+.explorer .dataset-detail td { word-break: break-word; }
+.explorer .used-by-label { margin: 0.3rem 0 0 1.1rem; font-size: 0.9em; }
+.explorer-controls button { margin-right: 0.5rem; }
+</style>
+```

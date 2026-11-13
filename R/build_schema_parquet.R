@@ -2,7 +2,7 @@
 ## Converts the hand-edited GHGI schema CSV files to parquet and validates
 ## them against schema/data-dict.yaml with the data-dict command-line tool
 ## (pinned to v0.0.3), then renders the dictionary as a browsable page at
-## docs/schema-dictionary.html. The CSV files stay the copy you edit; the
+## schema/schema-dictionary.html (copied into docs/ by quarto render). The CSV files stay the copy you edit; the
 ## parquet files and the page are build products. Run from anywhere inside
 ## the project.
 
@@ -14,7 +14,7 @@ library(here)
 
 schema_dir  <- here("schema")
 parquet_dir <- here("schema", "parquet")
-dictionary_page <- here("docs", "schema-dictionary.html")
+dictionary_page <- here("schema", "schema-dictionary.html")
 
 # ---- Column specifications ----
 # Explicit types so an all-empty column is still read as text, not logical.

@@ -1,5 +1,8 @@
 project:
+  type: website
   output-dir: docs
+  resources:
+    - schema/schema-dictionary.html
   render:
     - index.qmd
     - how-to/*.qmd

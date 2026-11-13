@@ -21,6 +21,8 @@ Facts to look up while working: rules, definitions, and specifications.
 
 - [Project conventions (AGENTS.md)](reference/conventions.qmd): the source of truth for coding, unit, tooling, and project-management conventions
 - [Schema](reference/schema.qmd): source categories, the dataset registry, and their crosswalk
+- [Schema explorer](reference/schema-explorer.qmd): browse the category tree, the datasets each category uses, and where each dataset lives
+- [Schema data dictionary](schema/schema-dictionary.html): the column-level dictionary for the schema tables, with a diagram of how they relate
 - [Cross-sector boundary rules](reference/cross-sector-boundaries.qmd): which sector reports each emission
 - [Methodology reference](reference/methodology/ghg-inventory-methodology.qmd): calculation methodology and coding annotations by source category
 - [Example methodology narrative: wastewater](reference/methodology/sample-smn-wastewater.qmd)
