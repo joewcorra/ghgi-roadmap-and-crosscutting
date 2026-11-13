@@ -1,6 +1,6 @@
 ---
-title: "National GHG Inventory -- Methodology Reference"
-subtitle: "Source Category Methodologies: Narrative, Coding Roadmap, and Documentation"
+title: "Inventory Methods Compilation"
+subtitle: "Working notes: source material for methodology narratives"
 date: last-modified
 format:
   html:
@@ -19,6 +19,14 @@ execute:
   echo: false
   warning: false
 ---
+
+::: {.callout-important icon="false"}
+## Source material, not a specification
+
+This compilation is working material. It restates inventory methods by category, with early coding notes, and is being replaced category by category by methodology narratives written to the [Methodology Narrative Standard](../reference/narrative-standard.qmd). Use it as raw material when writing a narrative. Do not cite it as the methodology, and do not add new categories or content to it.
+
+When a category's narrative is approved, its section here is marked as retired and points to the narrative.
+:::
 
 # Introduction {.unnumbered}
 

@@ -25,8 +25,10 @@ reference/
   cross-sector-boundaries.qmd         Cross-sector boundary rules: which sector reports each emission
   glossary.qmd                        Project terms and abbreviations
   methodology/
-    ghg-inventory-methodology.qmd     Methodology narrative and coding annotations by source category
     sample-smn-wastewater.qmd         Example methodology narrative (wastewater treatment)
+
+source-material/
+  inventory-methods-compilation.qmd   Working notes by category; source material for narratives, being retired
 
 explanation/
   architecture.qmd                    Design principles, open decisions, and review milestones

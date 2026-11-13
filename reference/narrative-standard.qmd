@@ -1,0 +1,196 @@
+---
+title: "Methodology Narrative Standard"
+subtitle: "Version 0.1 (draft for review)"
+date: 2026-11-13
+---
+
+> **Draft.** This version collects rules that already exist in [`AGENTS.md`](conventions.qmd), the [schema](schema.qmd), and the [component build checklist](../explanation/build-checklist.qmd), and the section structure of the [wastewater example](methodology/sample-smn-wastewater.qmd). Points marked **[Open]** have not been decided. They are listed together at the end.
+
+## Purpose
+
+A methodology narrative is the specification for one source category. It says, in plain language, what the category estimates, which data and constants it uses, and exactly how the estimate is calculated. The code is written to follow the narrative, never the other way round.
+
+A narrative has three readers:
+
+- **Domain reviewers and auditors**, who check that the method is right without reading code.
+- **Developers**, who turn it into R code, with the help of the custom AI tools.
+- **Future staff**, who need to understand and reproduce the method if the author leaves.
+
+A narrative is not a copy of the inventory chapter, and it contains no code. Where the [Inventory Methods Compilation](../source-material/inventory-methods-compilation.qmd) covers a category, use it as raw material; once the category's narrative is approved, the narrative replaces that section. It may restate the chapter's method, but it must be complete and precise enough that someone could implement the category from the narrative alone, in any language.
+
+## Scope and files
+
+- Write one narrative per category that is calculated as a unit. A narrative may cover that category's child sources and subsources, and must then list each one under Scope.
+- Name the file after the category's `node_id` in the schema, for example `wastewater_treatment.qmd`.
+- **[Open]** Where narratives are stored: here in `reference/methodology/`, or in each sector's repository as `METHODOLOGY.md`, which the standard repository layout also mentions.
+
+## Required sections
+
+Every narrative has these sections, with these headings, in this order. If a section does not apply, keep the heading and say why in one sentence.
+
+### 1. Identification
+
+- Category name, as `source_name` in the schema.
+- `node_id` of the category and of every source it covers.
+- CRT code or codes. CRT means Common Reporting Table, the United Nations reporting format.
+- Sector, and the gases estimated.
+- Inventory edition, for example GHGIA 2026.
+- Author (the source lead), reviewer, and the date last revised.
+- The version of this standard the narrative follows.
+
+The `node_id`, CRT code, and gases must match `schema/ghgi_categories.csv`. If they do not, report the difference so one of them can be corrected. Do not change the narrative to match quietly.
+
+### 2. Scope
+
+What the category covers, organized by source and subsource. Then what it does not cover, naming for each exclusion the category or rule that does cover it, or saying that it is not estimated and why.
+
+### 3. Data sources
+
+One entry per dataset. Each entry gives:
+
+- The dataset's `dataset_id` from the [dataset registry](schema.qmd), for example `DS-CENSUS-POP`, and its name.
+- Its role, using the crosswalk's values: `activity_data`, `emission_factor`, or `parameter`.
+- Whether the category can be estimated without it (the crosswalk's `required`).
+- What it is used for, and the years it covers.
+
+The list must agree with the crosswalk in `schema/ghgi_category_datasets.csv`. A dataset that is not yet in the registry is added to the registry first. Until then, list it with "[not registered]" in place of an ID.
+
+### 4. Emission factors and other constants
+
+One entry per constant. Each entry gives:
+
+- Its name, in snake_case. This is the name the code uses to look the value up, for example `ef_clinker`.
+- Its value, or values by year or by type.
+- Its native unit basis, for example metric tons of carbon dioxide per metric ton of clinker.
+- Its source, with table or page, and the years it applies to.
+
+Rules:
+
+- The calculation steps refer to constants by name, never by bare number.
+- Use the IPCC Fifth Assessment Report (AR5) global warming potentials, cited by reference rather than listed again.
+- Identify species-conversion ratios, such as 44/12 for carbon to carbon dioxide, as conversion ratios rather than emission factors. They do not depend on scale.
+
+### 5. Units
+
+- The native units of each input as received.
+- The reporting unit of the results.
+
+Every input is converted to the project's canonical units at ingestion, and results are converted to reporting units only at the final output step. Steps therefore do not include unit conversions. If a conversion carries methodological meaning, such as a heating-value basis, describe it here.
+
+### 6. Connections to other categories
+
+- **Upstream:** inputs this category takes from another category's results.
+- **Downstream:** categories or totals that use this category's results.
+- **Attribution:** emissions calculated here but reported under another category, or the reverse. Each case cites the matching rule in [Cross-Sector Boundary Rules](cross-sector-boundaries.qmd). If no rule exists, say so; that rule is added there, not settled in the narrative.
+- **[Open]** The detailed attribution rule (checklist item 3): how a narrative records an emission that is computed in one category and reported in another.
+
+### 7. Calculation steps
+
+A numbered list, in the order the calculation runs. Each step states:
+
+- What goes in: datasets by `dataset_id`, constants by name, or the results of earlier steps by step number.
+- What it does, in words, with a simple formula where it helps, for example "emissions equal clinker production × `ef_clinker` × `ckd_correction`".
+- What comes out.
+
+Rules:
+
+- One step is one logical phase of the calculation. A reader should be able to check each step on its own.
+- A change of method between periods names the threshold year and the method on each side, for example "1990 to 2013: method A; 2014 onward: method B".
+- Gaps, splices between sources, and extrapolation to recent years each name the method used (for example linear interpolation, overlap, or surrogate), the years affected, and the reason.
+- Do not name R functions, packages, scripts, or columns. The narrative describes the method, not its code.
+
+### 8. Rules and judgment calls
+
+Every decision rule or assumption that is not dictated by the source data: what was decided, why, and who decided it, where known. Methodology decisions belong to the sector lead.
+
+### 9. Uncertainty
+
+**[Open]** Pending the uncertainty convention (checklist item 5). Until it is settled, list any published uncertainty range for each input or constant, with its source, or write "not yet declared".
+
+### 10. Known changes and things to watch
+
+Changes from the previous edition, discontinued or at-risk sources, and recent years that rely on estimates rather than reported data. Link the [Sector Data Notes](../explanation/sector-data-notes.qmd) rather than repeating them.
+
+### 11. References
+
+Cite the GHGIA 2026 chapter and section, the 2006 IPCC Guidelines (volume and chapter), and the EPA inventory annexes, as applicable.
+
+## Writing rules
+
+- Write in full sentences. Spell out each acronym the first time it appears, and define technical terms briefly.
+- Write values that are not known yet as a bracketed placeholder, for example "[source]". A narrative that contains placeholders is a draft.
+- Avoid wording that implies criticism of colleagues or of earlier workflows.
+
+## Narratives and code
+
+The narrative is the specification. When the code and the narrative disagree, the disagreement is reported and recorded in the drift log (`validation_log` in the schema), not quietly reconciled in either direction. The plain-language description produced from the code by the narrator tool is compared against the narrative for this purpose.
+
+## Review and versioning
+
+- The source lead writes the narrative.
+- **[Open]** Who reviews and approves it, and what status values a narrative carries (for example draft, under review, approved).
+- Changes to an approved narrative are made through Git, so every change has an author and a date.
+- When this standard changes, its version number goes up. Each narrative records the version it follows, and the custom AI tools are updated to match.
+
+## Template
+
+Copy this skeleton to start a narrative.
+
+````markdown
+---
+title: "[Category name]"
+---
+
+## Identification
+
+- **Category:** [source_name]
+- **node_id:** [category node_id]; sources: [node_id, node_id]
+- **CRT code:** [code]
+- **Sector:** [sector]. **Gases:** [gases]
+- **Inventory edition:** GHGIA 2026
+- **Author:** [source lead]. **Reviewer:** [reviewer]. **Last revised:** [date]
+- **Standard version:** 0.1
+
+## Scope
+
+## Data sources
+
+- **[Dataset name]** (`[dataset_id]`). Role: [role]. Required: [yes/no].
+  Used for [purpose]. Years: [years].
+
+## Emission factors and other constants
+
+- **`[constant_name]`**: [value] [native unit]. Source: [reference]. Years: [years].
+
+## Units
+
+## Connections to other categories
+
+## Calculation steps
+
+1. [Inputs] → [operation] → [output].
+
+## Rules and judgment calls
+
+## Uncertainty
+
+Not yet declared.
+
+## Known changes and things to watch
+
+## References
+````
+
+## Open questions
+
+1. Where narratives are stored: this repository, or each sector's repository (Scope and files).
+2. How attribution between categories is recorded (section 6).
+3. The uncertainty declaration, pending the uncertainty convention (section 9).
+4. Who reviews and approves narratives, and the status values (Review and versioning).
+5. Whether constants get identifiers in a registry, as datasets do, so narratives can cite them the same way.
+
+## Revision notes
+
+### Version 0.1 (2026-11-13)
+
+First written version. Earlier references to versions 0.2 and 0.4 of this standard (in the wastewater example and the build checklist) have no written source, so numbering restarts here.

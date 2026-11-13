@@ -24,7 +24,7 @@ Facts to look up while working: rules, definitions, and specifications.
 - [Schema explorer](reference/schema-explorer.qmd): browse the category tree, the datasets each category uses, and where each dataset lives
 - [Schema data dictionary](schema/schema-dictionary.html): the column-level dictionary for the schema tables, with a diagram of how they relate
 - [Cross-sector boundary rules](reference/cross-sector-boundaries.qmd): which sector reports each emission
-- [Methodology reference](reference/methodology/ghg-inventory-methodology.qmd): calculation methodology and coding annotations by source category
+- [Methodology narrative standard](reference/narrative-standard.qmd): the required format for a category's methodology narrative (draft)
 - [Example methodology narrative: wastewater](reference/methodology/sample-smn-wastewater.qmd)
 - [Glossary](reference/glossary.qmd)
 
@@ -35,6 +35,12 @@ Background and reasoning: why the project is built the way it is.
 - [Architecture and design principles](explanation/architecture.qmd), including open decisions and review milestones
 - [Component build checklist](explanation/build-checklist.qmd): every component of the production system, ordered by dependency, with current status
 - [Sector data notes](explanation/sector-data-notes.qmd): data-availability risks and recent-year gaps
+
+## Source material
+
+Working notes to draw on when writing documentation. These are not specifications, and nothing should be built or cited from them directly.
+
+- [Inventory methods compilation](source-material/inventory-methods-compilation.qmd): inventory methods restated by category, with early coding notes. Being replaced category by category by methodology narratives.
 
 ## Tutorials
 
