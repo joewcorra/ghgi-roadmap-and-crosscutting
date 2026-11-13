@@ -4022,6 +4022,7 @@ vertical-align: -.125em;
   <li><a href="#ordering-traps" id="toc-ordering-traps" class="nav-link" data-scroll-target="#ordering-traps">Ordering traps</a></li>
   <li><a href="#revision-notes" id="toc-revision-notes" class="nav-link" data-scroll-target="#revision-notes">Revision notes</a>
   <ul class="collapse">
+  <li><a href="#version-0.4-2026-11-13" id="toc-version-0.4-2026-11-13" class="nav-link" data-scroll-target="#version-0.4-2026-11-13">Version 0.4 (2026-11-13)</a></li>
   <li><a href="#version-0.3-2026-11-13" id="toc-version-0.3-2026-11-13" class="nav-link" data-scroll-target="#version-0.3-2026-11-13">Version 0.3 (2026-11-13)</a></li>
   <li><a href="#version-0.2-2026-10-23" id="toc-version-0.2-2026-10-23" class="nav-link" data-scroll-target="#version-0.2-2026-10-23">Version 0.2 (2026-10-23)</a></li>
   </ul></li>
@@ -4038,7 +4039,7 @@ vertical-align: -.125em;
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Component Build Checklist</h1>
-<p class="subtitle lead">Version 0.3 (draft)</p>
+<p class="subtitle lead">Version 0.4 (draft)</p>
 </div>
 
 
@@ -4143,7 +4144,7 @@ vertical-align: -.125em;
 <ul>
 <li><p><strong>1. <code>[x]</code> Canonical units layer</strong> Canonical unit registry and conversion at ingestion (<code>to_canonical()</code> and <code>canonical_units</code> in <code>{syrinx}</code>); all downstream calculation unitless; conversion only at output. <em>Blocks: all ingestion.</em></p></li>
 <li><p><strong>2. <code>[~]</code> Reference and vocabulary store</strong> CRT codes, gas list, global warming potential (GWP) sets (AR5 and successors), and the category hierarchy. The hub schema now has five tables (categories, datasets, the category-to-dataset crosswalk, the dictionary registry, and the drift log), edited as CSV files, built to Parquet by <code>R/build_schema_parquet.R</code>, and validated against <code>schema/data-dict.yaml</code>. Still to do: add gases and GWP sets, and make the store a <strong>versioned, pinned artifact</strong> rather than files in the repository. <em>Blocks: computation, outputs, quality assurance.</em></p></li>
-<li><p><strong>3. <code>[~]</code> Methodology Narrative Standard</strong> Rules governing dataset citation, unit-handling discipline, uncertainty declaration, and dimensioned constants. Version 0.4 complete; version 0.5 pending (attribution boundary for emissions computed in one category but reported under another). <em>Blocks: every narrative, and therefore every category.</em></p></li>
+<li><p><strong>3. <code>[~]</code> Methodology Narrative Standard</strong> Rules governing dataset citation, unit-handling discipline, uncertainty declaration, and dimensioned constants. A first written draft, version 0.1, is at <a href="../reference/narrative-standard.html">Methodology Narrative Standard</a> and awaits review. It leaves five questions open, including how to record emissions computed in one category but reported under another, and how to declare uncertainty (which waits on item 5). <em>Blocks: every narrative, and therefore every category.</em></p></li>
 <li><p><strong>4. <code>[~]</code> Dataset dictionaries</strong> Target schema declared for each dataset, as <code>data-dict.yaml</code> files written against the tidyverse data-dict specification (version 0.1.0) and validated with the <code>data-dict</code> command-line tool, pinned to v0.0.3 and installed as a prebuilt binary. Each file describes a group of related tables: columns, types, constraints, relationships, and allowed values. The format is proven on the hub schema. No dataset dictionaries exist yet (0 of 109). <em>Decisions made:</em></p>
 <ul>
 <li><strong>Grouping.</strong> One dictionary per group of related tables: one for the hub schema, one per source-category repository, and one for shared data.</li>
@@ -4185,7 +4186,7 @@ vertical-align: -.125em;
 <section id="tier-2-computation-keyed-by-category" class="level2">
 <h2 class="anchored" data-anchor-id="tier-2-computation-keyed-by-category">Tier 2: Computation (keyed by category)</h2>
 <ul>
-<li><p><strong>11. <code>[~]</code> Methodology narrative per category</strong> (×91) The authoritative specification. Precise about inputs, outputs, transformations, and decision rules; implementation-agnostic. <em>Blocked by: 3.</em></p></li>
+<li><p><strong>11. <code>[~]</code> Methodology narrative per category</strong> (×91) The authoritative specification. Precise about inputs, outputs, transformations, and decision rules; implementation-agnostic. Written to the standard (item 3), one per category, named by <code>node_id</code>. The <a href="../reference/methodology/sample-smn-wastewater.html">wastewater example</a> is the only one so far. The <a href="../source-material/inventory-methods-compilation.html">Inventory Methods Compilation</a> is source material for writing them, not a specification. <em>Blocked by: 3.</em></p></li>
 <li><p><strong>12. <code>[~]</code> Computation pipeline per category</strong> (×91) Reads inputs only from cleaned pins. Each pipeline first maps its cleaned inputs onto the category’s canonical intermediate table, which has its own dictionary (the <code>canonical</code> tier in <code>schema/ghgi_dictionaries.csv</code>, linked by <code>canonical_dict_id</code> in the category table). Canonical tables belong to the category, not to a dataset, because one dataset feeds about three categories. They can be pinned per category later if that proves useful. The convention is pending the Fossil Fuel Combustion pilot. <em>Blocked by: 6, 10, 11.</em></p></li>
 <li><p><strong>13. <code>[ ]</code> Splice and time-series-consistency operations</strong> Documented, coded, reusable methods for overlap, surrogate, interpolation, and extrapolation. A first-class operation, not a patch applied when a source is discontinued. <em>Blocked by: 6. Needed now for at least one discontinued source.</em></p></li>
 <li><p><strong>14. <code>[ ]</code> Emissions store schema</strong> The canonical long-format result table that all categories write into. <strong>This is the freeze point</strong> (see Trap 2). It should also have a data dictionary (item 4), so results are validated by the same mechanism as inputs. <em>Blocked by: 2. Blocks: 15 to 20.</em></p></li>
@@ -4230,6 +4231,13 @@ vertical-align: -.125em;
 </section>
 <section id="revision-notes" class="level2">
 <h2 class="anchored" data-anchor-id="revision-notes">Revision notes</h2>
+<section id="version-0.4-2026-11-13" class="level3">
+<h3 class="anchored" data-anchor-id="version-0.4-2026-11-13">Version 0.4 (2026-11-13)</h3>
+<ul>
+<li>Item 3: version 0.1 of the Narrative Standard is now written and awaiting review. Version 0.3 of this checklist said version 0.4 of the standard was complete, but no written standard existed, so numbering restarted at 0.1. The mark stays <code>[~]</code>.</li>
+<li>Item 11: narratives follow the standard; the former methodology reference is now the Inventory Methods Compilation, kept as source material.</li>
+</ul>
+</section>
 <section id="version-0.3-2026-11-13" class="level3">
 <h3 class="anchored" data-anchor-id="version-0.3-2026-11-13">Version 0.3 (2026-11-13)</h3>
 <ul>

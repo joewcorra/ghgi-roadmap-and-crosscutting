@@ -2,146 +2,121 @@
 title: "Example Methodology Narrative: Wastewater Treatment (CH₄ and N₂O)"
 ---
 
-> **Example for discussion.** Methodology is simplified for illustration and
-> values shown as [placeholder] are not real. Structure follows the Methodology
-> Narrative Standard v0.2.
+> **Example for discussion.** The methodology is simplified for illustration, and values shown in square brackets are placeholders, not real values. Constant names are illustrative. This example follows the [Methodology Narrative Standard](../narrative-standard.qmd), version 0.1.
 
 ## Identification
 
-- **Category:** Wastewater Treatment — CH₄ and N₂O
-- **Sector:** Waste (IPCC 4.D, Wastewater Treatment and Discharge)
+- **Category:** Wastewater Treatment and Discharge
+- **node_id:** `wastewater_treatment`; sources: `domestic_wastewater`, `industrial_wastewater`
+- **CRT code:** 5D; sources 5D1 (domestic) and 5D2 (industrial)
+- **Sector:** Waste. **Gases:** methane (CH₄) and nitrous oxide (N₂O)
 - **Inventory edition:** GHGIA 2026
-- **Author:** [Waste source lead]
-- **Last revised:** [date]
+- **Author:** [Waste source lead]. **Reviewer:** [reviewer]. **Last revised:** [date]
+- **Standard version:** 0.1
 
-## What this category covers
+## Scope
 
-This category covers methane and nitrous oxide from the treatment and discharge
-of domestic and industrial wastewater. It is organized into two subsources:
+This category covers methane and nitrous oxide from the treatment and discharge of domestic and industrial wastewater, in two sources:
 
-- **Domestic wastewater** — from residential and commercial sources, treated at
-  publicly owned treatment works (POTWs) or in septic systems, plus emissions
-  from treated effluent discharged to receiving waters.
-- **Industrial wastewater** — from industries that generate high-organic-load
-  wastewater treated on site, covering breweries, ethanol production, pulp and
-  paper, meat and poultry, petroleum refining, and fruit and vegetable
-  processing.
+- **Domestic wastewater** (`domestic_wastewater`): wastewater from residential and commercial sources, treated at publicly owned treatment works (POTWs) or in septic systems, plus emissions from treated effluent discharged to receiving waters.
+- **Industrial wastewater** (`industrial_wastewater`): wastewater with a high organic load that industries treat on site. It covers breweries, ethanol production, pulp and paper, meat and poultry, petroleum refining, and fruit and vegetable processing.
 
-It does **not** cover: biogenic carbon dioxide from wastewater (excluded from
-national totals by convention); methane recovered and combusted for energy,
-which is netted out of this category's emissions (see step-by-step); or
-emissions from biosolids once they leave the treatment system (see connections).
+It does not cover:
+
+- Biogenic carbon dioxide from wastewater, which is excluded from national totals by convention.
+- Methane recovered and combusted for energy. It is subtracted from this category's emissions (steps 4 and 6).
+- Emissions from biosolids once they leave the treatment system (see Connections to other categories).
 
 ## Data sources
 
-- **U.S. population**, from [Census source]. *Short label:* `us_population`.
-  Drives domestic wastewater volume.
-- **Domestic wastewater treatment data** — flows by treatment pathway, from
-  [source]. *Short label:* `ww_treatment_domestic`.
-- **Industrial wastewater treatment data** — by industry, from [source].
-  *Short label:* `ww_treatment_industrial`.
-- **POTW anaerobic digester flow**, from [source]. *Short label:*
-  `potw_flow_anaerobic_digesters`. Used for energy-recovery netting.
-- **Sludge generation**, from [source]. *Short label:* `sludge_generation`.
-- **Effluent discharge treatment data**, from [source]. *Short label:*
-  `ww_discharge_treatment`.
-- **Available protein and protein consumption**, from [source]. *Short labels:*
-  `available_protein`, `protein_consumption`. Drive the domestic nitrogen load
-  for N₂O.
-- **Industrial production and wastewater data**, by industry, from [sources] —
-  brewery production and water use, ethanol production, pulp and paper
-  production and wastewater, meat and poultry production and wastewater,
-  petroleum refining wastewater, and fruit and vegetable production. *Short
-  labels:* `brewery_production_annual`, `brewery_water_usage`,
-  `ethanol_production_annual`, `pulp_and_paper_production`, `pulp_and_paper_ww`,
-  `meat_and_poultry_production`, `meat_and_poultry_ww_generation`,
-  `petroleum_ww_generation`, `apples_production`, `citrus_production`,
-  `grapes_production`, `other_noncitrus_production`, `vegetable_production`.
+Each entry gives the dataset's ID in the [dataset registry](../schema.qmd), its role, and whether the category requires it. Entries marked "[not registered]" are used by this method but not yet in the registry or the crosswalk.
 
-## Emission factors and other fixed values
+**Domestic wastewater**
 
-- **Methane emission factors** by treatment pathway and by industry — methane
-  produced per unit of organic load (e.g., kg CH₄ per kg BOD or COD).
-  [placeholder]. Source: [reference].
-- **Nitrous oxide emission factors** for effluent and for applicable industries —
-  N₂O per unit of nitrogen load. [placeholder]. Source: [reference].
-- **Organic load factors** — BOD or COD generated per person (domestic) or per
-  unit of production (industrial). [placeholder]. Source: [reference].
-- **Methane correction factors** for each treatment pathway (the degree to which
-  conditions are anaerobic). [placeholder]. Source: [reference].
-- **Global warming potentials** (AR5) for CH₄ and N₂O, used to express results
-  as CO₂-equivalent.
+- **U.S. resident and territory population** (`DS-CENSUS-POP`). Role: activity data. Required: yes. Drives domestic wastewater volume and organic load. Years: [years].
+- **American Housing Survey** (`DS-CENSUS-AHS`). Role: parameter. Required: yes. The share of households on septic systems versus centralized treatment. Years: [years].
+- **Domestic treatment flows by pathway** ([not registered]). Role: activity data. The split of centralized flow across treatment pathways, including tertiary treatment. Source: [source].
+- **POTW anaerobic digester flow** ([not registered]). Role: activity data. Used to subtract recovered methane. Source: [source].
+- **Effluent discharge treatment data** ([not registered]). Role: activity data. Source: [source].
+- **Sludge generation** ([not registered]). Role: activity data. Source: [source].
+- **FAOSTAT Food Balance Sheets** (`DS-FAO-FBS`). Role: activity data. Required: yes. Available protein per person, which drives the nitrogen load for N₂O. Years: [years].
+- **Protein consumption** ([not registered]). Role: activity data. Used with available protein to derive the nitrogen load. Source: [source].
+
+**Industrial wastewater**
+
+- **Brewery production statistics** (`DS-TTB-BEER`). Role: activity data. Required: yes. Years: [years].
+- **Brewery water use** ([not registered]). Role: activity data. Source: [source].
+- **Ethanol production data** (`DS-USDA-ETHANOL`). Role: activity data. Required: yes. Years: [years].
+- **Grain use for ethanol production** (`DS-RFA-ETHANOL`). Role: activity data. Required: yes. Listed in the crosswalk; how the method uses it is [to be confirmed].
+- **FAOSTAT Forestry, pulp and paper** (`DS-FAO-FORESTRY`). Role: activity data. Required: yes. Pulp and paper production. Years: [years].
+- **Pulp and paper wastewater** ([not registered]). Role: activity data. Source: [source].
+- **USDA NASS QuickStats** (`DS-USDA-NASS`). Role: activity data. Required: yes. Production of meat and poultry, and of apples, citrus, grapes, other noncitrus fruit, and vegetables. Years: [years].
+- **Meat and poultry wastewater generation** ([not registered]). Role: activity data. Source: [source].
+- **Petroleum production and refining** (`DS-EIA-PETRO`). Role: activity data. Required: yes. Refining activity, from which refinery wastewater is estimated. Years: [years].
+
+**Both sources**
+
+- **Wastewater emission factors and parameters** (`DS-WW-EF`). Role: emission factor. Required: yes. The source of the constants below.
+- **Global warming potentials, AR5** (`DS-GWP-AR5`). Role: parameter. Required: yes.
+
+## Emission factors and other constants
+
+- **`bod_per_capita`**: [value] kilograms of biochemical oxygen demand (BOD) per person per day. Source: [reference] (`DS-WW-EF`). Years: all.
+- **`mcf_[pathway]`**: the methane correction factor for each treatment pathway (aerobic, anaerobic, septic, constructed wetlands, and discharge), meaning the degree to which conditions are anaerobic. [values], unitless. Source: [reference].
+- **`ch4_max_bod`**: [value] kilograms of CH₄ per kilogram of BOD, the maximum methane-producing capacity. Source: [reference].
+- **`cod_per_unit_[industry]`** and **`ww_per_unit_[industry]`**: chemical oxygen demand (COD) per unit of wastewater, and wastewater generated per unit of production, for each industry. [values], in [industry-specific units]. Source: [reference].
+- **`ch4_max_cod`**: [value] kilograms of CH₄ per kilogram of COD. Source: [reference].
+- **`n2o_ef_effluent`**: [value] kilograms of N₂O-nitrogen per kilogram of nitrogen discharged. Source: [reference].
+- **`n2o_ef_[industry]`**: N₂O emission factors for the industries estimated for N₂O. [values]. Source: [reference].
+- **`n_fraction_protein`**: [value] kilograms of nitrogen per kilogram of protein. Source: [reference].
+- **Species conversion ratio:** 44/28 converts N₂O-nitrogen to N₂O. It is a conversion ratio, not an emission factor.
+- **Global warming potentials:** AR5, for CH₄ and N₂O.
 
 ## Units
 
-- Activity data arrive in mixed units: population in persons, production in
-  industry-specific units (e.g., barrels, tons), wastewater flows in volume
-  units.
-- Emissions are reported in gigagrams of CH₄ and N₂O, and as CO₂-equivalent for
-  summary tables.
+- Inputs arrive in mixed units: population in persons, production in industry-specific units (for example barrels and tons), wastewater flows in volume units, and protein in mass per person per day.
+- Results are reported in gigagrams of CH₄ and N₂O, and in carbon dioxide equivalent for summary tables.
 
 ## Connections to other categories
 
-- **Downstream:** biosolids (treated sludge) sent to landfills, incineration, or
-  land application are accounted for in those respective categories, not here.
-  This category's responsibility ends at the treatment system boundary.
-- **Downstream:** category totals feed the Waste-sector and national CH₄ and N₂O
-  summaries.
+- **Upstream:** none. All inputs are datasets, not other categories' results.
+- **Downstream:** category totals feed the Waste sector and national CH₄ and N₂O totals.
+- **Attribution:**
+  - Anaerobic digesters at water resource recovery facilities, and digestion of wastewater sludge, are reported here in 5D, not under Anaerobic Digestion (5B2). See the anaerobic digester and sludge digestion rules in [Cross-Sector Boundary Rules](../cross-sector-boundaries.qmd).
+  - Sewage sludge incineration is assessed as insignificant and not estimated (waste incineration rule).
+  - Biosolids sent to landfills or applied to land are accounted for in those categories. No boundary rule covers this yet; one should be added to the boundary rules.
 
-## How the calculation works, step by step
+## Calculation steps
 
-1. Configure the model constants from the constants source.
-2. **Domestic — organic load:** use population and domestic treatment data to
-   estimate the volume of domestic wastewater and its organic (BOD) load, split
-   across treatment pathways.
-3. **Domestic — tertiary flow:** estimate the share of flow receiving tertiary
-   treatment (constructed wetlands), fitted from historical data where direct
-   figures are unavailable.
-4. **Domestic — CH₄:** compute methane from domestic treatment and from
-   discharged effluent, using the organic load, treatment-pathway fractions,
-   methane correction factors, and emission factors.
-5. **Domestic — energy recovery:** forecast anaerobic digester flow at POTWs,
-   and subtract the methane recovered and combusted for energy from the domestic
-   total.
-6. **Domestic — N₂O:** compute nitrous oxide from effluent, deriving the
-   nitrogen load from protein supply and consumption, then applying the effluent
-   N₂O emission factor.
-7. **Industrial — by industry:** for each industry (breweries, ethanol, pulp and
-   paper, meat and poultry, petroleum refining, fruit and vegetable processing),
-   estimate wastewater generation and organic load from production data, then
-   compute CH₄ — and N₂O for industries where it applies — using the
-   industry-specific emission factors. Subtract industrial energy recovery where
-   methane is captured.
-8. **Aggregate:** sum domestic and industrial CH₄ and N₂O.
-9. Apply global warming potentials to express totals as CO₂-equivalent, and
-   arrange the result for the inventory database.
+1. **Domestic organic load.** From population (`DS-CENSUS-POP`) and `bod_per_capita`, estimate the annual domestic BOD load. Split it between septic and centralized treatment using the household shares (`DS-CENSUS-AHS`), and split the centralized part across treatment pathways using the pathway flows ([not registered]). Output: BOD load by pathway and year.
+2. **Tertiary flow.** Estimate the share of centralized flow receiving tertiary treatment (constructed wetlands). Where direct figures are not available, fit the share from historical data (see Rules and judgment calls). Output: tertiary share by year, applied to step 1's pathway split.
+3. **Domestic CH₄.** For each pathway, and for discharged effluent, CH₄ equals BOD load × `ch4_max_bod` × `mcf_[pathway]`. Sum across pathways. Output: gross domestic CH₄ by year.
+4. **Domestic energy recovery.** Forecast POTW anaerobic digester flow for years beyond the available data (see Rules and judgment calls), estimate the methane recovered and combusted, and subtract it from step 3's total. Output: net domestic CH₄ by year.
+5. **Domestic N₂O.** Derive the nitrogen load in effluent from available protein (`DS-FAO-FBS`), protein consumption ([not registered]), population, and `n_fraction_protein`. N₂O equals nitrogen load × `n2o_ef_effluent` × 44/28. Output: domestic N₂O by year.
+6. **Industrial CH₄ and N₂O.** For each industry, wastewater equals production (from that industry's dataset) × `ww_per_unit_[industry]`, and organic load equals wastewater × `cod_per_unit_[industry]`. CH₄ equals organic load × `ch4_max_cod` × the methane correction factor for the industry's treatment, minus any methane recovered. For industries estimated for N₂O, apply `n2o_ef_[industry]`. Output: CH₄, and N₂O where applicable, by industry and year.
+7. **Aggregate.** Sum domestic and industrial CH₄, and domestic and industrial N₂O. Output: category CH₄ and N₂O by year.
+8. **Carbon dioxide equivalent.** Multiply each gas by its AR5 global warming potential. Output: category totals in carbon dioxide equivalent by year.
 
 ## Rules and judgment calls
 
-- **Treatment-pathway fractions:** the split of domestic wastewater across
-  aerobic, anaerobic, and septic pathways is determined by [rule]. The anaerobic
-  fraction governs methane and is the most consequential of these.
-- **Tertiary flow estimation:** where direct constructed-wetland flow data is
-  unavailable, the share is fitted from historical trend rather than assumed
-  constant.
-- **Digester flow forecasting:** for inventory years beyond available digester
-  data, flow is forecast by [method] rather than carried forward flat.
-- **Which industries get N₂O:** breweries, pulp and paper, meat and poultry, and
-  petroleum refining are estimated for both CH₄ and N₂O; ethanol and fruit and
-  vegetable processing are estimated for CH₄ only, because [reason].
-- **Load basis:** domestic emissions are computed on a BOD basis; industrial on
-  [BOD/COD] depending on industry, per [rule].
+- **Treatment-pathway fractions:** the split of domestic wastewater across aerobic, anaerobic, and septic pathways is set by [rule]. The anaerobic fraction governs methane and is the most consequential. Decided by: [who].
+- **Septic share held constant:** the American Housing Survey share of households on septic systems is held constant over [years], because [reason].
+- **Tertiary flow estimation:** where direct constructed-wetland flow data are not available, the share is fitted from the historical trend rather than assumed constant.
+- **Digester flow forecasting:** for inventory years beyond the available digester data, flow is forecast by [method] rather than carried forward unchanged.
+- **Which industries get N₂O:** breweries, pulp and paper, meat and poultry, and petroleum refining are estimated for both CH₄ and N₂O. Ethanol and fruit and vegetable processing are estimated for CH₄ only, because [reason].
+- **Load basis:** domestic emissions are calculated on a BOD basis, and industrial emissions on [a BOD or COD] basis depending on the industry, per [rule].
+
+## Uncertainty
+
+Not yet declared. This section waits on the project's uncertainty convention.
 
 ## Known changes and things to watch
 
-- The protein consumption series feeding the domestic N₂O calculation changed
-  source for GHGIA 2026; pre- and post-change years are not directly comparable.
-- Digester flow data lags the inventory year, so recent years rely on the
-  forecast in step 5 rather than reported flow.
+- The protein consumption series feeding the domestic N₂O calculation changed source for GHGIA 2026, so years before and after the change are not directly comparable.
+- Digester flow data lag the inventory year, so recent years rely on the forecast in step 4 rather than reported flow.
+- Eight datasets used by this method are not yet in the dataset registry. They need registering, and the crosswalk updating, before this narrative can be approved.
 
 ## References
 
-- GHGIA 2026, Waste chapter, Wastewater Treatment and Discharge section
-  [section numbers].
-- 2006 IPCC Guidelines, Volume 5 (Waste), Chapter 6 (Wastewater).
-- [Protein and population data documentation].
+- GHGIA 2026, Chapter 7 (Waste), Wastewater Treatment and Discharge, [section numbers].
+- 2006 IPCC Guidelines, Volume 5 (Waste), Chapter 6 (Wastewater Treatment and Discharge).

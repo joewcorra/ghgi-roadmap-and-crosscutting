@@ -1,6 +1,6 @@
 ---
 title: "Component Build Checklist"
-subtitle: "Version 0.3 (draft)"
+subtitle: "Version 0.4 (draft)"
 date: 2026-11-13
 ---
 
@@ -51,7 +51,7 @@ The unit of completable work is the **vertical slice**: one category's computati
   *Blocks: computation, outputs, quality assurance.*
 
 - **3. `[~]` Methodology Narrative Standard**
-  Rules governing dataset citation, unit-handling discipline, uncertainty declaration, and dimensioned constants. Version 0.4 complete; version 0.5 pending (attribution boundary for emissions computed in one category but reported under another).
+  Rules governing dataset citation, unit-handling discipline, uncertainty declaration, and dimensioned constants. A first written draft, version 0.1, is at [Methodology Narrative Standard](../reference/narrative-standard.qmd) and awaits review. It leaves five questions open, including how to record emissions computed in one category but reported under another, and how to declare uncertainty (which waits on item 5).
   *Blocks: every narrative, and therefore every category.*
 
 - **4. `[~]` Dataset dictionaries**
@@ -112,7 +112,7 @@ Each dataset has two pins, `{pin_stem}_raw` and `{pin_stem}_cleaned`. Cleaned da
 ## Tier 2: Computation (keyed by category)
 
 - **11. `[~]` Methodology narrative per category** (×91)
-  The authoritative specification. Precise about inputs, outputs, transformations, and decision rules; implementation-agnostic.
+  The authoritative specification. Precise about inputs, outputs, transformations, and decision rules; implementation-agnostic. Written to the standard (item 3), one per category, named by `node_id`. The [wastewater example](../reference/methodology/sample-smn-wastewater.qmd) is the only one so far. The [Inventory Methods Compilation](../source-material/inventory-methods-compilation.qmd) is source material for writing them, not a specification.
   *Blocked by: 3.*
 
 - **12. `[~]` Computation pipeline per category** (×91)
@@ -199,6 +199,11 @@ Quality assurance is not a module. It is a property of every boundary: data-cont
 ---
 
 ## Revision notes
+
+### Version 0.4 (2026-11-13)
+
+- Item 3: version 0.1 of the Narrative Standard is now written and awaiting review. Version 0.3 of this checklist said version 0.4 of the standard was complete, but no written standard existed, so numbering restarted at 0.1. The mark stays `[~]`.
+- Item 11: narratives follow the standard; the former methodology reference is now the Inventory Methods Compilation, kept as source material.
 
 ### Version 0.3 (2026-11-13)
 
