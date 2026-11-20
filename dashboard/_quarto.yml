@@ -1,0 +1,5 @@
+# A separate Quarto project, so rendering the dashboard never writes into the
+# website's output folder (docs/). Render with: quarto render dashboard
+project:
+  type: default
+  output-dir: _output

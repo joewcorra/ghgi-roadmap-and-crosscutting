@@ -1,0 +1,334 @@
+---
+title: "GHGI dataset status"
+format:
+  dashboard:
+    theme: cosmo
+    embed-resources: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(pins)
+library(reactable)
+library(plotly)
+library(crosstalk)
+library(htmltools)
+library(here)
+
+# dashboard/ is its own Quarto project, so tell {here} where this file sits
+# relative to the repository root.
+i_am("dashboard/index.qmd")
+
+source(here("R", "ghgi_schema.R"))
+source(here("dashboard", "R", "dashboard_data.R"))
+
+schema <- read_ghgi_schema()
+invisible(check_schema_links(schema))
+
+# No pins board exists yet; the choice was deferred on 2026-11-20. An empty
+# temporary board stands in for every home, so every dataset shows as not yet
+# pinned. Replace these entries with the real boards once they exist.
+empty_board <- board_temp()
+boards <- c("agriculture", "energy", "ippu", "lulucf", "waste", "shared") %>%
+  set_names() %>%
+  map(function(home) empty_board)
+
+as_of <- Sys.Date()
+
+pin_dates    <- get_dataset_pin_dates(schema, boards)
+pin_table    <- get_pin_date_table(pin_dates)
+stages       <- get_dataset_stage(schema, pin_table, as_of)
+stage_counts <- get_stage_counts(stages)
+coverage     <- get_coverage_grid(schema, stages)
+dependencies <- get_dataset_dependency_summary(coverage, stages)
+
+# One blue scale, light to dark, for the ordered retrieval stages. Validated
+# as an ordinal palette against the light chart surface.
+stage_colors <- set_names(
+  c("#86b6ef", "#3987e5", "#1c5cab", "#0d366b"),
+  retrieval_stage_levels()
+)
+ink_secondary <- "#52514e"
+gridline      <- "#e1e0d9"
+
+shared_stages <- SharedData$new(stages, key = ~dataset_id, group = "stages")
+```
+
+# Status {orientation="columns"}
+
+## {.sidebar}
+
+**Filters** apply to the table.
+
+```{r}
+#| label: filters
+filter_select("f_stage", "Retrieval stage", shared_stages, ~retrieval_stage)
+filter_select("f_provider", "Provider", shared_stages, ~provider)
+filter_select("f_access", "Access method", shared_stages, ~access_method)
+filter_select("f_home", "Home", shared_stages, ~home)
+filter_select("f_dict", "Dictionary", shared_stages, ~dict_status)
+filter_select("f_overdue", "Overdue", shared_stages, ~overdue_status)
+```
+
+To filter by source category, type part of a category name in the filter
+box under the table's **Categories** column.
+
+Built `r format(as_of, "%B %d, %Y")` from the schema in `schema/parquet/`
+and the pins boards. Read only.
+
+## Column
+
+### Row {height="18%"}
+
+```{r}
+#| content: valuebox
+#| title: "Datasets"
+list(icon = "database", value = nrow(stages))
+```
+
+```{r}
+#| content: valuebox
+#| title: "Access confirmed or further"
+list(
+  icon = "check2-circle",
+  value = stages %>% filter(retrieval_stage != "identified") %>% nrow()
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Cleaned and pinned"
+list(
+  icon = "box-seam",
+  value = stages %>% filter(retrieval_stage == "cleaned pinned") %>% nrow()
+)
+```
+
+```{r}
+#| content: valuebox
+#| title: "Overdue for refresh"
+list(
+  icon = "clock-history",
+  value = stages %>% filter(overdue_status == "overdue") %>% nrow()
+)
+```
+
+### Row {height="30%"}
+
+```{r}
+#| title: Datasets at each retrieval stage
+stage_counts %>%
+  mutate(color = stage_colors[as.character(retrieval_stage)]) %>%
+  plot_ly(
+    x = ~n,
+    y = ~retrieval_stage,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = pull(., color)),
+    text = ~n,
+    textposition = "outside",
+    textfont = list(color = ink_secondary),
+    cliponaxis = FALSE,
+    hovertemplate = "%{y}: %{x} datasets<extra></extra>"
+  ) %>%
+  layout(
+    xaxis = list(title = "", gridcolor = gridline, zeroline = FALSE),
+    yaxis = list(title = "", autorange = "reversed", ticksuffix = "  "),
+    font = list(color = ink_secondary),
+    plot_bgcolor = "rgba(0,0,0,0)",
+    paper_bgcolor = "rgba(0,0,0,0)",
+    margin = list(l = 10, r = 40, t = 10, b = 10),
+    bargap = 0.35
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+### Row {height="52%"}
+
+```{r}
+#| title: Datasets
+stage_cell <- function(value) {
+  dot <- span(style = str_glue(
+    "display:inline-block;width:0.7em;height:0.7em;border-radius:50%;",
+    "margin-right:0.4em;background:{stage_colors[value]};"
+  ))
+  return(span(dot, value))
+}
+date_col <- function(name) {
+  colDef(name = name, format = colFormat(date = TRUE), minWidth = 110, na = "")
+}
+text_col <- function(name, min_width = 110) {
+  colDef(name = name, minWidth = min_width)
+}
+
+reactable(
+  shared_stages,
+  searchable = TRUE,
+  filterable = TRUE,
+  defaultPageSize = 20,
+  compact = TRUE,
+  striped = TRUE,
+  columns = list(
+    dataset_id               = text_col("Dataset", 150),
+    dataset_name             = text_col("Name", 240),
+    provider                 = text_col("Provider"),
+    access_method            = text_col("Access method"),
+    home                     = colDef(name = "Home", na = "none"),
+    n_categories             = colDef(name = "No. of categories", minWidth = 100),
+    categories               = colDef(name = "Categories", minWidth = 260, na = ""),
+    retrieval_stage          = colDef(name = "Retrieval stage", minWidth = 160,
+                                      cell = stage_cell),
+    cleaned_pin_state        = text_col("Cleaned pin", 120),
+    raw_pin_last_created     = date_col("Raw updated"),
+    cleaned_pin_last_created = date_col("Cleaned updated"),
+    dict_status              = text_col("Dictionary"),
+    calc_use                 = text_col("Used by calculation"),
+    drift_status             = text_col("Drift"),
+    update_frequency         = text_col("Provider releases"),
+    overdue_status           = text_col("Overdue")
+  )
+)
+```
+
+# Coverage
+
+## Row
+
+```{r}
+#| title: Coverage grid. Each cell is a category that uses a dataset, colored by the dataset's retrieval stage. Hover for details.
+# Rows run by sector, then category name; columns by home, then dataset.
+row_order <- coverage %>%
+  distinct(sector, source_name) %>%
+  mutate(row_label = str_c(sector, " · ", source_name)) %>%
+  pull(row_label)
+col_order <- coverage %>%
+  distinct(home, dataset_id) %>%
+  arrange(home, dataset_id) %>%
+  pull(dataset_id)
+
+# A stepped color scale: each stage gets one flat band of color.
+n_stages <- length(stage_colors)
+band_edges <- seq(0, 1, length.out = n_stages + 1)
+stage_colorscale <- map(seq_len(n_stages), function(i) {
+  list(list(band_edges[i], stage_colors[[i]]), list(band_edges[i + 1], stage_colors[[i]]))
+}) %>%
+  flatten()
+
+coverage %>%
+  mutate(
+    row_label = str_c(sector, " · ", source_name),
+    stage_num = as.integer(retrieval_stage),
+    hover = str_c(
+      "<b>", source_name, "</b> (", sector, ")<br>",
+      dataset_id, ": ", dataset_name, "<br>",
+      "Role: ", role, if_else(required, " (required)", " (optional)"), "<br>",
+      "Dataset home: ", home, "<br>",
+      "Stage: ", retrieval_stage
+    )
+  ) %>%
+  plot_ly(
+    x = ~dataset_id,
+    y = ~row_label,
+    z = ~stage_num,
+    type = "heatmap",
+    text = ~hover,
+    hoverinfo = "text",
+    colorscale = stage_colorscale,
+    zmin = 0.5,
+    zmax = n_stages + 0.5,
+    xgap = 2,
+    ygap = 2,
+    colorbar = list(
+      title = list(text = "Retrieval stage", side = "top"),
+      tickvals = seq_len(n_stages),
+      ticktext = names(stage_colors),
+      len = 0.4,
+      y = 1,
+      yanchor = "top",
+      outlinewidth = 0
+    )
+  ) %>%
+  layout(
+    xaxis = list(title = "", categoryorder = "array", categoryarray = col_order,
+                 tickangle = -90, tickfont = list(size = 8), dtick = 1,
+                 showgrid = FALSE),
+    yaxis = list(title = "", categoryorder = "array", categoryarray = rev(row_order),
+                 tickfont = list(size = 10), showgrid = FALSE, ticksuffix = "  "),
+    font = list(color = ink_secondary),
+    plot_bgcolor = "rgba(0,0,0,0)",
+    paper_bgcolor = "rgba(0,0,0,0)",
+    margin = list(l = 10, r = 10, t = 10, b = 10)
+  ) %>%
+  config(displayModeBar = FALSE)
+```
+
+```{r}
+#| title: Not shown
+#| width: 22%
+unmapped <- stages %>% filter(n_categories == 0)
+tagList(
+  p(str_glue(
+    "{nrow(unmapped)} datasets have no crosswalk rows yet, so they have no ",
+    "categories to appear against:"
+  )),
+  tags$ul(map(pull(unmapped, dataset_id), tags$li))
+)
+```
+
+# Dependencies
+
+## Row
+
+```{r}
+#| title: Which categories depend on each dataset. Click a row to list the categories.
+# The categories under one dataset, shown when its row is expanded.
+dependency_details <- function(index) {
+  this_dataset <- dependencies %>% slice(index) %>% pull(dataset_id)
+  rows <- coverage %>%
+    filter(dataset_id == this_dataset) %>%
+    select(sector, source_name, role, required)
+  if (nrow(rows) == 0) return(NULL)
+
+  details <- reactable(
+    rows,
+    compact = TRUE,
+    outlined = TRUE,
+    pagination = FALSE,
+    columns = list(
+      sector      = colDef(name = "Sector", minWidth = 100),
+      source_name = colDef(name = "Category", minWidth = 280),
+      role        = colDef(name = "Role", minWidth = 160),
+      required    = colDef(name = "Required", minWidth = 90,
+                           cell = function(value) if_else(value, "yes", "no"))
+    )
+  )
+  return(div(style = "padding: 0.5rem 1rem 1rem 2rem;", details))
+}
+
+reactable(
+  dependencies,
+  searchable = TRUE,
+  filterable = TRUE,
+  defaultPageSize = 25,
+  compact = TRUE,
+  striped = TRUE,
+  details = dependency_details,
+  columns = list(
+    dataset_id      = colDef(name = "Dataset", minWidth = 160),
+    dataset_name    = colDef(name = "Name", minWidth = 260),
+    provider        = colDef(name = "Provider", minWidth = 120),
+    home            = colDef(name = "Home", na = "none"),
+    retrieval_stage = colDef(name = "Retrieval stage", minWidth = 160,
+                             cell = stage_cell),
+    n_categories    = colDef(name = "Categories", minWidth = 100),
+    n_sectors       = colDef(name = "Sectors", minWidth = 90),
+    n_required      = colDef(name = "Required by", minWidth = 100)
+  )
+)
+```
