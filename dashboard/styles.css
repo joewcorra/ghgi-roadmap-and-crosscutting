@@ -1,0 +1,86 @@
+/* Palette. The value-box colors are set per box in index.qmd (box_colors);
+   these tokens cover the page chrome. */
+:root {
+  --ghgi-slate: #3b4f6b;
+  --ghgi-slate-tint: #f2f5f9;
+  --ghgi-header-tint: #e6edf6;
+  --ghgi-accent: #1d4ed8;
+}
+
+/* Navbar in the slate that used to fill every value box. */
+.navbar {
+  background-color: var(--ghgi-slate) !important;
+}
+
+/* Light text on the dark bar: white for the title and active tab, a soft
+   off-white for the other tabs so the active one still stands out. */
+.navbar,
+.navbar .navbar-title,
+.navbar .navbar-title-text,
+.navbar .nav-link.active {
+  color: #ffffff !important;
+}
+
+.navbar .nav-link {
+  color: #dbe4ef !important;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff !important;
+}
+
+.navbar .nav-link.active {
+  border-bottom: 3px solid #f59e0b;
+}
+
+/* A light tint on the filter sidebar. */
+.sidebar {
+  background-color: var(--ghgi-slate-tint) !important;
+  border-right: 3px solid var(--ghgi-slate);
+}
+
+/* Value boxes: white text on whatever color each box is given. Everything
+   inside is transparent so the whole box shows one color. */
+.bslib-value-box {
+  color: #ffffff !important;
+  border: none;
+}
+
+.bslib-value-box * {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+/* Card titles get a thin colored rule under them. */
+.card-header {
+  border-bottom: 2px solid var(--ghgi-accent);
+  font-weight: 600;
+}
+
+/* Table header rows in a pale blue. */
+.rt-thead.-header,
+.rt-thead.-filters {
+  background-color: var(--ghgi-header-tint);
+}
+
+.rt-thead.-header {
+  border-bottom: 2px solid var(--ghgi-slate);
+}
+
+/* Plain markdown tables on the How to update tab. */
+.card-body table:not(.reactable table) {
+  border-collapse: collapse;
+  margin: 0.5rem 0 1rem;
+}
+
+.card-body table:not(.reactable table) th {
+  background-color: var(--ghgi-header-tint);
+  border-bottom: 2px solid var(--ghgi-slate);
+}
+
+.card-body table:not(.reactable table) th,
+.card-body table:not(.reactable table) td {
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: top;
+}

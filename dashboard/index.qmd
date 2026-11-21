@@ -3,6 +3,7 @@ title: "GHGI dataset status"
 format:
   dashboard:
     theme: cosmo
+    css: styles.css
     embed-resources: true
 execute:
   echo: false
@@ -54,8 +55,17 @@ stage_colors <- set_names(
   c("#86b6ef", "#3987e5", "#1c5cab", "#0d366b"),
   retrieval_stage_levels()
 )
-ink_secondary <- "#52514e"
+ink_secondary <- "slateblue4"
 gridline      <- "#e1e0d9"
+
+# One accent per value box. Each passes 4.5:1 contrast against white text.
+# Amber is kept for the overdue box so it reads as a call for attention.
+box_colors <- c(
+  datasets = "#3b4f6b",
+  access   = "#0f766e",
+  pinned   = "#1d4ed8",
+  overdue  = "#b45309"
+)
 
 shared_stages <- SharedData$new(stages, key = ~dataset_id, group = "stages")
 ```
@@ -89,7 +99,7 @@ and the pins boards. Read only.
 ```{r}
 #| content: valuebox
 #| title: "Datasets"
-list(icon = "database", value = nrow(stages))
+list(icon = "database", color = box_colors[["datasets"]], value = nrow(stages))
 ```
 
 ```{r}
@@ -97,6 +107,7 @@ list(icon = "database", value = nrow(stages))
 #| title: "Access confirmed or further"
 list(
   icon = "check2-circle",
+  color = box_colors[["access"]],
   value = stages %>% filter(retrieval_stage != "identified") %>% nrow()
 )
 ```
@@ -106,6 +117,7 @@ list(
 #| title: "Cleaned and pinned"
 list(
   icon = "box-seam",
+  color = box_colors[["pinned"]],
   value = stages %>% filter(retrieval_stage == "cleaned pinned") %>% nrow()
 )
 ```
@@ -115,39 +127,12 @@ list(
 #| title: "Overdue for refresh"
 list(
   icon = "clock-history",
+  color = box_colors[["overdue"]],
   value = stages %>% filter(overdue_status == "overdue") %>% nrow()
 )
 ```
 
-### Row {height="30%"}
 
-```{r}
-#| title: Datasets at each retrieval stage
-stage_counts %>%
-  mutate(color = stage_colors[as.character(retrieval_stage)]) %>%
-  plot_ly(
-    x = ~n,
-    y = ~retrieval_stage,
-    type = "bar",
-    orientation = "h",
-    marker = list(color = pull(., color)),
-    text = ~n,
-    textposition = "outside",
-    textfont = list(color = ink_secondary),
-    cliponaxis = FALSE,
-    hovertemplate = "%{y}: %{x} datasets<extra></extra>"
-  ) %>%
-  layout(
-    xaxis = list(title = "", gridcolor = gridline, zeroline = FALSE),
-    yaxis = list(title = "", autorange = "reversed", ticksuffix = "  "),
-    font = list(color = ink_secondary),
-    plot_bgcolor = "rgba(0,0,0,0)",
-    paper_bgcolor = "rgba(0,0,0,0)",
-    margin = list(l = 10, r = 40, t = 10, b = 10),
-    bargap = 0.35
-  ) %>%
-  config(displayModeBar = FALSE)
-```
 
 ### Row {height="52%"}
 
@@ -332,3 +317,52 @@ reactable(
   )
 )
 ```
+
+# How to update
+
+## Row
+
+::: {.card title="Changing dataset details"}
+
+Everything on this dashboard is generated from the CSV files in `schema/`.
+Those files are the only thing you edit by hand; the Parquet files and this
+dashboard are rebuilt from them. Full instructions are in
+`how-to/maintain-the-schema.qmd`.
+
+**Where each kind of change goes**
+
+| To change | Edit |
+|---|---|
+| A dataset's provider, access method, endpoint, or other details | `schema/ghgi_datasets.csv` (one row per dataset) |
+| Which categories use which datasets, and each link's role and required flag | `schema/ghgi_category_datasets.csv` (one row per category and dataset pair) |
+| Dictionary status | `schema/ghgi_dictionaries.csv` |
+
+**After each round of edits**
+
+1. Rebuild and validate the schema:
+   `source(here::here("R", "build_schema_parquet.R"))`.
+   The script rebuilds the Parquet files and checks them against
+   `schema/data-dict.yaml`. If anything breaks a rule, it stops and names the
+   rule and the rows, for example a crosswalk row pointing to a dataset that
+   does not exist, or a value that is not on the allowed list.
+2. Re-render this dashboard: `quarto render dashboard`.
+3. Commit the CSV files and the rebuilt Parquet files together, with a message
+   saying what changed and why. The Git history is the record of changes.
+
+:::
+
+::: {.card title="Things to watch for"}
+
+- **New allowed values.** If a new access method or provider is not on an
+  allowed list, the build rejects it. Add the value to `schema/data-dict.yaml`
+  first, then use it in the CSV.
+- **Renaming a dataset ID.** Every crosswalk row that uses the old ID must
+  change too; the build catches any you miss. Avoid renames unless you need
+  one, because they break the link to earlier history.
+- **Editing in Excel.** Convenient for large batches, but Excel can turn
+  values into dates, drop leading zeros, or change the text encoding. Check
+  `git diff` before committing.
+- **Large batches.** Make them on a branch so the whole set of changes can be
+  reviewed before merging.
+
+:::
